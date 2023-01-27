@@ -1,4 +1,8 @@
-﻿using Xunit;
+﻿using System;
+using FluentAssertions;
+using PowerStationDomain.Domain;
+using PowerStationInfrastructure.Services;
+using Xunit;
 
 namespace PowerStationDomainTests.Domain
 {
@@ -7,7 +11,12 @@ namespace PowerStationDomainTests.Domain
         [Fact()]
         public void UserTest()
         {
-            Assert.True(false, "This test needs an implementation");
+           
+            User user = new User("", "User", Guid.NewGuid(), "Benoit", "Benoit", "Benoit", true, "benoit", "");
+            user.SamAccountName.Should().NotBeEmpty();
+            user.GivenName.Should().NotBeEmpty();
+            user.UserPrincipalName.Should().NotBeEmpty();
+            user.Name.Should().NotBeEmpty();
         }
 
     

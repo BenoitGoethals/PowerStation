@@ -8,7 +8,7 @@ namespace PowerStationDomain.Domain
 {
     public class Administrator:User
     {
-        public Administrator(string sid, string objectClass, Guid objectGuid, string name, string userPrincipalName, string givenName, bool enabled, string samAccountName, int distinguishedName) : base(sid, objectClass, objectGuid, name, userPrincipalName, givenName, enabled, samAccountName, distinguishedName)
+        public Administrator(string sid, string objectClass, Guid objectGuid, string name, string userPrincipalName, string givenName, bool enabled, string samAccountName, string distinguishedName) : base(sid, objectClass, objectGuid, name, userPrincipalName, givenName, enabled, samAccountName, distinguishedName)
         {
         }
     }

@@ -43,6 +43,7 @@ Mappers
 Validators
 Behaviors
 Specifications
+
 Infrastructure Layer
 This layer is responsible to implement the Contracts (Interfaces/Adapters) defined within the application layer to the Secondary Actors. Infrastructure Layer supports other layer by implementing the abstractions and integrations to 3rd-party library and systems.
 

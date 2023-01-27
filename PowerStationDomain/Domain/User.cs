@@ -8,7 +8,7 @@ namespace PowerStationDomain.Domain
 {
     public class User:AdObject
     {
-        public User(string sid, string objectClass, Guid objectGuid, string name, string userPrincipalName, string givenName, bool enabled, string samAccountName, int distinguishedName) : base(sid, objectClass, objectGuid)
+        public User(string sid, string objectClass, Guid objectGuid, string name, string userPrincipalName, string givenName, bool enabled, string samAccountName, string distinguishedName) 
         {
             Name = name;
             UserPrincipalName = userPrincipalName;
@@ -26,7 +26,7 @@ namespace PowerStationDomain.Domain
         public bool Enabled { get; set; }
         public string SamAccountName { get; set; }
 
-        public int DistinguishedName { get; set; }
+        public string DistinguishedName { get; set; }
 
 
         protected bool Equals(User other)

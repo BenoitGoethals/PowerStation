@@ -8,8 +8,8 @@ namespace PowerStationDomain.Domain
 {
     public enum GroupScope
     {
-        local,
-        Gobal,
+        Local,
+        Global,
         Universal
     }
 }

@@ -9,35 +9,21 @@ namespace PowerStationDomain.Domain
 {
     public class SecurityGroup:AdObject,ISecurityGroup
     {
-      
+        public SecurityGroup(string? groupName, GroupScope scope)
+        {
+            GroupName = groupName;
+            Scope = scope;
+        }
+
         public string? GroupName { get; set; }
         public GroupScope Scope { get; set; }
 
-        private List<AdObject> _adObjects =new List<AdObject>();
 
-        public SecurityGroup(string sid, string objectClass, Guid objectGuid) : base(sid, objectClass, objectGuid)
+        public SecurityGroup? GetMember(string groupName)
         {
+
+            return base.AllMembers().OfType<SecurityGroup>().FirstOrDefault(g => g.GroupName != null && g.GroupName.Equals(groupName));
         }
 
-
-        public void Add(AdObject adObject)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Remove(AdObject adObject)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<AdObject> AllAdObjects()
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<AdObject> AllAdObjects(Predicate<AdObject> predicate)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
