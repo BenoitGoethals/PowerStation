@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using PowerStationDomain.Interfaces;
 
-namespace PowerStationDomain.Domain
+namespace PowerStationDomain.models
 {
-    public class SecurityGroup:AdObject,ISecurityGroup
+    public class SecurityGroup : AdObject, ISecurityGroup
     {
         public SecurityGroup(string? groupName, GroupScope scope)
         {
@@ -23,7 +23,7 @@ namespace PowerStationDomain.Domain
         public SecurityGroup? GetMember(string groupName)
         {
 
-            return base.AllMembers().OfType<SecurityGroup>().FirstOrDefault(g => g.GroupName != null && g.GroupName.Equals(groupName));
+            return AllMembers().OfType<SecurityGroup>().FirstOrDefault(g => g.GroupName != null && g.GroupName.Equals(groupName));
         }
 
     }

@@ -1,6 +1,6 @@
 ﻿using PowerStationDomain.Interfaces;
 
-namespace PowerStationDomain.Domain;
+namespace PowerStationDomain.models;
 
 public abstract class AdObject : IAdObject
 {
@@ -39,7 +39,7 @@ public abstract class AdObject : IAdObject
 
     public AdObject? GetMember(Guid guid)
     {
-        if (this.ObjectGuid.Equals(guid))
+        if (ObjectGuid.Equals(guid))
         {
             return this;
         }
@@ -50,7 +50,7 @@ public abstract class AdObject : IAdObject
     public void RemoveMembers()
     {
 
-       _adObjects.Clear();
+        _adObjects.Clear();
 
     }
 }

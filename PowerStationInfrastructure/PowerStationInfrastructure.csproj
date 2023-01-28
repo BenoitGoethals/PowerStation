@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PowerStationDomain\PowerStationDomain.csproj" />
+    <ProjectReference Include="..\PowerStationApplicationCore\PowerStationApplicationCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>

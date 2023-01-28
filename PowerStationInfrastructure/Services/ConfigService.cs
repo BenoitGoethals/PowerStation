@@ -12,10 +12,10 @@ namespace PowerStationInfrastructure.Services
     public class ConfigService
     {
         private readonly string? _fileName;
-        private readonly ILogger<AdService> _logger;
+        private readonly ILogger<AdServicePowerShellUser> _logger;
         private readonly AdConfigurationValidator _adConfigurationValidator = new();
 
-        public ConfigService(string? fileName, ILogger<AdService> logger)
+        public ConfigService(string? fileName, ILogger<AdServicePowerShellUser> logger)
         {
             _fileName = fileName;
             _logger = logger;
