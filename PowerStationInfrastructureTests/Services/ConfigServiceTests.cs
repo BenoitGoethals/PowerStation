@@ -23,7 +23,7 @@ namespace PowerStationInfrastructureTests.Services
         public void SaveDefaultTest()
         {
             var testDefault = AdConfiguration.Default;
-            var configService = new ConfigService(_fullPath, new NullLogger<AdService>());
+            var configService = new ConfigService(_fullPath, new NullLogger<AdServicePowerShellUser>());
 
             configService.Save(testDefault);
             File.Exists(_fullPath).Should().BeTrue();
@@ -34,7 +34,7 @@ namespace PowerStationInfrastructureTests.Services
         public void SaveLoadDefaultTest()
         {
             var testDefault = AdConfiguration.Default;
-            var configService = new ConfigService(_fullPath, new NullLogger<AdService>());
+            var configService = new ConfigService(_fullPath, new NullLogger<AdServicePowerShellUser>());
 
             configService.Save(testDefault);
             File.Exists(_fullPath).Should().BeTrue();
@@ -47,7 +47,7 @@ namespace PowerStationInfrastructureTests.Services
         public void SaveTest()
         {
             var testDefault = new AdConfiguration("localhost","dn","PowerStation");
-            var configService = new ConfigService(_fullPath, new NullLogger<AdService>());
+            var configService = new ConfigService(_fullPath, new NullLogger<AdServicePowerShellUser>());
 
             configService.Save(testDefault);
             File.Exists(_fullPath).Should().BeTrue();
@@ -58,7 +58,7 @@ namespace PowerStationInfrastructureTests.Services
         public void SaveLoadTest()
         {
             var testDefault = new AdConfiguration("localhost", "dn", "PowerStation");
-            var configService = new ConfigService(_fullPath, new NullLogger<AdService>());
+            var configService = new ConfigService(_fullPath, new NullLogger<AdServicePowerShellUser>());
 
             configService.Save(testDefault);
             File.Exists(_fullPath).Should().BeTrue();
@@ -71,7 +71,7 @@ namespace PowerStationInfrastructureTests.Services
         public void SaveBadTest()
         {
             var testDefault = new AdConfiguration("", "dn", "");
-            var configService = new ConfigService(_fullPath, new NullLogger<AdService>());
+            var configService = new ConfigService(_fullPath, new NullLogger<AdServicePowerShellUser>());
 
             configService.Save(testDefault).Should().BeFalse();
             File.Exists(_fullPath).Should().BeFalse();
