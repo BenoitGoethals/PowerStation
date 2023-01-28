@@ -8,7 +8,7 @@ namespace PowerStationDomain.Domain
 {
     public class User:AdObject
     {
-        public User(string sid, string objectClass, Guid objectGuid, string name, string userPrincipalName, string givenName, bool enabled, string samAccountName, string distinguishedName) 
+        public User(string sid, string objectClass, Guid objectGuid, string name, string userPrincipalName, string givenName, bool enabled, string samAccountName, string distinguishedName, AdUserType userType) 
         {
             Name = name;
             UserPrincipalName = userPrincipalName;
@@ -16,7 +16,10 @@ namespace PowerStationDomain.Domain
             Enabled = enabled;
             SamAccountName = samAccountName;
             DistinguishedName = distinguishedName;
+            UserType = userType;
         }
+
+        public AdUserType UserType { get; set; }
 
         public string Name { get; set; }
         public string UserPrincipalName { get; set; }

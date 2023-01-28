@@ -1,4 +1,6 @@
-﻿namespace PowerStationDomain.Domain;
+﻿using PowerStationDomain.Domain;
+
+namespace PowerStationDomain.Interfaces;
 
 public interface ISecurityGroup
 {

@@ -1,4 +1,6 @@
-﻿namespace PowerStationDomain.Domain;
+﻿using PowerStationDomain.Interfaces;
+
+namespace PowerStationDomain.Domain;
 
 public abstract class AdObject : IAdObject
 {

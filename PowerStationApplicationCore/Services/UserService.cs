@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using PowerStationApplicationCore.Interfaces;
 using PowerStationApplicationCore.Validators;
 using PowerStationDomain.Domain;
 using PowerStationInfrastructure.Services;
@@ -48,14 +49,5 @@ namespace PowerStationApplicationCore.Services
         {
             return _adService.AllUsers();
         }
-    }
-
-    public interface IUserService
-    {
-        void AddAdUser(User adUser);
-        void Remove(User adUser);
-
-        List<User> AllUsers();
-
     }
 }
