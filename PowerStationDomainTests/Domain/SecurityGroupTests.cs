@@ -144,10 +144,10 @@ namespace PowerStationDomainTests.Domain
             group.AddMember(group2);
             group.AllMembers().Should().HaveCount(2);
             group2.RemoveMember(user);
-            group2.AllMembers().Should().HaveCount(1);
+            group2.AllMembers().Should().HaveCount(0);
             group.RemoveMember(group2);
             group.AllMembers().Should().HaveCount(1);
-            group.RemoveMembers();
+          
         }
 
         [Fact()]
