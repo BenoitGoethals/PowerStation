@@ -2,7 +2,7 @@
 
 namespace PowerStationInfrastructure.Services;
 
-public interface IAdService<T> where T : AdObject
+public interface IAdService<in T>:IDisposable where T : AdObject
 {
     void Add(T user);
     void Remove(T adUser);

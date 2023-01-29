@@ -7,7 +7,7 @@ namespace PowerStationInfrastructure.Services;
 
 public class AdServiceCodeUser:IAdService<User>
 {
-    private Configuration _configuration;
+    private readonly Configuration _configuration;
     private readonly ILogger<AdServiceCodeUser> _logger;
 
     public AdServiceCodeUser(Configuration configuration, ILogger<AdServiceCodeUser> logger)
@@ -49,7 +49,29 @@ public class AdServiceCodeUser:IAdService<User>
 
     public List<User> All()
     {
-        throw new NotImplementedException();
+        const string groupName = "Domain Users";
+
+        var usersRet = new List<User>();
+
+
+        using var principalContext = new PrincipalContext(ContextType.Domain, name: _configuration.AdSetting.DomainName, _configuration.OuContex.Container);
+        //using (var group = GroupPrincipal.FindByIdentity(context, windowsGroup.TrimEnd('*')))
+        using var groupPrincipal = GroupPrincipal.FindByIdentity(principalContext, IdentityType.SamAccountName, groupName);
+        if (groupPrincipal != null)
+        {
+            var users = groupPrincipal.GetMembers();
+            foreach (var principal in users)
+            {
+                var user = (UserPrincipal)principal;
+
+                var newUser = new User(user.Description, user.DistinguishedName, null, null,
+                    user.Enabled.GetValueOrDefault(), user.GivenName, user.GivenName, "", user.MiddleName, user.Name, user.VoiceTelephoneNumber, user.DistinguishedName, "",
+                    user.SamAccountName,"", user.UserPrincipalName, AdUserType.Basic);
+                usersRet.Add(newUser);
+            }
+        }
+
+        return usersRet;
     }
 
     public User? GetUser(string username)
@@ -77,5 +99,10 @@ public class AdServiceCodeUser:IAdService<User>
             return user1;
         }
         return null;
+    }
+
+
+    public void Dispose()
+    {
     }
 }
