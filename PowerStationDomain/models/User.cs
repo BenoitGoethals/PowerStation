@@ -43,7 +43,7 @@ namespace PowerStationDomain.models
         public string? Description { get; set; }
         public string? Type { get; set; }
         public string? OrganizationalUnit { get; set; }
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
         public User(string? description, string distinguishedName, string? emailAddress, string? employeeId,
             bool enabled, string? firstName, string givenName, string? jobTitle, string? lastName, string name,

@@ -10,13 +10,13 @@ namespace PowerStationInfrastructure
 {
     public  class Configuration
     {
-        private readonly AdConfiguration? adConfiguration;
-
         public PrincipalContext OuContex { get;}
+
+        public AdConfiguration AdSetting { get; }
 
         public Configuration(AdConfiguration adConfiguration)
         {
-            this.adConfiguration = adConfiguration;
+            this.AdSetting = adConfiguration;
 #pragma warning disable CA1416 // Validate platform compatibility
             OuContex = new PrincipalContext(ContextType.Domain, adConfiguration.DomainName, adConfiguration.DistinguishedName);
 #pragma warning restore CA1416 // Validate platform compatibility
