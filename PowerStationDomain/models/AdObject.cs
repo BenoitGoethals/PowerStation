@@ -6,9 +6,9 @@ public abstract class AdObject : IAdObject
 {
     private readonly List<AdObject?> _adObjects = new();
 
-    public string? Sid { get; } = default;
+    public string? Sid { get; set; } = default;
     public string? ObjectClass { get; set; } = default;
-    public Guid ObjectGuid { get; } = Guid.NewGuid();
+    public Guid ObjectGuid { get; set; } = Guid.NewGuid();
     public void AddMember(AdObject? adObject)
     {
         if (adObject == null || _adObjects.Exists(c => c.ObjectGuid == adObject.ObjectGuid)) return;

@@ -8,6 +8,15 @@ namespace PowerStationDomainTests.Domain
 {
     public class SecurityGroupTests
     {
+        private User user;
+        private User user2;
+
+        public SecurityGroupTests()
+        {
+             user = User.CreateInstance("Benoit", "Benoit", "Benoit", true, "benoit", "", AdUserType.Basic, "");
+             user2 = User.CreateInstance("Benoit", "Benoit", "Benoit", true, "benoit", "", AdUserType.Basic,"");
+
+        }
         [Fact()]
         public void SecurityGroupTest()
         {
@@ -25,9 +34,7 @@ namespace PowerStationDomainTests.Domain
         public void SecurityGroupUsersTest()
         {
             SecurityGroup group = new SecurityGroup("tst", GroupScope.Local);
-            User? user = new User("", "User", Guid.NewGuid(), "Benoit", "Benoit", "Benoit", true, "benoit", "", AdUserType.Basic);
-            User? user2 = new User("", "User", Guid.NewGuid(), "Benoit", "Benoit", "Benoit", true, "benoit", "", AdUserType.Basic);
-
+            
             group.AddMember(user);
             group.AddMember(user2);
 
@@ -40,10 +47,7 @@ namespace PowerStationDomainTests.Domain
             SecurityGroup group = new SecurityGroup("tst", GroupScope.Local);
             SecurityGroup? group2 = new SecurityGroup("tst20", GroupScope.Local);
             group.AddMember(new SecurityGroup("tst2", GroupScope.Local));
-           
-            User? user = new User("", "User", Guid.NewGuid(), "Benoit", "Benoit", "Benoit", true, "benoit", "",AdUserType.Basic);
-            User? user2 = new User("", "User", Guid.NewGuid(), "Benoit", "Benoit", "Benoit", true, "benoit", "", AdUserType.Basic);
-
+         
             group2.AddMember(user);
             group2.AddMember(user2);
             group.AddMember(group2);
@@ -67,9 +71,6 @@ namespace PowerStationDomainTests.Domain
             SecurityGroup? group2 = new SecurityGroup("tst20", GroupScope.Local);
             group.AddMember(new SecurityGroup("tst2", GroupScope.Local));
 
-            User? user = new User("", "User", Guid.NewGuid(), "Benoit", "Benoit", "Benoit", true, "benoit", "", AdUserType.Basic);
-            User? user2 = new User("", "User", Guid.NewGuid(), "Benoit", "Benoit", "Benoit", true, "benoit", "", AdUserType.Basic);
-
             group2.AddMember(user);
             group2.AddMember(user2);
             group.AddMember(group2);
@@ -87,9 +88,6 @@ namespace PowerStationDomainTests.Domain
             SecurityGroup? group2 = new SecurityGroup("tst20", GroupScope.Local);
             group.AddMember(new SecurityGroup("tst2", GroupScope.Local));
 
-            User? user = new User("", "User", Guid.NewGuid(), "Benoit", "Benoit", "Benoit", true, "benoit", "", AdUserType.Basic);
-            User? user2 = new User("", "User", Guid.NewGuid(), "Benoit", "Benoit", "Benoit", true, "benoit", "", AdUserType.Basic);
-
             group2.AddMember(user);
             group2.AddMember(user2);
             group.AddMember(group2);
@@ -104,9 +102,6 @@ namespace PowerStationDomainTests.Domain
             SecurityGroup group = new SecurityGroup("tst", GroupScope.Local);
             SecurityGroup? group2 = new SecurityGroup("tst20", GroupScope.Local);
             group.AddMember(new SecurityGroup("tst2", GroupScope.Local));
-
-            User? user = new User("", "User", Guid.NewGuid(), "Benoit", "Benoit", "Benoit", true, "benoit", "", AdUserType.Basic);
-            User? user2 = new User("", "User", Guid.NewGuid(), "Benoit", "Benoit", "Benoit", true, "benoit", "", AdUserType.Basic);
 
             group2.AddMember(user);
             group2.AddMember(user2);
@@ -136,9 +131,6 @@ namespace PowerStationDomainTests.Domain
             SecurityGroup? group2 = new SecurityGroup("tst20", GroupScope.Local);
             group.AddMember(new SecurityGroup("tst2", GroupScope.Local));
 
-            User? user = new User("", "User", Guid.NewGuid(), "Benoit", "Benoit", "Benoit", true, "benoit", "", AdUserType.Basic);
-            User? user2 = new User("", "User", Guid.NewGuid(), "Benoit", "Benoit", "Benoit", true, "benoit", "", AdUserType.Basic);
-
             group2.AddMember(user);
             group2.AddMember(user2);
             group.AddMember(group2);
@@ -157,10 +149,7 @@ namespace PowerStationDomainTests.Domain
             SecurityGroup? group2 = new SecurityGroup("tst20", GroupScope.Local);
             group.AddMember(new SecurityGroup("tst2", GroupScope.Local));
 
-            var user = new User("", "User", Guid.NewGuid(), "Benoit", "Benoit", "Benoit", true, "benoit", "", AdUserType.Basic);
-            var user2 = new User("", "User", Guid.NewGuid(), "Benoit", "Benoit", "Benoit", true, "benoit", "", AdUserType.Basic);
-
-            group2.AddMember(user);
+             group2.AddMember(user);
             group2.AddMember(user2);
             group.AddMember(group2);
             group.AllMembers().Should().HaveCount(2);

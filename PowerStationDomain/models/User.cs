@@ -8,7 +8,8 @@ namespace PowerStationDomain.models
 {
     public class User : AdObject
     {
-        public User(string sid, string objectClass, Guid objectGuid, string name, string userPrincipalName, string givenName, bool enabled, string samAccountName, string distinguishedName, AdUserType userType)
+        private User(string name, string userPrincipalName, string givenName, bool enabled, string samAccountName,
+            string distinguishedName, AdUserType userType, string password)
         {
             Name = name;
             UserPrincipalName = userPrincipalName;
@@ -17,7 +18,14 @@ namespace PowerStationDomain.models
             SamAccountName = samAccountName;
             DistinguishedName = distinguishedName;
             UserType = userType;
+            Password = password;
         }
+
+        public static User CreateInstance(string name, string userPrincipalName, string givenName, bool enabled, string samAccountName, string distinguishedName, AdUserType userType, string password)
+        {
+            return new User(name, userPrincipalName, givenName, enabled, samAccountName, distinguishedName, userType, password);
+        }
+
 
         public AdUserType UserType { get; set; }
         public string Name { get; set; }
@@ -35,9 +43,12 @@ namespace PowerStationDomain.models
         public string? Description { get; set; }
         public string? Type { get; set; }
         public string? OrganizationalUnit { get; set; }
-        public string? Password { get; set; }
+        public string Password { get; set; }
 
-        public User(string? description, string distinguishedName, string? emailAddress, string? employeeId, bool enabled, string? firstName, string givenName, string? jobTitle, string? lastName, string name, string? officePhone, string? organizationalUnit, string? password, string samAccountName, string? type, string userPrincipalName, AdUserType userType)
+        public User(string? description, string distinguishedName, string? emailAddress, string? employeeId,
+            bool enabled, string? firstName, string givenName, string? jobTitle, string? lastName, string name,
+            string? officePhone, string? organizationalUnit, string password, string samAccountName, string? type,
+            string userPrincipalName, AdUserType userType)
         {
             Description = description;
             DistinguishedName = distinguishedName;
@@ -58,13 +69,9 @@ namespace PowerStationDomain.models
             UserType = userType;
         }
 
-        public User()
-        {
-        }
-
-        public override string ToString()
-        {
-            return $"{nameof(UserType)}: {UserType}, {nameof(Name)}: {Name}, {nameof(UserPrincipalName)}: {UserPrincipalName}, {nameof(GivenName)}: {GivenName}, {nameof(Enabled)}: {Enabled}, {nameof(SamAccountName)}: {SamAccountName}, {nameof(DistinguishedName)}: {DistinguishedName}, {nameof(FirstName)}: {FirstName}, {nameof(LastName)}: {LastName}, {nameof(JobTitle)}: {JobTitle}, {nameof(OfficePhone)}: {OfficePhone}, {nameof(EmployeeId)}: {EmployeeId}, {nameof(EmailAddress)}: {EmailAddress}, {nameof(Description)}: {Description}, {nameof(Type)}: {Type}, {nameof(OrganizationalUnit)}: {OrganizationalUnit}, {nameof(Password)}: {Password}";
-        }
     }
+
+
+
 }
+
