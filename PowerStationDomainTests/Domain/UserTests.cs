@@ -12,7 +12,7 @@ namespace PowerStationDomainTests.Domain
         public void UserTest()
         {
            
-            User user = new User("", "User", Guid.NewGuid(), "Benoit", "Benoit", "Benoit", true, "benoit", "",AdUserType.Basic);
+            User user = User.CreateInstance("Benoit", "Benoit", "Benoit", true, "benoit", "",AdUserType.Basic,"");
             user.SamAccountName.Should().NotBeEmpty();
             user.GivenName.Should().NotBeEmpty();
             user.UserPrincipalName.Should().NotBeEmpty();

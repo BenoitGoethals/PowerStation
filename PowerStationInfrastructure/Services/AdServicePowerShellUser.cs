@@ -25,5 +25,11 @@ namespace PowerStationInfrastructure.Services
         {
             throw new NotImplementedException();
         }
+
+        /// <inheritdoc />
+        public User? GetUser(string username)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

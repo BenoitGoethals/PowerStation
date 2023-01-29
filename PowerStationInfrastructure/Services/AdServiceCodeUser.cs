@@ -54,25 +54,27 @@ public class AdServiceCodeUser:IAdService<User>
 
     public User? GetUser(string username)
     {
-        UserPrincipal user = UserPrincipal.FindByIdentity(_configuration.OuContex, username);
+     
+        UserPrincipal? user = UserPrincipal.FindByIdentity(_configuration.OuContex, username);
         if (user != null)
         {
-            return new User()
+            var user1 = new User(user.Description, user.DistinguishedName, user.EmailAddress, user.EmployeeId,
+                (bool)user.Enabled, user.GivenName, user.GivenName, "", user.MiddleName, user.Name, "", "", "",
+                user.SamAccountName, "", user.UserPrincipalName, AdUserType.Basic)
             {
-                Description= user.Description,
-                DistinguishedName= user.DistinguishedName,
-                EmailAddress= user.EmailAddress,
-                EmployeeId= user.EmployeeId,
+                Description = user.Description,
+                DistinguishedName = user.DistinguishedName,
+                EmailAddress = user.EmailAddress,
+                EmployeeId = user.EmployeeId,
                 Enabled = (bool)user.Enabled,
-                FirstName=user.Surname,
-                LastName=user.Name,
-                Name= user.Name,
-                GivenName= user.GivenName,
-                SamAccountName= user.SamAccountName,
-                Sid= user.Sid,
-                
-
+                FirstName = user.Surname,
+                LastName = user.Name,
+                Name = user.Name,
+                GivenName = user.GivenName,
+                SamAccountName = user.SamAccountName
             };
+
+            return user1;
         }
         return null;
     }
