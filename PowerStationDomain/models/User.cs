@@ -58,6 +58,10 @@ namespace PowerStationDomain.models
             UserType = userType;
         }
 
+        public User()
+        {
+        }
+
         public override string ToString()
         {
             return $"{nameof(UserType)}: {UserType}, {nameof(Name)}: {Name}, {nameof(UserPrincipalName)}: {UserPrincipalName}, {nameof(GivenName)}: {GivenName}, {nameof(Enabled)}: {Enabled}, {nameof(SamAccountName)}: {SamAccountName}, {nameof(DistinguishedName)}: {DistinguishedName}, {nameof(FirstName)}: {FirstName}, {nameof(LastName)}: {LastName}, {nameof(JobTitle)}: {JobTitle}, {nameof(OfficePhone)}: {OfficePhone}, {nameof(EmployeeId)}: {EmployeeId}, {nameof(EmailAddress)}: {EmailAddress}, {nameof(Description)}: {Description}, {nameof(Type)}: {Type}, {nameof(OrganizationalUnit)}: {OrganizationalUnit}, {nameof(Password)}: {Password}";

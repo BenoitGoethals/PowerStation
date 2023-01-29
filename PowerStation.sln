@@ -16,15 +16,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{93EBEEA2-0
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerStationDomain", "PowerStationDomain\PowerStationDomain.csproj", "{FC11DEB0-3708-437F-9BFD-994984D55039}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerStationDomainTests", "PowerStationDomainTests\PowerStationDomainTests.csproj", "{93669EAC-6A3C-468B-AF1D-E7432D7AD74F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerStationDomainTests", "PowerStationDomainTests\PowerStationDomainTests.csproj", "{93669EAC-6A3C-468B-AF1D-E7432D7AD74F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerStationInfrastructureTests", "PowerStationInfrastructureTests\PowerStationInfrastructureTests.csproj", "{6E3F40E6-351D-4532-B520-240EBFA16C2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerStationInfrastructureTests", "PowerStationInfrastructureTests\PowerStationInfrastructureTests.csproj", "{6E3F40E6-351D-4532-B520-240EBFA16C2F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{87EEFC67-287C-4596-A3AB-95AE71ED5DA2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8223EE60-8196-42C5-B921-050B7DD16645}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "IntegrationTests\IntegrationTests.csproj", "{987D821C-B526-444A-974E-A004FFC4C555}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationTests", "IntegrationTests\IntegrationTests.csproj", "{987D821C-B526-444A-974E-A004FFC4C555}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2A600BF3-9A22-4B2B-983A-3F8D8B554632}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
