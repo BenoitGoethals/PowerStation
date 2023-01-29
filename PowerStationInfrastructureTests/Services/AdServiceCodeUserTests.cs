@@ -40,7 +40,7 @@ namespace PowerStationInfrastructureTests.Services
         [Fact()]
         public void GetUserTest()
         {
-            _adService?.GetUser("").Should().NotBeNull();
+            _adService?.GetUser("Benoit").Should().NotBeNull();
 
         }
 

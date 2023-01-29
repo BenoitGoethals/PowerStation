@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using PowerStationDomain.models;
+using System.ComponentModel;
 using System.DirectoryServices.AccountManagement;
+using System.DirectoryServices.ActiveDirectory;
 using System.Reflection.PortableExecutable;
 
 namespace PowerStationInfrastructure.Services;
@@ -49,26 +51,23 @@ public class AdServiceCodeUser:IAdService<User>
 
     public List<User> All()
     {
-        const string groupName = "Domain Users";
+       // const string groupName = "Domain Users";
 
         var usersRet = new List<User>();
 
 
-        using var principalContext = new PrincipalContext(ContextType.Domain, name: _configuration.AdSetting.DomainName, _configuration.OuContex.Container);
+       // using var principalContext = new PrincipalContext(ContextType.Domain, name: _configuration.AdSetting.DomainName, _configuration.OuContex.Container);
         //using (var group = GroupPrincipal.FindByIdentity(context, windowsGroup.TrimEnd('*')))
-        using var groupPrincipal = GroupPrincipal.FindByIdentity(principalContext, IdentityType.SamAccountName, groupName);
-        if (groupPrincipal != null)
+        using var searcher = new PrincipalSearcher(new UserPrincipal(new PrincipalContext(ContextType.Domain, Environment.UserDomainName)));
+        List<UserPrincipal> users = searcher.FindAll().Select(u => (UserPrincipal)u).ToList();
+        foreach (var principal in users)
         {
-            var users = groupPrincipal.GetMembers();
-            foreach (var principal in users)
-            {
-                var user = (UserPrincipal)principal;
+            var user = (UserPrincipal)principal;
 
-                var newUser = new User(user.Description, user.DistinguishedName, null, null,
-                    user.Enabled.GetValueOrDefault(), user.GivenName, user.GivenName, "", user.MiddleName, user.Name, user.VoiceTelephoneNumber, user.DistinguishedName, "",
-                    user.SamAccountName,"", user.UserPrincipalName, AdUserType.Basic);
-                usersRet.Add(newUser);
-            }
+            var newUser = new User(user.Description, user.DistinguishedName, null, null,
+                user.Enabled.GetValueOrDefault(), user.GivenName, user.GivenName, "", user.MiddleName, user.Name, user.VoiceTelephoneNumber, user.DistinguishedName, "",
+                user.SamAccountName,"", user.UserPrincipalName, AdUserType.Basic);
+            usersRet.Add(newUser);
         }
 
         return usersRet;
@@ -76,8 +75,18 @@ public class AdServiceCodeUser:IAdService<User>
 
     public User? GetUser(string username)
     {
-     
-        UserPrincipal? user = UserPrincipal.FindByIdentity(_configuration.OuContex, username);
+       
+        using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+        {
+            var principal = new UserPrincipal(context)
+            {
+                SamAccountName = username
+            };
+            using var searcher = new PrincipalSearcher(principal);
+            PrincipalSearchResult<Principal> result = searcher.FindAll();
+            UserPrincipal? user = (UserPrincipal)result.FirstOrDefault();
+
+
         if (user != null)
         {
             var user1 = new User(user.Description, user.DistinguishedName, user.EmailAddress, user.EmployeeId,
@@ -97,6 +106,7 @@ public class AdServiceCodeUser:IAdService<User>
             };
 
             return user1;
+        }
         }
         return null;
     }
