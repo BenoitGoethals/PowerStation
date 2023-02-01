@@ -9,6 +9,16 @@ public abstract class AdObject : IAdObject
     public string? Sid { get; set; } = default;
     public string? ObjectClass { get; set; } = default;
     public Guid ObjectGuid { get; set; } = Guid.NewGuid();
+
+    
+    public string? Description { get; set; }
+    public string? DisplayName { get; set; }
+    public string? DistinguishedName { get; set; }
+    public string? Name { get; set; }
+    public string? SamAccountName { get; set; }
+    public string? UserPrincipalName { get; set; }
+
+ 
     public void AddMember(AdObject? adObject)
     {
         if (adObject == null || _adObjects.Exists(c => c.ObjectGuid == adObject.ObjectGuid)) return;
