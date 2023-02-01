@@ -11,8 +11,8 @@ namespace PowerStationDomainTests.Domain
         [Fact()]
         public void UserTest()
         {
-           
-            User user = User.CreateInstance("Benoit", "Benoit", "Benoit", true, "benoit", "",AdUserType.Basic,"");
+
+            User user = new User();
             user.SamAccountName.Should().NotBeEmpty();
             user.GivenName.Should().NotBeEmpty();
             user.UserPrincipalName.Should().NotBeEmpty();

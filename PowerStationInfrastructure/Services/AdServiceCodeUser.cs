@@ -4,79 +4,75 @@ using System.ComponentModel;
 using System.DirectoryServices.AccountManagement;
 using System.DirectoryServices.ActiveDirectory;
 using System.Reflection.PortableExecutable;
+using AutoMapper;
+using System.Xml.Linq;
 
 namespace PowerStationInfrastructure.Services;
 
-public class AdServiceCodeUser:IAdService<User>
+public class AdServiceCodeUser : IAdService<User>
 {
     private readonly Configuration _configuration;
     private readonly ILogger<AdServiceCodeUser> _logger;
+    private readonly IMapper _mapper;
 
-    public AdServiceCodeUser(Configuration configuration, ILogger<AdServiceCodeUser> logger)
+    public AdServiceCodeUser(Configuration configuration, ILogger<AdServiceCodeUser> logger, IMapper mapper)
     {
         this._configuration = configuration;
         _logger = logger;
+        _mapper = mapper;
     }
 
-    public void Add(User user)
-    {       
+    public bool Add(User user)
+    {
         try
         {
-            UserPrincipal? up = new(_configuration.OuContex)
-            {
-                SamAccountName = user.SamAccountName,
-                Description= user.Description,                             
-                DisplayName=user.UserPrincipalName,
-                Enabled= user.Enabled,                
-                GivenName= user.GivenName,
-                Surname= user.GivenName,
-                Name= user.Name,
-                UserPrincipalName= user.UserPrincipalName,
-                EmailAddress= user.EmailAddress,
-                VoiceTelephoneNumber=user.OfficePhone
-            };
-           
-            up.Save();
+            var userPrincePrincipal = _mapper.Map<UserPrincipal>(user);
+          
+            userPrincePrincipal.Save();
         }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
+            return false;
         }
+
+        return true;
     }
 
-    public void Remove(User adUser)
+    public bool Remove(User adUser)
     {
-        throw new NotImplementedException();
+        using var context = _configuration.OuContex;
+        {
+            var principal = new UserPrincipal(context)
+            {
+                SamAccountName = adUser.SamAccountName
+            };
+            using var searcher = new PrincipalSearcher(principal);
+            PrincipalSearchResult<Principal> result = searcher.FindAll();
+            UserPrincipal? user = (UserPrincipal)result.First();
+            if (adUser.SamAccountName != null)
+            {
+                UserPrincipal? u = UserPrincipal.FindByIdentity(context, adUser.SamAccountName);
+                u?.Delete();
+              
+            }
+
+            return true;
+
+        }
+        return false;
     }
 
     public List<User> All()
     {
-       // const string groupName = "Domain Users";
-
-        var usersRet = new List<User>();
-
-
-       // using var principalContext = new PrincipalContext(ContextType.Domain, name: _configuration.AdSetting.DomainName, _configuration.OuContex.Container);
-        //using (var group = GroupPrincipal.FindByIdentity(context, windowsGroup.TrimEnd('*')))
-        using var searcher = new PrincipalSearcher(new UserPrincipal(new PrincipalContext(ContextType.Domain, Environment.UserDomainName)));
+        using var searcher = new PrincipalSearcher(new UserPrincipal(_configuration.OuContex));
         List<UserPrincipal> users = searcher.FindAll().Select(u => (UserPrincipal)u).ToList();
-        foreach (var principal in users)
-        {
-            var user = (UserPrincipal)principal;
-
-            var newUser = new User(user.Description, user.DistinguishedName, null, null,
-                user.Enabled.GetValueOrDefault(), user.GivenName, user.GivenName, "", user.MiddleName, user.Name, user.VoiceTelephoneNumber, user.DistinguishedName, "",
-                user.SamAccountName,"", user.UserPrincipalName, AdUserType.Basic);
-            usersRet.Add(newUser);
-        }
-
-        return usersRet;
+        return users.Select(principal => _mapper.Map<User>(principal)).ToList();
     }
 
-    public User? GetUser(string username)
+    public User? Get(string username)
     {
-       
-        using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+        using var context = _configuration.OuContex;
         {
             var principal = new UserPrincipal(context)
             {
@@ -84,29 +80,10 @@ public class AdServiceCodeUser:IAdService<User>
             };
             using var searcher = new PrincipalSearcher(principal);
             PrincipalSearchResult<Principal> result = searcher.FindAll();
-            UserPrincipal? user = (UserPrincipal)result.FirstOrDefault();
+            UserPrincipal? user = (UserPrincipal)result.First();
+            var newUser = _mapper.Map<User>(principal);
+            return newUser;
 
-
-        if (user != null)
-        {
-            var user1 = new User(user.Description, user.DistinguishedName, user.EmailAddress, user.EmployeeId,
-                (bool)user.Enabled, user.GivenName, user.GivenName, "", user.MiddleName, user.Name, "", "", "",
-                user.SamAccountName, "", user.UserPrincipalName, AdUserType.Basic)
-            {
-                Description = user.Description,
-                DistinguishedName = user.DistinguishedName,
-                EmailAddress = user.EmailAddress,
-                EmployeeId = user.EmployeeId,
-                Enabled = (bool)user.Enabled,
-                FirstName = user.Surname,
-                LastName = user.Name,
-                Name = user.Name,
-                GivenName = user.GivenName,
-                SamAccountName = user.SamAccountName
-            };
-
-            return user1;
-        }
         }
         return null;
     }

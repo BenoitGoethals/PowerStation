@@ -1,7 +1,7 @@
 ﻿using System.DirectoryServices.AccountManagement;
 using System.Runtime.Serialization;
 
-namespace PowerStationDomain.models
+namespace PowerStationDomain.temp
 {
     [DataContract]
     public class AdMember
@@ -13,14 +13,14 @@ namespace PowerStationDomain.models
         /// </summary>
         public AdMember()
         {
-            this.Description = String.Empty;
-            this.DisplayName = String.Empty;
-            this.DistinguishedName = String.Empty;
-            this.Guid = String.Empty;
-            this.Name = String.Empty;
-            this.SamAccountName = String.Empty;
-            this.Sid = String.Empty;
-            this.UserPrincipalName = String.Empty;
+            Description = string.Empty;
+            DisplayName = string.Empty;
+            DistinguishedName = string.Empty;
+            Guid = string.Empty;
+            Name = string.Empty;
+            SamAccountName = string.Empty;
+            Sid = string.Empty;
+            UserPrincipalName = string.Empty;
         }
 
         /// <summary>
@@ -30,14 +30,14 @@ namespace PowerStationDomain.models
         /// <param name="member"></param>
         public AdMember(Principal member)
         {
-            this.Description = member.Description;
-            this.DisplayName = member.DisplayName;
-            this.DistinguishedName = member.DistinguishedName;
-            this.Guid = member.Guid.ToString();
-            this.Name = member.Name;
-            this.SamAccountName = member.SamAccountName;
-            this.Sid = member.Sid.Value;
-            this.UserPrincipalName = member.UserPrincipalName;
+            Description = member.Description;
+            DisplayName = member.DisplayName;
+            DistinguishedName = member.DistinguishedName;
+            Guid = member.Guid.ToString();
+            Name = member.Name;
+            SamAccountName = member.SamAccountName;
+            Sid = member.Sid.Value;
+            UserPrincipalName = member.UserPrincipalName;
         }
 
         #endregion constructors
@@ -118,7 +118,7 @@ namespace PowerStationDomain.models
         /// <returns>A string representing this AdMember object.</returns>
         public new string ToString()
         {
-            return string.Format("{0}\n{1}\n{2}\n{3}", this.SamAccountName, this.DisplayName, this.DistinguishedName, this.Description);
+            return string.Format("{0}\n{1}\n{2}\n{3}", SamAccountName, DisplayName, DistinguishedName, Description);
         }
 
         #endregion methods

@@ -1,7 +1,7 @@
 ﻿using System.DirectoryServices.AccountManagement;
 using System.Runtime.Serialization;
 
-namespace PowerStationDomain.models
+namespace PowerStationDomain.temp
 {
     [DataContract]
     public class AdComputer
@@ -14,28 +14,28 @@ namespace PowerStationDomain.models
         /// </summary>
         public AdComputer()
         {
-            this.AccountExpirationDate = String.Empty;
-            this.AccountLockouttime = String.Empty;
-            this.BadLogonCount = 0;
-            this.DelegationPermitted = false;
-            this.Description = String.Empty;
-            this.DisplayName = String.Empty;
-            this.DistinguishedName = String.Empty;
-            this.Enabled = false;
-            this.Guid = String.Empty;
-            this.HomeDirectory = String.Empty;
-            this.HomeDrive = String.Empty;
-            this.LastBadPasswordAttempt = String.Empty;
-            this.Name = String.Empty;
-            this.PasswordNeverExpires = false;
-            this.PasswordNotRequired = false;
-            this.SamAccountName = String.Empty;
-            this.ScriptPath = String.Empty;
-            this.ServicePrincipalNames = null;
-            this.Sid = String.Empty;
-            this.SmartcardLogonRequired = false;
-            this.UserCannotChangePassword = false;
-            this.UserPrincipalName = String.Empty;
+            AccountExpirationDate = string.Empty;
+            AccountLockouttime = string.Empty;
+            BadLogonCount = 0;
+            DelegationPermitted = false;
+            Description = string.Empty;
+            DisplayName = string.Empty;
+            DistinguishedName = string.Empty;
+            Enabled = false;
+            Guid = string.Empty;
+            HomeDirectory = string.Empty;
+            HomeDrive = string.Empty;
+            LastBadPasswordAttempt = string.Empty;
+            Name = string.Empty;
+            PasswordNeverExpires = false;
+            PasswordNotRequired = false;
+            SamAccountName = string.Empty;
+            ScriptPath = string.Empty;
+            ServicePrincipalNames = null;
+            Sid = string.Empty;
+            SmartcardLogonRequired = false;
+            UserCannotChangePassword = false;
+            UserPrincipalName = string.Empty;
         }
 
         /// <summary>
@@ -45,35 +45,35 @@ namespace PowerStationDomain.models
         /// <param name="computer"></param>
         public AdComputer(ComputerPrincipal computer)
         {
-            this.AccountExpirationDate = computer.AccountExpirationDate.ToString();
-            this.AccountLockouttime = computer.AccountLockoutTime.ToString();
-            this.BadLogonCount = computer.BadLogonCount;
-            this.DelegationPermitted = computer.DelegationPermitted;
-            this.Description = computer.Description;
-            this.DisplayName = computer.DisplayName;
-            this.DistinguishedName = computer.DistinguishedName;
-            this.Enabled = computer.Enabled;
-            this.Guid = computer.Guid.ToString();
-            this.HomeDirectory = computer.HomeDirectory;
-            this.HomeDrive = computer.HomeDrive;
-            this.LastBadPasswordAttempt = computer.LastBadPasswordAttempt.ToString();
-            this.Name = computer.Name;
-            this.PasswordNeverExpires = computer.PasswordNeverExpires;
-            this.PasswordNotRequired = computer.PasswordNotRequired;
-            this.SamAccountName = computer.SamAccountName;
-            this.ScriptPath = computer.ScriptPath;
+            AccountExpirationDate = computer.AccountExpirationDate.ToString();
+            AccountLockouttime = computer.AccountLockoutTime.ToString();
+            BadLogonCount = computer.BadLogonCount;
+            DelegationPermitted = computer.DelegationPermitted;
+            Description = computer.Description;
+            DisplayName = computer.DisplayName;
+            DistinguishedName = computer.DistinguishedName;
+            Enabled = computer.Enabled;
+            Guid = computer.Guid.ToString();
+            HomeDirectory = computer.HomeDirectory;
+            HomeDrive = computer.HomeDrive;
+            LastBadPasswordAttempt = computer.LastBadPasswordAttempt.ToString();
+            Name = computer.Name;
+            PasswordNeverExpires = computer.PasswordNeverExpires;
+            PasswordNotRequired = computer.PasswordNotRequired;
+            SamAccountName = computer.SamAccountName;
+            ScriptPath = computer.ScriptPath;
 
             List<string> svcPNs = new List<string>();
             foreach (var spn in computer.ServicePrincipalNames)
             {
                 svcPNs.Add(spn);
             }
-            this.ServicePrincipalNames = svcPNs;
+            ServicePrincipalNames = svcPNs;
 
-            this.Sid = computer.Sid.Value;
-            this.SmartcardLogonRequired = computer.SmartcardLogonRequired;
-            this.UserCannotChangePassword = computer.UserCannotChangePassword;
-            this.UserPrincipalName = computer.UserPrincipalName;
+            Sid = computer.Sid.Value;
+            SmartcardLogonRequired = computer.SmartcardLogonRequired;
+            UserCannotChangePassword = computer.UserCannotChangePassword;
+            UserPrincipalName = computer.UserPrincipalName;
         }
 
         #endregion constructors
@@ -90,7 +90,7 @@ namespace PowerStationDomain.models
         public int BadLogonCount { get; set; }
 
         [DataMember]
-        public Boolean DelegationPermitted { get; set; }
+        public bool DelegationPermitted { get; set; }
 
         [DataMember]
         public string Description { get; set; }
@@ -102,7 +102,7 @@ namespace PowerStationDomain.models
         public string DistinguishedName { get; set; }
 
         [DataMember]
-        public Boolean? Enabled { get; set; }
+        public bool? Enabled { get; set; }
 
         [DataMember]
         public string Guid { get; set; }
@@ -120,10 +120,10 @@ namespace PowerStationDomain.models
         public string Name { get; set; }
 
         [DataMember]
-        public Boolean PasswordNeverExpires { get; set; }
+        public bool PasswordNeverExpires { get; set; }
 
         [DataMember]
-        public Boolean PasswordNotRequired { get; set; }
+        public bool PasswordNotRequired { get; set; }
 
         [DataMember]
         public string SamAccountName { get; set; }
@@ -138,10 +138,10 @@ namespace PowerStationDomain.models
         public string Sid { get; set; }
 
         [DataMember]
-        public Boolean SmartcardLogonRequired { get; set; }
+        public bool SmartcardLogonRequired { get; set; }
 
         [DataMember]
-        public Boolean UserCannotChangePassword { get; set; }
+        public bool UserCannotChangePassword { get; set; }
 
         [DataMember]
         public string UserPrincipalName { get; set; }
@@ -196,7 +196,7 @@ namespace PowerStationDomain.models
         /// <returns>A string that represents this AdComputer object.</returns>
         public new string ToString()
         {
-            return string.Format("{0}\n{1}\n{2}\n{3}", this.SamAccountName, this.DisplayName, this.DistinguishedName, this.Description);
+            return string.Format("{0}\n{1}\n{2}\n{3}", SamAccountName, DisplayName, DistinguishedName, Description);
         }
 
         #endregion methods

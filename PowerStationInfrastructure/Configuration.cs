@@ -18,7 +18,7 @@ namespace PowerStationInfrastructure
         {
             this.AdSetting = adConfiguration;
 #pragma warning disable CA1416 // Validate platform compatibility
-            OuContex = new PrincipalContext(ContextType.Domain, adConfiguration.DomainName, adConfiguration.DistinguishedName);
+            OuContex = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
 #pragma warning restore CA1416 // Validate platform compatibility
 
 

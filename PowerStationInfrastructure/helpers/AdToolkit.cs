@@ -615,7 +615,7 @@ namespace PowerStationInfrastructure.helpers
         /// </returns>
         public static string GetRandomPassword()
         {
-            return System.Web.Security.Membership.GeneratePassword(12, 2);
+            return null;// System.Web.Security.Membership.GeneratePassword(12, 2);
         }
 
         /// <summary>

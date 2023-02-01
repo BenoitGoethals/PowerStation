@@ -1,0 +1,40 @@
+﻿using System;
+using System.Collections.Generic;
+using System.DirectoryServices.AccountManagement;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AutoMapper;
+using PowerStationDomain.models;
+
+namespace PowerStationInfrastructure.mapper
+{
+    public class SecurityGroupMapper
+    {
+      
+
+
+        public MapperConfiguration MapperGroupPrincipaleToSecurityGroup = new MapperConfiguration(cfg =>
+            cfg.CreateMap<GroupPrincipal, SecurityGroup>()
+                .ForMember(dest => dest.GroupName, act => act.MapFrom(src => src.Name))
+                .ForMember(dest => dest.DistinguishedName, act => act.MapFrom(src => src.DistinguishedName))
+                .ForMember(dest => dest.DisplayName, act => act.MapFrom(src => src.DisplayName))
+                .ForMember(dest => dest.Description, act => act.MapFrom(src => src.Description))
+                .ForMember(dest => dest.Sid, act => act.MapFrom(src => src.Sid))
+                .ForMember(dest => dest.ObjectGuid, act => act.MapFrom(src => src.Guid))
+                .ForMember(dest => dest.UserPrincipalName, act => act.MapFrom(src => src.UserPrincipalName)));
+
+
+
+        public MapperConfiguration MapperSecurityGroupToGroupPrincipale = new MapperConfiguration(cfg =>
+            cfg.CreateMap<GroupPrincipal, SecurityGroup>()
+                .ForMember(dest => dest.GroupName, act => act.MapFrom(src => src.Name))
+                .ForMember(dest => dest.DistinguishedName, act => act.MapFrom(src => src.DistinguishedName))
+                .ForMember(dest => dest.DisplayName, act => act.MapFrom(src => src.DisplayName))
+                .ForMember(dest => dest.Description, act => act.MapFrom(src => src.Description))
+                .ForMember(dest => dest.Sid, act => act.MapFrom(src => src.Sid))
+                .ForMember(dest => dest.ObjectGuid, act => act.MapFrom(src => src.Guid))
+                .ForMember(dest => dest.UserPrincipalName, act => act.MapFrom(src => src.UserPrincipalName)));
+    }
+}
+

@@ -1,7 +1,7 @@
 ﻿using System.DirectoryServices.AccountManagement;
 using System.Runtime.Serialization;
 
-namespace PowerStationDomain.models
+namespace PowerStationDomain.temp
 {
 
     [DataContract]
@@ -15,42 +15,42 @@ namespace PowerStationDomain.models
         /// </summary>
         public AdUser()
         {
-            this.AccountExpirationData = String.Empty;
-            this.AccountLockoutTime = String.Empty;
-            this.AllowReversiblePasswordEncryption = false;
-            this.BadLogonCount = 0;
-            this.Company = String.Empty;
-            this.DelegationPermitted = false;
-            this.Department = String.Empty;
-            this.Description = String.Empty;
-            this.DisplayName = String.Empty;
-            this.DistinguishedName = String.Empty;
-            this.EmailAddress = String.Empty;
-            this.EmployeeId = String.Empty;
-            this.Enabled = false;
-            this.GivenName = String.Empty;
-            this.Guid = String.Empty;
-            this.HomeDirectory = String.Empty;
-            this.HomeDrive = String.Empty;
-            this.LastBadPasswordAttempt = String.Empty;
-            this.LastLogon = String.Empty;
-            this.LastPasswordSet = String.Empty;
-            this.Manager = String.Empty;
-            this.MemberOf = null;
-            this.MiddleName = String.Empty;
-            this.Mobile = String.Empty;
-            this.Name = String.Empty;
-            this.PasswordNeverExpires = false;
-            this.PasswordNotRequired = false;
-            this.ProfilePath = String.Empty;
-            this.SamAccountName = String.Empty;
-            this.ScriptPath = String.Empty;
-            this.Sid = String.Empty;
-            this.SmartCardLogonRequired = false;
-            this.Surname = String.Empty;
-            this.UserCannotChangePassword = false;
-            this.UserPrincipalName = String.Empty;
-            this.VoiceTelephoneNumber = String.Empty;
+            AccountExpirationData = string.Empty;
+            AccountLockoutTime = string.Empty;
+            AllowReversiblePasswordEncryption = false;
+            BadLogonCount = 0;
+            Company = string.Empty;
+            DelegationPermitted = false;
+            Department = string.Empty;
+            Description = string.Empty;
+            DisplayName = string.Empty;
+            DistinguishedName = string.Empty;
+            EmailAddress = string.Empty;
+            EmployeeId = string.Empty;
+            Enabled = false;
+            GivenName = string.Empty;
+            Guid = string.Empty;
+            HomeDirectory = string.Empty;
+            HomeDrive = string.Empty;
+            LastBadPasswordAttempt = string.Empty;
+            LastLogon = string.Empty;
+            LastPasswordSet = string.Empty;
+            Manager = string.Empty;
+            MemberOf = null;
+            MiddleName = string.Empty;
+            Mobile = string.Empty;
+            Name = string.Empty;
+            PasswordNeverExpires = false;
+            PasswordNotRequired = false;
+            ProfilePath = string.Empty;
+            SamAccountName = string.Empty;
+            ScriptPath = string.Empty;
+            Sid = string.Empty;
+            SmartCardLogonRequired = false;
+            Surname = string.Empty;
+            UserCannotChangePassword = false;
+            UserPrincipalName = string.Empty;
+            VoiceTelephoneNumber = string.Empty;
         }
 
         /// <summary>
@@ -60,42 +60,42 @@ namespace PowerStationDomain.models
         /// <param name="user"></param>
         public AdUser(UserPrincipal user)
         {
-            this.AccountExpirationData = user.AccountExpirationDate.ToString();
-            this.AccountLockoutTime = user.AccountLockoutTime.ToString();
-            this.AllowReversiblePasswordEncryption = user.AllowReversiblePasswordEncryption;
-            this.BadLogonCount = user.BadLogonCount;
-            this.Company = GetCompany(user);
-            this.DelegationPermitted = user.DelegationPermitted;
-            this.Department = GetDepartment(user);
-            this.Description = user.Description;
-            this.DisplayName = user.DisplayName;
-            this.DistinguishedName = user.DistinguishedName;
-            this.EmailAddress = user.EmailAddress;
-            this.EmployeeId = user.EmployeeId;
-            this.Enabled = user.Enabled;
-            this.GivenName = user.GivenName;
-            this.Guid = user.Guid.ToString();
-            this.HomeDirectory = user.HomeDirectory;
-            this.HomeDrive = user.HomeDrive;
-            this.LastBadPasswordAttempt = user.LastBadPasswordAttempt.ToString();
-            this.LastLogon = user.LastLogon.ToString();
-            this.LastPasswordSet = user.LastPasswordSet.ToString();
-            this.Manager = GetManager(user);
-            this.MemberOf = AdGroup.GetAdGroupSamAccountNames(user.GetGroups());
-            this.MiddleName = user.MiddleName;
-            this.Mobile = GetMobile(user);
-            this.Name = user.Name;
-            this.PasswordNeverExpires = user.PasswordNeverExpires;
-            this.PasswordNotRequired = user.PasswordNotRequired;
-            this.ProfilePath = AdToolkit.GetProperty(user, "profilePath");
-            this.SamAccountName = user.SamAccountName;
-            this.ScriptPath = user.ScriptPath;
-            this.Sid = user.Sid.Value;
-            this.SmartCardLogonRequired = user.SmartcardLogonRequired;
-            this.Surname = user.Surname;
-            this.UserCannotChangePassword = user.UserCannotChangePassword;
-            this.UserPrincipalName = user.UserPrincipalName;
-            this.VoiceTelephoneNumber = user.VoiceTelephoneNumber;
+            AccountExpirationData = user.AccountExpirationDate.ToString();
+            AccountLockoutTime = user.AccountLockoutTime.ToString();
+            AllowReversiblePasswordEncryption = user.AllowReversiblePasswordEncryption;
+            BadLogonCount = user.BadLogonCount;
+            //Company = GetCompany(user);
+            //DelegationPermitted = user.DelegationPermitted;
+            //Department = GetDepartment(user);
+            Description = user.Description;
+            DisplayName = user.DisplayName;
+            DistinguishedName = user.DistinguishedName;
+            EmailAddress = user.EmailAddress;
+            EmployeeId = user.EmployeeId;
+            Enabled = user.Enabled;
+            GivenName = user.GivenName;
+            Guid = user.Guid.ToString();
+            HomeDirectory = user.HomeDirectory;
+            HomeDrive = user.HomeDrive;
+            LastBadPasswordAttempt = user.LastBadPasswordAttempt.ToString();
+            LastLogon = user.LastLogon.ToString();
+            LastPasswordSet = user.LastPasswordSet.ToString();
+            //Manager = GetManager(user);
+            //MemberOf = AdGroup.GetAdGroupSamAccountNames(user.GetGroups());
+            //MiddleName = user.MiddleName;
+            //Mobile = GetMobile(user);
+            //Name = user.Name;
+            //PasswordNeverExpires = user.PasswordNeverExpires;
+            //PasswordNotRequired = user.PasswordNotRequired;
+            //ProfilePath = AdToolkit.GetProperty(user, "profilePath");
+            SamAccountName = user.SamAccountName;
+            ScriptPath = user.ScriptPath;
+            Sid = user.Sid.Value;
+            SmartCardLogonRequired = user.SmartcardLogonRequired;
+            Surname = user.Surname;
+            UserCannotChangePassword = user.UserCannotChangePassword;
+            UserPrincipalName = user.UserPrincipalName;
+            VoiceTelephoneNumber = user.VoiceTelephoneNumber;
 
             //user.GetGroups
         }
@@ -111,7 +111,7 @@ namespace PowerStationDomain.models
         public string AccountLockoutTime { get; set; }
 
         [DataMember]
-        public Boolean AllowReversiblePasswordEncryption { get; set; }
+        public bool AllowReversiblePasswordEncryption { get; set; }
 
         [DataMember]
         public int BadLogonCount { get; set; }
@@ -120,7 +120,7 @@ namespace PowerStationDomain.models
         public string Company { get; set; }
 
         [DataMember]
-        public Boolean DelegationPermitted { get; set; }
+        public bool DelegationPermitted { get; set; }
 
         [DataMember]
         public string Department { get; set; }
@@ -141,7 +141,7 @@ namespace PowerStationDomain.models
         public string EmployeeId { get; set; }
 
         [DataMember]
-        public Boolean? Enabled { get; set; }
+        public bool? Enabled { get; set; }
 
         [DataMember]
         public string GivenName { get; set; }
@@ -180,10 +180,10 @@ namespace PowerStationDomain.models
         public string Name { get; set; }
 
         [DataMember]
-        public Boolean PasswordNeverExpires { get; set; }
+        public bool PasswordNeverExpires { get; set; }
 
         [DataMember]
-        public Boolean PasswordNotRequired { get; set; }
+        public bool PasswordNotRequired { get; set; }
 
         [DataMember]
         public string ProfilePath { get; set; }
@@ -198,13 +198,13 @@ namespace PowerStationDomain.models
         public string Sid { get; set; }
 
         [DataMember]
-        public Boolean SmartCardLogonRequired { get; set; }
+        public bool SmartCardLogonRequired { get; set; }
 
         [DataMember]
         public string Surname { get; set; }
 
         [DataMember]
-        public Boolean UserCannotChangePassword { get; set; }
+        public bool UserCannotChangePassword { get; set; }
 
         [DataMember]
         public string UserPrincipalName { get; set; }
@@ -258,26 +258,26 @@ namespace PowerStationDomain.models
             return GetAdUsers(users).Select(x => x.SamAccountName).OrderBy(x => x).ToList();
         }
 
-        public static String GetCompany(Principal user)
-        {
-            return AdToolkit.GetProperty(user, "company");
-        }
+        //public static string GetCompany(Principal user)
+        //{
+        //    return AdToolkit.GetProperty(user, "company");
+        //}
 
-        public static String GetDepartment(Principal user)
-        {
-            return AdToolkit.GetProperty(user, "department");
-        }
+        //public static string GetDepartment(Principal user)
+        //{
+        //    return AdToolkit.GetProperty(user, "department");
+        //}
 
-        public static string GetManager(Principal user)
-        {
-            string managerDn = AdToolkit.GetProperty(user, "manager");
-            return AdToolkit.GetSamAccountName(managerDn);
-        }
+        //public static string GetManager(Principal user)
+        //{
+        //    string managerDn = AdToolkit.GetProperty(user, "manager");
+        //    return AdToolkit.GetSamAccountName(managerDn);
+        //}
 
-        public static string GetMobile(Principal user)
-        {
-            return AdToolkit.GetProperty(user, "mobile");
-        }
+        //public static string GetMobile(Principal user)
+        //{
+        //    return AdToolkit.GetProperty(user, "mobile");
+        //}
 
         /// <summary>
         /// To string override function.
@@ -285,7 +285,7 @@ namespace PowerStationDomain.models
         /// <returns>A string representing this AdUser object.</returns>
         public new string ToString()
         {
-            return string.Format("{0}\n{1}\n{2}\n{3}", this.SamAccountName, this.DisplayName, this.DistinguishedName, this.Description);
+            return string.Format("{0}\n{1}\n{2}\n{3}", SamAccountName, DisplayName, DistinguishedName, Description);
         }
 
         #endregion methods

@@ -4,9 +4,9 @@ namespace PowerStationInfrastructure.Services;
 
 public interface IAdService<in T>:IDisposable where T : AdObject
 {
-    void Add(T user);
-    void Remove(T adUser);
+    bool Add(T user);
+    bool Remove(T adUser);
     List<User> All();
 
-    User? GetUser(string username);
+    User? Get(string username);
 }
