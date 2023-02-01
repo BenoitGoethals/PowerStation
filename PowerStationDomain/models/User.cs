@@ -9,6 +9,10 @@ namespace PowerStationDomain.models
 {
     public class User : AdObject
     {
+        public User()
+        {
+            
+        }
 
         public AdUserType UserType { get; set; }
         public string? AccountExpirationData { get; set; }

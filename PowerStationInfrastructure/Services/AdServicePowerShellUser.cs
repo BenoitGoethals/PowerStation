@@ -11,12 +11,12 @@ namespace PowerStationInfrastructure.Services
 {
     public class AdServicePowerShellUser: IAdService<User>
     {
-        public void Add(User user)
+        public bool Add(User user)
         {
             throw new NotImplementedException();
         }
 
-        public void Remove(User adUser)
+        public bool Remove(User adUser)
         {
             throw new NotImplementedException();
         }
@@ -27,7 +27,7 @@ namespace PowerStationInfrastructure.Services
         }
 
         /// <inheritdoc />
-        public User? GetUser(string username)
+        public User? Get(string username)
         {
             throw new NotImplementedException();
         }

@@ -13,8 +13,8 @@ namespace PowerStationDomainTests.Domain
 
         public SecurityGroupTests()
         {
-             user = User.CreateInstance("Benoit", "Benoit", "Benoit", true, "benoit", "", AdUserType.Basic, "");
-             user2 = User.CreateInstance("Benoit", "Benoit", "Benoit", true, "benoit", "", AdUserType.Basic,"");
+           //  user ;//= User.CreateInstance("Benoit", "Benoit", "Benoit", true, "benoit", "", AdUserType.Basic, "");
+            // user2 ;= User.CreateInstance("Benoit", "Benoit", "Benoit", true, "benoit", "", AdUserType.Basic,"");
 
         }
         [Fact()]
