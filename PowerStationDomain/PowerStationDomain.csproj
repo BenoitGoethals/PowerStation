@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="System.DirectoryServices.AccountManagement">
+      <HintPath>..\..\..\..\..\.nuget\packages\system.directoryservices.accountmanagement\7.0.0\lib\net7.0\System.DirectoryServices.AccountManagement.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

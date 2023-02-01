@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using PowerStationDomain.Interfaces;
@@ -19,6 +20,13 @@ namespace PowerStationDomain.models
         public string? GroupName { get; set; }
         public GroupScope Scope { get; set; }
 
+
+     
+       
+        public Boolean? IsSecurityGroup { get; set; }
+
+     
+       
         public override bool Equals(object? obj)
         {
             return Equals(obj as SecurityGroup);
