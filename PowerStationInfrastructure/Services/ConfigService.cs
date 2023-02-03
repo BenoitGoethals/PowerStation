@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,14 +13,15 @@ namespace PowerStationInfrastructure.Services
     public class ConfigService
     {
         private readonly string? _fileName;
-        private readonly ILogger<AdServicePowerShellUser> _logger;
+        private readonly ILogger<ConfigService> _logger;
         private readonly AdConfigurationValidator _adConfigurationValidator = new();
 
-        public ConfigService(string? fileName, ILogger<AdServicePowerShellUser> logger)
+        public ConfigService(string? fileName, ILogger<ConfigService> logger)
         {
             _fileName = fileName;
             _logger = logger;
         }
+
 
         public bool Save(AdConfiguration adConfiguration)
         {

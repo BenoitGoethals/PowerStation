@@ -8,8 +8,13 @@ using System.Threading.Tasks;
 
 namespace PowerStationInfrastructure
 {
-    public  class Configuration
+    public  class Configuration : IDisposable
     {
+        public void Dispose()
+        {
+            OuContex.Dispose();
+        }
+
         public PrincipalContext OuContex { get;}
 
         public AdConfiguration AdSetting { get; }
