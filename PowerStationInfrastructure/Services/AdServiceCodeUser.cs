@@ -27,7 +27,6 @@ public class AdServiceCodeUser : IAdService<User>
         try
         {
             var userPrincePrincipal = _mapper.Map<UserPrincipal>(user);
-          
             userPrincePrincipal.Save();
         }
         catch (Exception ex)
@@ -41,55 +40,118 @@ public class AdServiceCodeUser : IAdService<User>
 
     public bool Remove(User adUser)
     {
-        using var context = _configuration.OuContex;
+        try
         {
-            var principal = new UserPrincipal(context)
+            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
             {
-                SamAccountName = adUser.SamAccountName
-            };
-            using var searcher = new PrincipalSearcher(principal);
-            PrincipalSearchResult<Principal> result = searcher.FindAll();
-            UserPrincipal? user = (UserPrincipal)result.First();
-            if (adUser.SamAccountName != null)
-            {
-                UserPrincipal? u = UserPrincipal.FindByIdentity(context, adUser.SamAccountName);
+                using var principal = new UserPrincipal(context)
+                {
+                    SamAccountName = adUser.SamAccountName
+                };
+                using var searcher = new PrincipalSearcher(principal);
+                PrincipalSearchResult<Principal> result = searcher.FindAll();
+                UserPrincipal? user = (UserPrincipal)result.First();
+                if (user.SamAccountName == null) return false;
+                UserPrincipal? u = UserPrincipal.FindByIdentity(context, user.SamAccountName);
                 u?.Delete();
-              
+                context.Dispose();
             }
-
             return true;
-
         }
-        return false;
+        catch (Exception e)
+        {
+            _logger.LogError(e.Message);
+            return false;
+        }
+
+
+
     }
 
-    public List<User> All()
+    public bool Remove(string adUser)
     {
-        using var searcher = new PrincipalSearcher(new UserPrincipal(_configuration.OuContex));
-        List<UserPrincipal> users = searcher.FindAll().Select(u => (UserPrincipal)u).ToList();
-        return users.Select(principal => _mapper.Map<User>(principal)).ToList();
+        try
+        {
+            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+            {
+                using var principal = new UserPrincipal(context)
+                {
+                    SamAccountName = adUser
+                };
+                using var searcher = new PrincipalSearcher(principal);
+                PrincipalSearchResult<Principal> result = searcher.FindAll();
+                UserPrincipal? user = (UserPrincipal)result.First();
+                if (user.SamAccountName != null)
+                {
+                    UserPrincipal? u = UserPrincipal.FindByIdentity(context, user.SamAccountName);
+                    u?.Delete();
+                }
+                context.Dispose();
+            }
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e.Message);
+            return false;
+        }
+
+        return true;
     }
+
+    public List<User>? All()
+    {
+        try
+        {
+            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+            {
+                using var searcher = new PrincipalSearcher(new UserPrincipal(context));
+                List<UserPrincipal> users = searcher.FindAll().Select(u => (UserPrincipal)u).ToList();
+                var usersAll = users.Select(principal => _mapper.Map<User>(principal)).ToList();
+                context.Dispose();
+                return usersAll;
+            }
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e.Message);
+            return null;
+        }
+    }
+
+
+
 
     public User? Get(string username)
     {
-        using var context = _configuration.OuContex;
+        try
         {
-            var principal = new UserPrincipal(context)
+            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
             {
-                SamAccountName = username
-            };
-            using var searcher = new PrincipalSearcher(principal);
-            PrincipalSearchResult<Principal> result = searcher.FindAll();
-            UserPrincipal? user = (UserPrincipal)result.First();
-            var newUser = _mapper.Map<User>(principal);
-            return newUser;
-
+                using var principal = new UserPrincipal(context)
+                {
+                    SamAccountName = username
+                };
+                using var searcher = new PrincipalSearcher(principal);
+                PrincipalSearchResult<Principal> result = searcher.FindAll();
+                UserPrincipal? user = (UserPrincipal)result.First();
+                var newUser = _mapper.Map<User>(user);
+                context.Dispose();
+                return newUser;
+            }
         }
-        return null;
+        catch (Exception e)
+        {
+            _logger.LogError(e.Message);
+            return null;
+        }
+
+
+
     }
 
 
     public void Dispose()
     {
+
     }
 }

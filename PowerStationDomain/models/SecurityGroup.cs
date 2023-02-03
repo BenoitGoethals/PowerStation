@@ -15,15 +15,18 @@ namespace PowerStationDomain.models
         {
             GroupName = groupName;
             Scope = scope;
+            Name = groupName;
         }
 
         public string? GroupName { get; set; }
         public GroupScope Scope { get; set; }
 
+        public SecurityGroup()
+        {
+        }
 
-     
-       
-        public Boolean? IsSecurityGroup { get; set; }
+
+        public Boolean? IsSecurityGroup { get; set; } = true;
 
      
        

@@ -2,11 +2,13 @@
 
 namespace PowerStationInfrastructure.Services;
 
-public interface IAdService<in T>:IDisposable where T : AdObject
+public interface IAdService<T>:IDisposable where T : AdObject
 {
-    bool Add(T user);
-    bool Remove(T adUser);
-    List<User> All();
+    bool Add(T identity);
+    bool Remove(T identity);
 
-    User? Get(string username);
+    bool Remove(string identity);
+    List<T>? All();
+
+    T? Get(string username);
 }

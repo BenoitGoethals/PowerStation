@@ -1,8 +1,12 @@
 ﻿namespace PowerStationInfrastructure.Services;
 
 [Serializable]
-public class AdConfiguration
+public class AdConfiguration : IDisposable
 {
+    public void Dispose()
+    {
+    }
+
     public Guid IdGuid { get; set; } 
     public AdConfiguration(string? adServerHostname, string? distinguishedName, string? domainName)
     {
