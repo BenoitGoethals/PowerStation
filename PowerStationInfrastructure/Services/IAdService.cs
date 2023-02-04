@@ -10,5 +10,5 @@ public interface IAdService<T>:IDisposable where T : AdObject
     bool Remove(string identity);
     List<T>? All();
 
-    T? Get(string username);
+    T? Get(string identity);
 }

@@ -1,4 +1,5 @@
-﻿using PowerStationDomain.Interfaces;
+﻿using System.Collections.Specialized;
+using PowerStationDomain.Interfaces;
 using PowerStationDomain.models;
 using static System.Formats.Asn1.AsnWriter;
 using System.DirectoryServices.AccountManagement;
@@ -13,7 +14,7 @@ using AutoMapper.Execution;
 
 namespace PowerStationInfrastructure.Services;
 
-public class AdServiceGroup:IAdServiceSecurity
+public class AdServiceGroup : IAdServiceSecurity
 {
 
     private readonly Configuration _configuration;
@@ -28,7 +29,7 @@ public class AdServiceGroup:IAdServiceSecurity
     }
     public void Dispose()
     {
-        
+
     }
 
     public bool Add(SecurityGroup identity)
@@ -51,7 +52,7 @@ public class AdServiceGroup:IAdServiceSecurity
         }
         catch (Exception e)
         {
-           _logger.LogError(e.Message);
+            _logger.LogError(e.Message);
 
         }
         return false;
@@ -59,7 +60,6 @@ public class AdServiceGroup:IAdServiceSecurity
 
     public bool Remove(SecurityGroup? identity)
     {
-       
         try
         {
             using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
@@ -91,7 +91,7 @@ public class AdServiceGroup:IAdServiceSecurity
     /// <param name="principal">The unique identifier for the principal.</param>
     /// <param name="group">The unique identifier for the group.</param>
     /// <returns>True if the Principal is a member of the group, false otherwise.</returns>
-    public  bool IsMember(string? principal, string? group)
+    public bool IsMember(string? principal, string? group)
     {
         try
         {
@@ -119,6 +119,69 @@ public class AdServiceGroup:IAdServiceSecurity
 
         }
 
+    }
+
+    public List<SecurityGroup>? GetGroups(string userName)
+    {
+        try
+        {
+            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+            {
+                using var searcher = new PrincipalSearcher(new GroupPrincipal(context));
+                var groups = new List<GroupPrincipal>();
+
+                foreach (var u in searcher.FindAll().Select(u => (GroupPrincipal)u).ToList())
+                {
+                    foreach (Principal principal in u.Members.Where(t=>t is UserPrincipal))
+                    {
+                        if (principal.SamAccountName.Equals(userName))
+                        {
+                            groups.Add((GroupPrincipal)u);
+                        }
+                    }
+                }
+                var groupPrincipals = groups.Select(principal => _mapper.Map<SecurityGroup>(principal)).ToList();
+                context.Dispose();
+                return groupPrincipals;
+
+            }
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e.Message);
+
+        }
+
+        return null;
+    }
+
+    public List<User> GetAllUsers(string groupName)
+    {
+        try
+        {
+            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+            {
+                List<User> principals = new List<User>();
+                GroupPrincipal oGroupPrincipal = GroupPrincipal.FindByIdentity(context, groupName)!;
+                foreach (var member in oGroupPrincipal.Members)
+                {
+                    if (member is UserPrincipal principal)
+                    {
+                        principals.Add(_mapper.Map<User>(principal));
+                    }
+                }
+              
+                context.Dispose();
+                return principals;
+            }
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e.Message);
+
+        }
+
+        return null;
     }
 
     public bool Remove(string? identity)
@@ -149,10 +212,10 @@ public class AdServiceGroup:IAdServiceSecurity
             {
                 using var searcher = new PrincipalSearcher(new GroupPrincipal(context));
                 List<GroupPrincipal> users = searcher.FindAll().Select(u => (GroupPrincipal)u).ToList();
-                var groups= users.Select(principal => _mapper.Map<SecurityGroup>(principal)).ToList();
+                var groups = users.Select(principal => _mapper.Map<SecurityGroup>(principal)).ToList();
                 context.Dispose();
                 return groups;
-               
+
             }
         }
         catch (Exception e)
@@ -170,8 +233,8 @@ public class AdServiceGroup:IAdServiceSecurity
         {
             using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
             {
-                GroupPrincipal oGroupPrincipal = GroupPrincipal.FindByIdentity(context, sGroupName);
-                var group= _mapper.Map<SecurityGroup>(oGroupPrincipal);
+                GroupPrincipal oGroupPrincipal = GroupPrincipal.FindByIdentity(context, sGroupName)!;
+                var group = _mapper.Map<SecurityGroup>(oGroupPrincipal);
                 context.Dispose();
                 return group;
             }

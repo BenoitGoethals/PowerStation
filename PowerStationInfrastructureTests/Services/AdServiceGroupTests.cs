@@ -25,6 +25,7 @@ namespace PowerStationInfrastructure.Services.Tests
             var mockMapper = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new SecurityGroupMapper());
+                cfg.AddProfile(new UserMapper());
                 //     cfg.DisableConstructorMapping();
             });
             var mapper = mockMapper.CreateMapper();
@@ -35,7 +36,7 @@ namespace PowerStationInfrastructure.Services.Tests
         [Fact()]
         public void AddTest()
         {
-            SecurityGroup group = new SecurityGroup("testGroup", GroupScope.Local){Description = "test",DisplayName = "test"};
+            SecurityGroup group = new SecurityGroup("testGroup", GroupScope.Local) { Description = "test", DisplayName = "test" };
             _adService.Add(group).Should().BeTrue();
             _adService.Remove("testGroup").Should().BeTrue();
         }
@@ -66,6 +67,18 @@ namespace PowerStationInfrastructure.Services.Tests
         public void GetTest()
         {
             _adService.Get("Administrators").Should().NotBeNull();
+        }
+
+        [Fact()]
+        public void GetAllUsersTest()
+        {
+            _adService.GetAllUsers("Administrators").Should().NotBeNull();
+        }
+
+        [Fact()]
+        public void GetGroupsTest()
+        {
+            _adService.GetGroups("Administrator").Should().HaveCountGreaterThan(1);
         }
     }
 }
