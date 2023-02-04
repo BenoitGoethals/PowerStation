@@ -12,7 +12,6 @@ namespace PowerStationInfrastructure.mapper
     public class SecurityGroupMapper:Profile
     {
 
-
         public SecurityGroupMapper()
         {
             CreateMap<GroupPrincipal, SecurityGroup>()
