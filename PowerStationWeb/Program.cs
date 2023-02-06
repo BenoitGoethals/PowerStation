@@ -14,7 +14,7 @@ namespace PowerStationWeb
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("@32302e342e30bmC3fG4/CSaB/VPFpWp/Dk/7ILyXh5TtZ6id50Hku48=");
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTA3NTExNEAzMjMwMmUzNDJlMzBhZjAxRm1mT0dyM0wzVitra0hKeEtvNDA5aGhMY0NqcUVxTStxeFd3V2UwPQ==");
             // Add services to the container.
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();

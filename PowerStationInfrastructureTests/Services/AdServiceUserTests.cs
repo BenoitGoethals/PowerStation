@@ -5,6 +5,7 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using PowerStationDomain.models;
 using PowerStationInfrastructure;
+using PowerStationInfrastructure.helpers;
 using PowerStationInfrastructure.mapper;
 using PowerStationInfrastructure.Services;
 using Xunit;
