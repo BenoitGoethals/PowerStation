@@ -10,6 +10,8 @@ using System.DirectoryServices;
 using DirectoryEntry = System.DirectoryServices.DirectoryEntry;
 using System.Configuration;
 using Microsoft.Extensions.Configuration;
+using PowerStationInfrastructure.helpers;
+using Configuration = PowerStationInfrastructure.helpers.Configuration;
 
 namespace PowerStationInfrastructure.Services;
 

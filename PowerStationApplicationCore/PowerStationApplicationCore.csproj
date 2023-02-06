@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="mappers\" />
     <Folder Include="dto\" />
   </ItemGroup>
 

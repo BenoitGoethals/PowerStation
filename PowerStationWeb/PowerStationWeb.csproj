@@ -7,6 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NLog.Extensions.Logging" Version="5.2.1" />
+    <PackageReference Include="Syncfusion.Blazor.Core" Version="20.4.0.48" />
+    <PackageReference Include="Syncfusion.Blazor.Data" Version="20.4.0.48" />
+    <PackageReference Include="Syncfusion.Blazor.DropDowns" Version="20.4.0.48" />
+    <PackageReference Include="Syncfusion.Blazor.Grid" Version="20.4.0.48" />
+    <PackageReference Include="Syncfusion.Blazor.Inputs" Version="20.4.0.48" />
+    <PackageReference Include="Syncfusion.Blazor.Navigations" Version="20.4.0.48" />
+    <PackageReference Include="Syncfusion.Blazor.Spinner" Version="20.4.0.48" />
+    <PackageReference Include="Syncfusion.Blazor.Themes" Version="20.4.0.48" />
+    <PackageReference Include="Syncfusion.Blazor.TreeGrid" Version="20.4.0.48" />
+    <PackageReference Include="Syncfusion.Licensing" Version="20.4.0.48" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PowerStationApplicationCore\PowerStationApplicationCore.csproj" />
     <ProjectReference Include="..\PowerStationInfrastructure\PowerStationInfrastructure.csproj" />
   </ItemGroup>
