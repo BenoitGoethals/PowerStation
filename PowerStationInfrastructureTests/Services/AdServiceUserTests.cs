@@ -3,25 +3,99 @@ using System.Collections.Generic;
 using AutoMapper;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
-using PowerStationApplicationCore.mappers;
 using PowerStationDomain.models;
 using PowerStationInfrastructure;
 using PowerStationInfrastructure.mapper;
 using PowerStationInfrastructure.Services;
 using Xunit;
 
+
 namespace PowerStationInfrastructureTests.Services
 {
-    public class AdServiceCodeUserTests : IDisposable
+    public class AdServiceUserTests : IDisposable
     {
-        private IAdService<User>? _adService;
+        private IAdServiceUser? _adService;
 
         void IDisposable.Dispose() => _adService = null;
 
 
-        public AdServiceCodeUserTests()
+        [Fact()]
+        public void DisableUserTest()
         {
-            var adConfiguration = new AdConfiguration("localhost", "OU=Users,OU=opslab,DC=opslab,DC=be", "opslabo");
+            User user = new User()
+            {
+                SamAccountName = "ilse",
+                Name = "ilse",
+                GivenName = "ilse",
+                Company = "ilse",
+                Department = "dept",
+                DistinguishedName = "ops",
+                Surname = "ilse",
+                EmailAddress = "ilse.goethals@gmail.com",
+                Description = "test",
+                Enabled = true
+
+
+            };
+            _adService?.Add(user).Should().BeTrue();
+            _adService?.DisableUser("ilse").Should().BeTrue();
+            _adService?.Get("ilse")?.Enabled.Should().BeFalse();
+            _adService?.Remove(user).Should().BeTrue();
+
+        }
+
+        [Fact()]
+        public void EnableUserTest()
+        {
+            User user = new User()
+            {
+                SamAccountName = "ilse",
+                Name = "ilse",
+                GivenName = "ilse",
+                Company = "ilse",
+                Department = "dept",
+                DistinguishedName = "ops",
+                Surname = "ilse",
+                EmailAddress = "ilse.goethals@gmail.com",
+                Description = "test",
+                Enabled = true
+
+
+            };
+            _adService?.Add(user).Should().BeTrue();
+            _adService?.DisableUser("ilse").Should().BeTrue();
+            _adService?.Get("ilse").Enabled.Should().BeFalse();
+            _adService?.EnableUser("ilse").Should().BeTrue();
+            _adService?.Get("ilse").Enabled.Should().BeTrue();
+            _adService?.Remove(user).Should().BeTrue();
+        }
+
+        [Fact()]
+        public void GetUserByEmailTest()
+        {
+            User user = new User()
+            {
+                SamAccountName = "ilse",
+                Name = "ilse",
+                GivenName = "ilse",
+                Company = "ilse",
+                Department = "dept",
+                DistinguishedName = "ops",
+                Surname = "ilse",
+                EmailAddress = "ilse.goethals@gmail.com",
+                Description = "test",
+                Enabled = true
+
+
+            };
+            _adService?.GetUserByEmail("ilse.goethals@gmail.com")
+                ?.EmailAddress.Should()
+                .BeEquivalentTo(user.EmailAddress);
+        }
+
+        public AdServiceUserTests()
+        {
+            var adConfiguration = new AdConfiguration("localhost");
             var configuration = new Configuration(adConfiguration);
             var mockMapper = new MapperConfiguration(cfg =>
             {
@@ -30,7 +104,7 @@ namespace PowerStationInfrastructureTests.Services
             });
             var mapper = mockMapper.CreateMapper();
 
-            _adService = new AdServiceCodeUser(configuration, new NullLogger<AdServiceCodeUser>(), mapper);
+            _adService = new AdServiceUser(configuration, new NullLogger<AdServiceUser>(), mapper);
         }
         [Fact()]
         public void AllTest()
@@ -139,27 +213,27 @@ namespace PowerStationInfrastructureTests.Services
 
         private List<User> GenerateUsersStressTest()
         {
-            List<User> users  = new List<User>();
+            List<User> users = new List<User>();
 
             for (int i = 0; i < 100; i++)
             {
                 users.Add(new User()
                 {
-                    SamAccountName = "TestUser"+i,
+                    SamAccountName = "TestUser" + i,
                     Name = "TestUser" + i,
                     GivenName = "TestUser" + i,
                     Company = "testc",
                     Department = "testc",
-                   
-                    Surname = "testbenoit"+i,
+
+                    Surname = "testbenoit" + i,
                     EmailAddress = $"benoit.goethals{i}@gmail.com",
                     Description = "test",
                     Enabled = true
                 });
             }
-           
 
-            
+
+
 
             return users;
 

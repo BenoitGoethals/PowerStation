@@ -1,10 +1,4 @@
 ﻿using Xunit;
-using PowerStationInfrastructure.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -20,7 +14,7 @@ namespace PowerStationInfrastructure.Services.Tests
 
         public AdServiceGroupTests()
         {
-            var adConfiguration = new AdConfiguration("localhost", "OU=Users,OU=opslab,DC=opslab,DC=be", "opslabo");
+            var adConfiguration = new AdConfiguration("localhost");
             var configuration = new Configuration(adConfiguration);
             var mockMapper = new MapperConfiguration(cfg =>
             {
@@ -30,7 +24,7 @@ namespace PowerStationInfrastructure.Services.Tests
             });
             var mapper = mockMapper.CreateMapper();
 
-            _adService = new AdServiceGroup(configuration, new NullLogger<AdServiceCodeUser>(), mapper);
+            _adService = new AdServiceGroup(configuration, new NullLogger<AdServiceUser>(), mapper);
         }
 
         [Fact()]
@@ -80,5 +74,21 @@ namespace PowerStationInfrastructure.Services.Tests
         {
             _adService.GetGroups("Administrator").Should().HaveCountGreaterThan(1);
         }
+
+        [Fact()]
+        public void IsMemberTest()
+        {
+            _adService.IsMember("Administrator","Administrators");
+        }
+
+        
+
+        [Fact()]
+        public void GetGroupsInGroupTest()
+        {
+            _adService.GetGroupsInGroup("Administrators").Should().NotBeNull();
+        }
+
+        
     }
 }

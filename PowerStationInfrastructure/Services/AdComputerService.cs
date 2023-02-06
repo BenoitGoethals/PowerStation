@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using PowerStationDomain.models;
 using PowerStationDomain.temp;
 using System.DirectoryServices.AccountManagement;
+using System.Security.Principal;
 using System.Xml.Linq;
 
 namespace PowerStationInfrastructure.Services;
@@ -28,7 +29,7 @@ public class AdComputerService:IAdComputerService
     {
         try
         {
-            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.AdSetting.OuUnit?.Wks);
             {
                 if (identity.Name != null)
                 {
@@ -82,9 +83,9 @@ public class AdComputerService:IAdComputerService
         return false;
     }
 
-    private static bool RemoveComputer(string identity)
+    private  bool RemoveComputer(string identity)
     {
-        using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+        using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.AdSetting.OuUnit?.Wks);
         {
             ComputerPrincipal? computerPrincipal = ComputerPrincipal.FindByIdentity(context, identity);
             if (computerPrincipal != null)
@@ -122,7 +123,7 @@ public class AdComputerService:IAdComputerService
     {
         try
         {
-            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.AdSetting.OuUnit?.Wks);
             {
                 using var principal = new ComputerPrincipal(context)
                 {
@@ -142,8 +143,46 @@ public class AdComputerService:IAdComputerService
             return null;
         }
     }
+
+    /// <summary>
+    /// Returns a list of computers that are members of the specified group.
+    /// </summary>
+    /// <param name="group">The unique identifier of the group.</param>
+    /// <returns>A list of ComputerPrincipal objects.</returns>
+    public  List<ComputerPrincipal>? GetComputersInGroup(string group)
+    {
+        try
+        {
+            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+            {
+                List<ComputerPrincipal>? results = new List<ComputerPrincipal>();
+                GroupPrincipal g = GroupPrincipal.FindByIdentity(context, group);
+                PrincipalCollection members = g.Members;
+                foreach (Principal member in members)
+                {
+                    if (member is ComputerPrincipal)
+                    {
+                        results.Add(GetComputer(member.SamAccountName,context));
+                    }
+                }
+                return results;
+            }
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e.Message);
+           
+        }
+        return null;
+    }
+    private  ComputerPrincipal GetComputer(string name,PrincipalContext principalContext)
+    {
+        ComputerPrincipal cp = ComputerPrincipal.FindByIdentity(principalContext, name)!;
+        return cp;
+    }
 }
 
 public interface IAdComputerService:IAdService<Computer>
 {
+    public List<ComputerPrincipal>? GetComputersInGroup(string group);
 }

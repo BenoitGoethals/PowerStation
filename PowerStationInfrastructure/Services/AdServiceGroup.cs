@@ -18,10 +18,10 @@ public class AdServiceGroup : IAdServiceSecurity
 {
 
     private readonly Configuration _configuration;
-    private readonly ILogger<AdServiceCodeUser> _logger;
+    private readonly ILogger<AdServiceUser> _logger;
     private readonly IMapper _mapper;
 
-    public AdServiceGroup(Configuration configuration, ILogger<AdServiceCodeUser> logger, IMapper mapper)
+    public AdServiceGroup(Configuration configuration, ILogger<AdServiceUser> logger, IMapper mapper)
     {
         this._configuration = configuration;
         _logger = logger;
@@ -36,7 +36,7 @@ public class AdServiceGroup : IAdServiceSecurity
     {
         try
         {
-            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.AdSetting.OuUnit?.Groups);
             {
                 if (identity.GroupName == null) return false;
                 using GroupPrincipal? newGroup = new GroupPrincipal(context, identity.GroupName);
@@ -62,7 +62,7 @@ public class AdServiceGroup : IAdServiceSecurity
     {
         try
         {
-            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.AdSetting.OuUnit?.Groups);
             {
                 GroupPrincipal? groupPrincipal = GroupPrincipal.FindByIdentity(context, identity.GroupName);
                 if (groupPrincipal != null)
@@ -244,5 +244,37 @@ public class AdServiceGroup : IAdServiceSecurity
             _logger.LogError(e.Message);
         }
         return null;
+    }
+    /// <summary>
+    /// Returns a list of groups that are members of the specified group.
+    /// </summary>
+    /// <param name="group">The unique identifier of the group.</param>
+    /// <returns>A list of GroupPrincipal objects.</returns>
+    public  List<SecurityGroup?> GetGroupsInGroup(string group)
+    {
+        try
+        {
+            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+            {
+                List<SecurityGroup?> results = new List<SecurityGroup?>();
+                GroupPrincipal g = GroupPrincipal.FindByIdentity(context, group);
+                PrincipalCollection members = g.Members;
+                foreach (Principal member in members)
+                {
+                    if (member is GroupPrincipal)
+                    {
+                        results.Add(Get(member.SamAccountName));
+                    }
+                }
+                context.Dispose();
+                return results;
+            }
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e.Message);
+        }
+        return null;
+        
     }
 }

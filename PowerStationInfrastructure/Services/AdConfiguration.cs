@@ -1,4 +1,6 @@
-﻿namespace PowerStationInfrastructure.Services;
+﻿using PowerStationInfrastructure.helpers;
+
+namespace PowerStationInfrastructure.Services;
 
 [Serializable]
 public class AdConfiguration : IDisposable
@@ -8,12 +10,16 @@ public class AdConfiguration : IDisposable
     }
 
     public Guid IdGuid { get; set; } 
-    public AdConfiguration(string? adServerHostname, string? distinguishedName, string? domainName)
+    
+
+    public AdConfiguration(string? adServerHostname)
     {
-        IdGuid=Guid.NewGuid();
+        IdGuid = Guid.NewGuid();
         AdServerHostname = adServerHostname;
-        DistinguishedName = distinguishedName;
-        DomainName = domainName;
+        DistinguishedName = AdHelper.GetRootContainer();
+        DomainName = Environment.UserDomainName;
+        OuUnit = new OrganizationalUnit(DomainName,DistinguishedName);
+      
     }
 
     public AdConfiguration()
@@ -21,12 +27,16 @@ public class AdConfiguration : IDisposable
         
     }
 
+    public OrganizationalUnit? OuUnit { get; }
+
+
+
     public string? AdServerHostname { get; set; }
 
     public string? DistinguishedName { get; set; }
 
     public string? DomainName  { get; set; }
-    public static AdConfiguration Default => new("HostName", "PowerPlane", "PowerPlane");
+    public static AdConfiguration Default => new("HostName");
 
     protected bool Equals(AdConfiguration other)
 

@@ -46,7 +46,7 @@ namespace PowerStationInfrastructureTests.Services
         [Fact]
         public void SaveTest()
         {
-            var testDefault = new AdConfiguration("localhost","dn","PowerStation");
+            var testDefault = new AdConfiguration("localhost");
             var configService = new ConfigService(_fullPath, new NullLogger<ConfigService>());
 
             configService.Save(testDefault);
@@ -57,7 +57,7 @@ namespace PowerStationInfrastructureTests.Services
         [Fact]
         public void SaveLoadTest()
         {
-            var testDefault = new AdConfiguration("localhost", "dn", "PowerStation");
+            var testDefault = new AdConfiguration("localhost");
             var configService = new ConfigService(_fullPath, new NullLogger<ConfigService>());
 
             configService.Save(testDefault);
@@ -70,7 +70,7 @@ namespace PowerStationInfrastructureTests.Services
         [Fact]
         public void SaveBadTest()
         {
-            var testDefault = new AdConfiguration("", "dn", "");
+            var testDefault = new AdConfiguration("");
             var configService = new ConfigService(_fullPath, new NullLogger<ConfigService>());
 
             configService.Save(testDefault).Should().BeFalse();
