@@ -17,10 +17,10 @@ namespace PowerStationInfrastructure.Services.Tests
     {
         private readonly IAdComputerService? _adService;
 
-     
+
         public AdComputerServiceTests()
         {
-            var adConfiguration = new AdConfiguration("localhost", "OU=Users,OU=opslab,DC=opslab,DC=be", "opslabo");
+            var adConfiguration = new AdConfiguration("localhost");
             var configuration = new Configuration(adConfiguration);
             var mockMapper = new MapperConfiguration(cfg =>
             {
@@ -51,7 +51,7 @@ namespace PowerStationInfrastructure.Services.Tests
             _adService?.Remove("testcomputer").Should().BeTrue();
         }
 
-        
+
 
         [Fact()]
         public void RemoveTest1()
@@ -117,5 +117,13 @@ namespace PowerStationInfrastructure.Services.Tests
             _adService?.Get("testcomputer2a")?.SamAccountName.Should().BeEquivalentTo(computer.SamAccountName);
             _adService?.Remove(computer).Should().BeTrue();
         }
+
+        [Fact()]
+        public void GetComputersInGroupTest()
+        {
+            _adService?.GetComputersInGroup("Domain Computers").Should().NotBeNull();
+        }
+
+       
     }
 }
