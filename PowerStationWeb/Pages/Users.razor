@@ -1,0 +1,44 @@
+﻿@page "/Users"
+@using Syncfusion.Blazor.Grids
+
+@using PowerStationDomain.models
+@using PowerStationInfrastructure.Services
+@inject IAdServiceUser AdService
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+
+
+        <div class="row">
+            <SfGrid DataSource="@GridData" EnableHeaderFocus="true" AllowSelection="true" AllowSorting="true" AllowFiltering="true" EnableVirtualization="true" EnableHover="false" Height="600" RowHeight="38">
+                <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
+                <GridPageSettings PageSize="40"></GridPageSettings>
+                <GridSelectionSettings CheckboxOnly="true" PersistSelection="true" Type="SelectionType.Multiple"></GridSelectionSettings>>
+                <GridColumns>
+                    <GridColumn Type="ColumnType.CheckBox" AllowFiltering="false" AllowSorting="false" Width="60"></GridColumn>
+                    <GridColumn HeaderText="Employee Image" Width="200">
+                        <Template>
+                            @{
+
+                                <div class="image">
+                                </div>
+                            }
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field=@nameof(PowerStationDomain.models.User.Name) HeaderText="Name" Width="200"></GridColumn>
+                    <GridColumn Field=@nameof(PowerStationDomain.models.User.EmailAddress) HeaderText="EmailAddress" Width="200"></GridColumn>
+                    <GridColumn Field=@nameof(PowerStationDomain.models.User.DisplayName) HeaderText="DisplayName" Width="200"></GridColumn>
+                    <GridColumn Field=@nameof(PowerStationDomain.models.User.UserPrincipalName) HeaderText="UserPrincipalName" Width="200"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+
+@code{
+
+    public List<User> GridData { get; set; } = new List<User>();
+
+    protected override void OnInitialized()
+    {
+       
+       GridData.AddRange(AdService.All() ?? new List<User>());
+    }
+
+}

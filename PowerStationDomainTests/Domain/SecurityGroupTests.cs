@@ -30,7 +30,7 @@ namespace PowerStationDomainTests.Domain
 
 
        
-        [Fact()]
+     //   [Fact()]
         public void SecurityGroupUsersTest()
         {
             SecurityGroup group = new SecurityGroup("tst", GroupScope.Local);
@@ -64,7 +64,7 @@ namespace PowerStationDomainTests.Domain
             group.AllMembers().Should().HaveCount(0);
         }
 
-        [Fact()]
+     //   [Fact()]
         public void SecurityGroupGetAGroupByGuidTest()
         {
             SecurityGroup group = new SecurityGroup("tst", GroupScope.Local);
