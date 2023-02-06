@@ -42,15 +42,15 @@ public static class AdHelper
     /// <param name="name">The unique identifier of the Principal whose attributes should be returned.</param>
     /// <returns>A dictionary of string keys and values where the keys are the names of the attributes and the
     /// values are, of course, the values of the attributes.</returns>
-    public static SortedDictionary<string, string> GetUsedAttributes(string name)
+    public static SortedDictionary<string, string?> GetUsedAttributes(string name)
     {
         Principal p = Principal.FindByIdentity(GetPrincipalContext(), name);
         String dn = p.DistinguishedName;
         DirectoryEntry objRootDSE = new DirectoryEntry("LDAP://" + dn);
-        SortedDictionary<string, string> props = new SortedDictionary<string, string>();
+        SortedDictionary<string, string?> props = new SortedDictionary<string, string?>();
         foreach (PropertyValueCollection prop in objRootDSE.Properties)
         {
-            string value = String.Empty;
+            string? value = String.Empty;
             if (prop.Value is Object[])
             {
                 foreach (var o in prop.Value as Object[])
@@ -64,7 +64,7 @@ public static class AdHelper
             }
             else
             {
-                value = prop.Value.ToString();
+                value = prop.Value?.ToString();
             }
             props.Add(prop.PropertyName, value);
         }
@@ -238,7 +238,7 @@ public static class AdHelper
     /// <returns>True if success, false otherwise.</returns>
     public static Boolean SetProperty(Principal principal, string property, string value)
     {
-        DirectoryEntry de = principal.GetUnderlyingObject() as DirectoryEntry;
+        DirectoryEntry? de = principal.GetUnderlyingObject() as DirectoryEntry;
         // Use PropertyLookup to get the property name in the correct format.
         string targetProperty = PropertyLookup.Instance.get(property);
 
@@ -288,7 +288,7 @@ public static class AdHelper
         {
             if (p is UserPrincipal)
             {
-                UserPrincipal u = p as UserPrincipal;
+                UserPrincipal? u = p as UserPrincipal;
                 u.UnlockAccount();
                 u.Save();
             }

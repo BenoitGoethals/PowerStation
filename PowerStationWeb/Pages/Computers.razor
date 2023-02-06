@@ -1,6 +1,10 @@
 ﻿@page "/Computers"
 @using Syncfusion.Blazor.Grids
 
+@using Syncfusion.Blazor.Spinner
+
+@using Syncfusion.Blazor.DropDowns
+@using System;
 @using PowerStationDomain.models
 @using PowerStationInfrastructure.Services
 @inject IAdComputerService AdService
@@ -11,11 +15,9 @@
     <SfGrid DataSource="@GridData" EnableHeaderFocus="true" AllowSelection="true" AllowSorting="true" AllowFiltering="true" EnableVirtualization="true" EnableHover="false" Height="600" RowHeight="38">
         <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
         <GridPageSettings PageSize="40"></GridPageSettings>
-        <GridSelectionSettings CheckboxOnly="true" PersistSelection="true" Type="SelectionType.Multiple"></GridSelectionSettings
+        <GridSelectionSets CheckboxOnly="true" PersistSelection="true" Type="SelectionType.Single"/>
         <GridColumns>
             <GridColumn Type="ColumnType.CheckBox" AllowFiltering="false" AllowSorting="false" Width="60"></GridColumn>
-            
-           
             <GridColumn Field=@nameof(PowerStationDomain.models.Computer.Name) HeaderText="Name" Width="200"></GridColumn>
             <GridColumn Field=@nameof(PowerStationDomain.models.Computer.Description) HeaderText="EmailAddress" Width="200"></GridColumn>
             <GridColumn Field=@nameof(PowerStationDomain.models.Computer.DisplayName) HeaderText="DisplayName" Width="200"></GridColumn>
