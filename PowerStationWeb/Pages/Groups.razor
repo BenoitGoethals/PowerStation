@@ -1,8 +1,12 @@
 ﻿@page "/Groups"
+@using PowerStationInfrastructure.Services
+@using PowerStationDomain.models.AD
 @using Syncfusion.Blazor.Grids
 
 @using PowerStationDomain.models
-@using PowerStationInfrastructure.Services
+@using PowerStationInfrastructure.Services;
+@using PowerStationInfrastructure.Services.AD
+
 @inject IAdServiceSecurity AdService
 @inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
 
@@ -18,11 +22,11 @@
 
 
 
-            <GridColumn Field=@nameof(PowerStationDomain.models.SecurityGroup.Name) HeaderText="Name" Width="200"></GridColumn>
-            <GridColumn Field=@nameof(PowerStationDomain.models.SecurityGroup.Description) HeaderText="Description" Width="200"></GridColumn>
-            <GridColumn Field=@nameof(PowerStationDomain.models.SecurityGroup.DisplayName) HeaderText="DisplayName" Width="200"></GridColumn>
-            <GridColumn Field=@nameof(PowerStationDomain.models.SecurityGroup.UserPrincipalName) HeaderText="UserPrincipalName" Width="200"></GridColumn>
-            <GridColumn Field=@nameof(PowerStationDomain.models.SecurityGroup.SamAccountName) HeaderText="SamAccountName" Width="200"></GridColumn>
+            <GridColumn Field=@nameof(SecurityGroup.Name) HeaderText="Name" Width="200"></GridColumn>
+            <GridColumn Field=@nameof(SecurityGroup.Description) HeaderText="Description" Width="200"></GridColumn>
+            <GridColumn Field=@nameof(SecurityGroup.DisplayName) HeaderText="DisplayName" Width="200"></GridColumn>
+            <GridColumn Field=@nameof(SecurityGroup.UserPrincipalName) HeaderText="UserPrincipalName" Width="200"></GridColumn>
+            <GridColumn Field=@nameof(SecurityGroup.SamAccountName) HeaderText="SamAccountName" Width="200"></GridColumn>
         </GridColumns>
     </SfGrid>
 </div>

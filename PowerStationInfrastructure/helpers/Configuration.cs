@@ -1,4 +1,4 @@
-﻿using PowerStationInfrastructure.Services;
+﻿using PowerStationInfrastructure.Services.AD;
 using System;
 using System.Collections.Generic;
 using System.DirectoryServices.AccountManagement;

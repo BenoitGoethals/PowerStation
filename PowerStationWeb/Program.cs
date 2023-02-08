@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 using NLog.Extensions.Logging;
 using PowerStationDomain.models;
 using PowerStationInfrastructure.helpers;
-using PowerStationInfrastructure.Services;
+using PowerStationInfrastructure.Services.AD;
 using PowerStationWeb.Data;
 using Syncfusion.Blazor;
 

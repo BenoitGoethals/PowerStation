@@ -1,4 +1,6 @@
 ﻿@page "/Computers"
+@using PowerStationInfrastructure.Services
+@using PowerStationDomain.models.AD
 @using Syncfusion.Blazor.Grids
 
 @using Syncfusion.Blazor.Spinner
@@ -6,7 +8,8 @@
 @using Syncfusion.Blazor.DropDowns
 @using System;
 @using PowerStationDomain.models
-@using PowerStationInfrastructure.Services
+@using PowerStationInfrastructure.Services;
+@using PowerStationInfrastructure.Services.AD
 @inject IAdComputerService AdService
 @inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
 
@@ -18,11 +21,11 @@
         <GridSelectionSets CheckboxOnly="true" PersistSelection="true" Type="SelectionType.Single"/>
         <GridColumns>
             <GridColumn Type="ColumnType.CheckBox" AllowFiltering="false" AllowSorting="false" Width="60"></GridColumn>
-            <GridColumn Field=@nameof(PowerStationDomain.models.Computer.Name) HeaderText="Name" Width="200"></GridColumn>
-            <GridColumn Field=@nameof(PowerStationDomain.models.Computer.Description) HeaderText="EmailAddress" Width="200"></GridColumn>
-            <GridColumn Field=@nameof(PowerStationDomain.models.Computer.DisplayName) HeaderText="DisplayName" Width="200"></GridColumn>
-            <GridColumn Field=@nameof(PowerStationDomain.models.Computer.UserPrincipalName) HeaderText="UserPrincipalName" Width="200"></GridColumn>
-            <GridColumn Field=@nameof(PowerStationDomain.models.Computer.SamAccountName) HeaderText="UserPrincipalName" Width="200"></GridColumn>
+            <GridColumn Field=@nameof(Computer.Name) HeaderText="Name" Width="200"></GridColumn>
+            <GridColumn Field=@nameof(Computer.Description) HeaderText="EmailAddress" Width="200"></GridColumn>
+            <GridColumn Field=@nameof(Computer.DisplayName) HeaderText="DisplayName" Width="200"></GridColumn>
+            <GridColumn Field=@nameof(Computer.UserPrincipalName) HeaderText="UserPrincipalName" Width="200"></GridColumn>
+            <GridColumn Field=@nameof(Computer.SamAccountName) HeaderText="UserPrincipalName" Width="200"></GridColumn>
         </GridColumns>
     </SfGrid>
 </div>

@@ -1,10 +1,10 @@
-﻿namespace PowerStationInfrastructure.Services;
+﻿namespace PowerStationInfrastructure.Services.AD;
 
 public class DtoUser
 {
     //  First Name, Last Name,Job Title, Office Phone,Employee ID, Email Address,Description,Organizational Unit,type Enabled, Password
 
-    
+
 
     public string? FirstName { get; set; }
     public string? LastName { get; set; }

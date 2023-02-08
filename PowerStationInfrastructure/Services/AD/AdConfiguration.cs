@@ -1,6 +1,7 @@
-﻿using PowerStationInfrastructure.helpers;
+﻿using PowerStationDomain.models.Orginisation;
+using PowerStationInfrastructure.helpers;
 
-namespace PowerStationInfrastructure.Services;
+namespace PowerStationInfrastructure.Services.AD;
 
 [Serializable]
 public class AdConfiguration : IDisposable
@@ -9,8 +10,8 @@ public class AdConfiguration : IDisposable
     {
     }
 
-    public Guid IdGuid { get; set; } 
-    
+    public Guid IdGuid { get; set; }
+
 
     public AdConfiguration(string? adServerHostname)
     {
@@ -18,24 +19,25 @@ public class AdConfiguration : IDisposable
         AdServerHostname = adServerHostname;
         DistinguishedName = AdHelper.GetRootContainer();
         DomainName = Environment.UserDomainName;
-        OuUnit = new OrganizationalUnit(DomainName,DistinguishedName);
-      
+        OuUnit = new OrganizationalUnitLocation(DomainName, DistinguishedName);
+
     }
 
     public AdConfiguration()
     {
-        
+
     }
 
-    public OrganizationalUnit? OuUnit { get; }
+    public OrganizationalUnitLocation? OuUnit { get; }
 
 
+    public List<Department> Departments { get; set; } = new List<Department>();
 
     public string? AdServerHostname { get; set; }
 
     public string? DistinguishedName { get; set; }
 
-    public string? DomainName  { get; set; }
+    public string? DomainName { get; set; }
     public static AdConfiguration Default => new("HostName");
 
     protected bool Equals(AdConfiguration other)
@@ -48,8 +50,8 @@ public class AdConfiguration : IDisposable
     {
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
-        return Equals((AdConfiguration) obj);
+        if (obj.GetType() != GetType()) return false;
+        return Equals((AdConfiguration)obj);
     }
 
     public override int GetHashCode()

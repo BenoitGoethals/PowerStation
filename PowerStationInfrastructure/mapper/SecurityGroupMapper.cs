@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using PowerStationDomain.models;
+using PowerStationDomain.models.AD;
 
 namespace PowerStationInfrastructure.mapper
 {

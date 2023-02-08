@@ -1,6 +1,6 @@
 ﻿using PowerStationDomain.models;
 
-namespace PowerStationInfrastructure.Services;
+namespace PowerStationInfrastructure.Services.AD;
 
 public interface IAdServiceUser : IAdService<User>
 {
@@ -9,14 +9,14 @@ public interface IAdServiceUser : IAdService<User>
     /// </summary>
     /// <param name="name">The unique identifier of the user.</param>
     /// <returns>True if the account was disabled.</returns>
-    Boolean DisableUser(string name);
+    bool DisableUser(string name);
 
     /// <summary>
     /// Sets the enabled boolean to true on the specified user account.
     /// </summary>
     /// <param name="name">The unique identifier of the user.</param>
     /// <returns>True if the account was enabled, false otherwise.</returns>
-    Boolean EnableUser(string name);
+    bool EnableUser(string name);
 
     /// <summary>
     /// This method searches for a user with the specified email, and if found, returns the UserPrincipal object
