@@ -1,8 +1,9 @@
 ﻿using PowerStationDomain.models;
+using PowerStationDomain.models.AD;
 
-namespace PowerStationInfrastructure.Services;
+namespace PowerStationInfrastructure.Services.AD;
 
-public interface IAdServiceSecurity:IAdService<SecurityGroup>
+public interface IAdServiceSecurity : IAdService<SecurityGroup>
 {
     public bool IsMember(string? principal, string? group);
 

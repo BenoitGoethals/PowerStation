@@ -3,7 +3,7 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.VisualStudio.TestPlatform.Utilities.Helpers;
 using PowerStationInfrastructure.helpers;
-using PowerStationInfrastructure.Services;
+using PowerStationInfrastructure.Services.External;
 using Xunit;
 
 namespace PowerStationInfrastructureTests.Services

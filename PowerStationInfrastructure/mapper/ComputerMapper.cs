@@ -1,6 +1,6 @@
 ﻿using System.DirectoryServices.AccountManagement;
 using AutoMapper;
-using PowerStationDomain.models;
+using PowerStationDomain.models.AD;
 
 namespace PowerStationInfrastructure.mapper;
 

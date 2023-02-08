@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using PowerStationInfrastructure.Services;
+using PowerStationDomain.models.Orginisation;
+using PowerStationInfrastructure.Services.AD;
+using PowerStationInfrastructure.Services.External;
 using Xunit;
 
 namespace PowerStationInfrastructureTests.Services
@@ -23,6 +26,42 @@ namespace PowerStationInfrastructureTests.Services
         public void SaveDefaultTest()
         {
             var testDefault = AdConfiguration.Default;
+            testDefault.Departments = new List<Department>()
+            {
+                new Department()
+                {
+                    Id = 1,
+                    Description = "IT",
+                    Name = "IT"
+                },
+
+                new Department()
+                {
+                    Id = 2,
+                    Description = "HR",
+                    Name = "HR"
+                },
+
+                new Department()
+                {
+                    Id = 3,
+                    Description = "SALES",
+                    Name = "SALES"
+                },
+
+                new Department()
+                {
+                    Id = 4,
+                    Description = "MANAGEMENT",
+                    Name = "MANAGEMENT"
+                },
+                new Department()
+                {
+                    Id = 5,
+                    Description = "ADMIN",
+                    Name = "ADMIN"
+                },
+            };
             var configService = new ConfigService(_fullPath, new NullLogger<ConfigService>());
 
             configService.Save(testDefault);
@@ -34,6 +73,42 @@ namespace PowerStationInfrastructureTests.Services
         public void SaveLoadDefaultTest()
         {
             var testDefault = AdConfiguration.Default;
+            testDefault.Departments = new List<Department>()
+            {
+                new Department()
+                {
+                    Id = 1,
+                    Description = "IT",
+                    Name = "IT"
+                },
+
+                new Department()
+                {
+                    Id = 2,
+                    Description = "HR",
+                    Name = "HR"
+                },
+
+                new Department()
+                {
+                    Id = 3,
+                    Description = "SALES",
+                    Name = "SALES"
+                },
+
+                new Department()
+                {
+                    Id = 4,
+                    Description = "MANAGEMENT",
+                    Name = "MANAGEMENT"
+                },
+                new Department()
+                {
+                    Id = 5,
+                    Description = "ADMIN",
+                    Name = "ADMIN"
+                },
+            };
             var configService = new ConfigService(_fullPath, new NullLogger<ConfigService>());
 
             configService.Save(testDefault);
@@ -47,6 +122,42 @@ namespace PowerStationInfrastructureTests.Services
         public void SaveTest()
         {
             var testDefault = new AdConfiguration("localhost");
+            testDefault.Departments = new List<Department>()
+            {
+                new Department()
+                {
+                    Id = 1,
+                    Description = "IT",
+                    Name = "IT"
+                },
+
+                new Department()
+                {
+                    Id = 2,
+                    Description = "HR",
+                    Name = "HR"
+                },
+
+                new Department()
+                {
+                    Id = 3,
+                    Description = "SALES",
+                    Name = "SALES"
+                },
+
+                new Department()
+                {
+                    Id = 4,
+                    Description = "MANAGEMENT",
+                    Name = "MANAGEMENT"
+                },
+                new Department()
+                {
+                    Id = 5,
+                    Description = "ADMIN",
+                    Name = "ADMIN"
+                },
+            };
             var configService = new ConfigService(_fullPath, new NullLogger<ConfigService>());
 
             configService.Save(testDefault);
@@ -58,6 +169,42 @@ namespace PowerStationInfrastructureTests.Services
         public void SaveLoadTest()
         {
             var testDefault = new AdConfiguration("localhost");
+            testDefault.Departments = new List<Department>()
+            {
+                new Department()
+                {
+                    Id = 1,
+                    Description = "IT",
+                    Name = "IT"
+                },
+
+                new Department()
+                {
+                    Id = 2,
+                    Description = "HR",
+                    Name = "HR"
+                },
+
+                new Department()
+                {
+                    Id = 3,
+                    Description = "SALES",
+                    Name = "SALES"
+                },
+
+                new Department()
+                {
+                    Id = 4,
+                    Description = "MANAGEMENT",
+                    Name = "MANAGEMENT"
+                },
+                new Department()
+                {
+                    Id = 5,
+                    Description = "ADMIN",
+                    Name = "ADMIN"
+                },
+            };
             var configService = new ConfigService(_fullPath, new NullLogger<ConfigService>());
 
             configService.Save(testDefault);
@@ -71,6 +218,42 @@ namespace PowerStationInfrastructureTests.Services
         public void SaveBadTest()
         {
             var testDefault = new AdConfiguration("");
+            testDefault.Departments = new List<Department>()
+            {
+                new Department()
+                {
+                    Id = 1,
+                    Description = "IT",
+                    Name = "IT"
+                },
+
+                new Department()
+                {
+                    Id = 2,
+                    Description = "HR",
+                    Name = "HR"
+                },
+
+                new Department()
+                {
+                    Id = 3,
+                    Description = "SALES",
+                    Name = "SALES"
+                },
+
+                new Department()
+                {
+                    Id = 4,
+                    Description = "MANAGEMENT",
+                    Name = "MANAGEMENT"
+                },
+                new Department()
+                {
+                    Id = 5,
+                    Description = "ADMIN",
+                    Name = "ADMIN"
+                },
+            };
             var configService = new ConfigService(_fullPath, new NullLogger<ConfigService>());
 
             configService.Save(testDefault).Should().BeFalse();

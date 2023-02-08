@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PowerStationDomain.Interfaces;
 
-namespace PowerStationDomain.models
+namespace PowerStationDomain.models.AD
 {
     public class SecurityGroup : AdObject, ISecurityGroup, IEquatable<SecurityGroup?>
     {
@@ -26,10 +26,10 @@ namespace PowerStationDomain.models
         }
 
 
-        public Boolean? IsSecurityGroup { get; set; } = true;
+        public bool? IsSecurityGroup { get; set; } = true;
 
-     
-       
+
+
         public override bool Equals(object? obj)
         {
             return Equals(obj as SecurityGroup);

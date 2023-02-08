@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using PowerStationDomain.models;
+using PowerStationDomain.models.AD;
 using System;
 using System.Text.RegularExpressions;
 using Xunit;

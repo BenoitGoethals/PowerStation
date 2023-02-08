@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
-using PowerStationDomain.models;
+using PowerStationDomain.models.AD;
 using PowerStationDomain.temp;
 using PowerStationInfrastructure.helpers;
 using System.DirectoryServices.AccountManagement;
 using System.Security.Principal;
 using System.Xml.Linq;
 
-namespace PowerStationInfrastructure.Services;
+namespace PowerStationInfrastructure.Services.AD;
 
-public class AdComputerService:IAdComputerService
+public class AdComputerService : IAdComputerService
 {
     private readonly Configuration _configuration;
     private readonly ILogger<AdComputerService> _logger;
@@ -17,13 +17,13 @@ public class AdComputerService:IAdComputerService
 
     public AdComputerService(Configuration configuration, ILogger<AdComputerService> logger, IMapper mapper)
     {
-        this._configuration = configuration;
+        _configuration = configuration;
         _logger = logger;
         _mapper = mapper;
     }
     public void Dispose()
     {
-        
+
     }
 
     public bool Add(Computer identity)
@@ -42,7 +42,7 @@ public class AdComputerService:IAdComputerService
                     context.Dispose();
                     return true;
                 }
-                
+
             }
         }
         catch (Exception e)
@@ -51,7 +51,7 @@ public class AdComputerService:IAdComputerService
 
         }
         return false;
-        
+
     }
 
     public bool Remove(Computer identity)
@@ -84,7 +84,7 @@ public class AdComputerService:IAdComputerService
         return false;
     }
 
-    private  bool RemoveComputer(string identity)
+    private bool RemoveComputer(string identity)
     {
         using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.AdSetting.OuUnit?.Wks);
         {
@@ -150,7 +150,7 @@ public class AdComputerService:IAdComputerService
     /// </summary>
     /// <param name="group">The unique identifier of the group.</param>
     /// <returns>A list of ComputerPrincipal objects.</returns>
-    public  List<ComputerPrincipal>? GetComputersInGroup(string group)
+    public List<ComputerPrincipal>? GetComputersInGroup(string group)
     {
         try
         {
@@ -163,7 +163,7 @@ public class AdComputerService:IAdComputerService
                 {
                     if (member is ComputerPrincipal)
                     {
-                        results.Add(GetComputer(member.SamAccountName,context));
+                        results.Add(GetComputer(member.SamAccountName, context));
                     }
                 }
                 return results;
@@ -172,18 +172,18 @@ public class AdComputerService:IAdComputerService
         catch (Exception e)
         {
             _logger.LogError(e.Message);
-           
+
         }
         return null;
     }
-    private  ComputerPrincipal GetComputer(string name,PrincipalContext principalContext)
+    private ComputerPrincipal GetComputer(string name, PrincipalContext principalContext)
     {
         ComputerPrincipal cp = ComputerPrincipal.FindByIdentity(principalContext, name)!;
         return cp;
     }
 }
 
-public interface IAdComputerService:IAdService<Computer>
+public interface IAdComputerService : IAdService<Computer>
 {
     public List<ComputerPrincipal>? GetComputersInGroup(string group);
 }

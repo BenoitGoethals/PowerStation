@@ -5,7 +5,10 @@
 @using System.ComponentModel.DataAnnotations;
 @using Microsoft.AspNetCore.Components
 @using PowerStationDomain.models
-@using PowerStationInfrastructure.Services
+@using PowerStationInfrastructure.Services.AD
+@using PowerStationDomain.models
+@using PowerStationInfrastructure.Services;
+@using PowerStationInfrastructure.Services.AD
 @inject IAdServiceUser AdService
 
 <div class="control-wrapper">
@@ -13,16 +16,52 @@
     {
         <EditForm Model="@user" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">
             <DataAnnotationsValidator />
-            <div class="form-group">
-                <div class="example-content">
-                    <label for="Name" class="example-label">Name</label>
-                    <SfTextBox @bind-Value="@user.Name" Placeholder="Enter a name"></SfTextBox>
+            <div>
+                <div class="mb-3">
+                    <label class="form-label" for="Name">Name</label>
+                    <SfTextBox @bind-Value="@user.Name" Width="200" Placeholder="Enter a name"></SfTextBox>
                     <ValidationMessage For="@(() => user.Name)" />
                 </div>
-                <div class="example-content">
-                    <label for="Address" class="example-label">Address</label>
-                    <SfTextBox @bind-Value="@user.EmailAddress" Multiline="true" Placeholder="Enter an address"></SfTextBox>
+                <div class="mb-3">
+                    <label class="form-label" for="EmailAddress">Email Address</label>
+                    <SfTextBox @bind-Value="@user.EmailAddress" Width="200" Placeholder="Enter an email"></SfTextBox>
                     <ValidationMessage For="@(() => user.EmailAddress)" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="Company">Company</label>
+                    <SfTextBox @bind-Value="@user.Company" Width="200" Placeholder="Enter an Company"></SfTextBox>
+                    <ValidationMessage For="@(() => user.Company)" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="Surname">Surname</label>
+                    <SfTextBox @bind-Value="@user.Surname" Width="200" Placeholder="Enter an Surname"></SfTextBox>
+                    <ValidationMessage For="@(() => user.Surname)" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="MiddleName">MiddleName</label>
+                    <SfTextBox @bind-Value="@user.MiddleName" Width="200" Placeholder="Enter an MiddleName"></SfTextBox>
+                    <ValidationMessage For="@(() => user.MiddleName)" />
+                </div>
+                <div class="mb-3">
+                    <label for="GivenName">GivenName</label>
+                    <SfTextBox @bind-Value="@user.GivenName" Width="200" Placeholder="Enter an GivenName"></SfTextBox>
+                    <ValidationMessage For="@(() => user.GivenName)" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="VoiceTelephoneNumber">VoiceTelephoneNumber</label>
+                    <SfTextBox @bind-Value="@user.VoiceTelephoneNumber" Width="200" Placeholder="Enter an VoiceTelephoneNumber"></SfTextBox>
+                    <ValidationMessage For="@(() => user.VoiceTelephoneNumber)" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="Enabled">Enabled</label>
+
+                    <SfCheckBox @bind-Checked="@user.Enabled"></SfCheckBox>
+
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="Mobile">Mobile</label>
+                    <SfTextBox @bind-Value="@user.Mobile" Width="200" Placeholder="Enter an Mobile"></SfTextBox>
+                    <ValidationMessage For="@(() => user.Mobile)" />
                 </div>
             </div>
             <div class="submit-btn">
@@ -67,6 +106,20 @@
         color: red;
         padding: 5px 0px 0px;
     }
+
+    div {
+        margin-bottom: 10px;
+    }
+
+    label {
+        display: inline-block;
+        width: 110px;
+        color: #777777;
+    }
+
+    input {
+        padding: 5px 10px;
+    }
 </style>
 @code {
     private string Message = string.Empty;
@@ -77,7 +130,7 @@
         await Task.Delay(2000);
         Message = string.Empty;
         user.Name = null;
-     
+
         StateHasChanged();
     }
     private void OnInvalidSubmit()

@@ -9,10 +9,11 @@ using Microsoft.Extensions.Logging;
 using PowerStationInfrastructure.helpers;
 using System.Security.Principal;
 using System.Text.RegularExpressions;
-using GroupScope = PowerStationDomain.models.GroupScope;
+using GroupScope = PowerStationDomain.models.AD.GroupScope;
 using AutoMapper.Execution;
+using PowerStationDomain.models.AD;
 
-namespace PowerStationInfrastructure.Services;
+namespace PowerStationInfrastructure.Services.AD;
 
 public class AdServiceGroup : IAdServiceSecurity
 {
@@ -23,7 +24,7 @@ public class AdServiceGroup : IAdServiceSecurity
 
     public AdServiceGroup(Configuration configuration, ILogger<AdServiceUser> logger, IMapper mapper)
     {
-        this._configuration = configuration;
+        _configuration = configuration;
         _logger = logger;
         _mapper = mapper;
     }
@@ -132,11 +133,11 @@ public class AdServiceGroup : IAdServiceSecurity
 
                 foreach (var u in searcher.FindAll().Select(u => (GroupPrincipal)u).ToList())
                 {
-                    foreach (Principal principal in u.Members.Where(t=>t is UserPrincipal))
+                    foreach (Principal principal in u.Members.Where(t => t is UserPrincipal))
                     {
                         if (principal.SamAccountName.Equals(userName))
                         {
-                            groups.Add((GroupPrincipal)u);
+                            groups.Add(u);
                         }
                     }
                 }
@@ -170,7 +171,7 @@ public class AdServiceGroup : IAdServiceSecurity
                         principals.Add(_mapper.Map<User>(principal));
                     }
                 }
-              
+
                 context.Dispose();
                 return principals;
             }
@@ -250,7 +251,7 @@ public class AdServiceGroup : IAdServiceSecurity
     /// </summary>
     /// <param name="group">The unique identifier of the group.</param>
     /// <returns>A list of GroupPrincipal objects.</returns>
-    public  List<SecurityGroup?> GetGroupsInGroup(string group)
+    public List<SecurityGroup?> GetGroupsInGroup(string group)
     {
         try
         {
@@ -275,6 +276,6 @@ public class AdServiceGroup : IAdServiceSecurity
             _logger.LogError(e.Message);
         }
         return null;
-        
+
     }
 }

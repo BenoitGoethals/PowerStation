@@ -13,7 +13,7 @@ using Microsoft.Extensions.Configuration;
 using PowerStationInfrastructure.helpers;
 using Configuration = PowerStationInfrastructure.helpers.Configuration;
 
-namespace PowerStationInfrastructure.Services;
+namespace PowerStationInfrastructure.Services.AD;
 
 public class AdServiceUser : IAdServiceUser
 {
@@ -23,7 +23,7 @@ public class AdServiceUser : IAdServiceUser
 
     public AdServiceUser(Configuration configuration, ILogger<AdServiceUser> logger, IMapper mapper)
     {
-        this._configuration = configuration;
+        _configuration = configuration;
         _logger = logger;
         _mapper = mapper;
     }
@@ -34,7 +34,7 @@ public class AdServiceUser : IAdServiceUser
         {
             using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.AdSetting.OuUnit?.Users);
             {
-            var userPrincePrincipal = _mapper.Map<UserPrincipal>(user);
+                var userPrincePrincipal = _mapper.Map<UserPrincipal>(user);
                 userPrincePrincipal.Save(context);
                 context.Dispose();
             }
@@ -162,7 +162,7 @@ public class AdServiceUser : IAdServiceUser
     /// </summary>
     /// <param name="name">The unique identifier of the user.</param>
     /// <returns>True if the account was disabled.</returns>
-    public Boolean DisableUser(string name)
+    public bool DisableUser(string name)
     {
         try
         {
@@ -189,7 +189,7 @@ public class AdServiceUser : IAdServiceUser
     /// </summary>
     /// <param name="name">The unique identifier of the user.</param>
     /// <returns>True if the account was enabled, false otherwise.</returns>
-    public Boolean EnableUser(string name)
+    public bool EnableUser(string name)
     {
         try
         {

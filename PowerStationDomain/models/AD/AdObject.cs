@@ -1,6 +1,7 @@
 ﻿using PowerStationDomain.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
-namespace PowerStationDomain.models;
+namespace PowerStationDomain.models.AD;
 
 public abstract class AdObject : IAdObject
 {
@@ -10,15 +11,22 @@ public abstract class AdObject : IAdObject
     public string? ObjectClass { get; set; } = default;
     public Guid ObjectGuid { get; set; } = Guid.NewGuid();
 
-    
+    [MaxLength(10, ErrorMessage = "The name field should not contain more than 10 characters.")]
+    [MinLength(0, ErrorMessage = "The name field must contain at least 3 characters.")]
     public string? Description { get; set; }
+    [Required(ErrorMessage = "The name field is required.")]
+    [MaxLength(10, ErrorMessage = "The name field should not contain more than 10 characters.")]
+    [MinLength(0, ErrorMessage = "The name field must contain at least 3 characters.")]
     public string? DisplayName { get; set; }
     public string? DistinguishedName { get; set; }
+    [Required(ErrorMessage = "The name field is required.")]
+    [MaxLength(10, ErrorMessage = "The name field should not contain more than 10 characters.")]
+    [MinLength(3, ErrorMessage = "The name field must contain at least 3 characters.")]
     public string? Name { get; set; }
     public string? SamAccountName { get; set; }
     public string? UserPrincipalName { get; set; }
 
- 
+
     public void AddMember(AdObject? adObject)
     {
         if (adObject == null || _adObjects.Exists(c => c.ObjectGuid == adObject.ObjectGuid)) return;

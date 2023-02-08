@@ -1,11 +1,12 @@
 ﻿using CsvHelper;
 using Microsoft.Extensions.Logging;
 using PowerStationInfrastructure.helpers;
+using PowerStationInfrastructure.Services.AD;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 
-namespace PowerStationInfrastructure.Services;
+namespace PowerStationInfrastructure.Services.External;
 
 public class CsvService
 {

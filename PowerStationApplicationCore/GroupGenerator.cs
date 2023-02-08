@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PowerStationDomain.models
+namespace PowerStationApplicationCore
 {
-    public enum GroupScope
+    internal class GroupGenerator
     {
-        Local,
-        Global,
-        Universal
     }
 }

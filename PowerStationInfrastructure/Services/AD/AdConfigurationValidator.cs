@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentValidation;
 
-namespace PowerStationInfrastructure.Services
+namespace PowerStationInfrastructure.Services.AD
 {
     internal class AdConfigurationValidator : AbstractValidator<AdConfiguration>
     {
@@ -14,7 +14,7 @@ namespace PowerStationInfrastructure.Services
             RuleFor(config => config.DistinguishedName).NotEmpty();
             RuleFor(config => config.DomainName).NotEmpty();
             RuleFor(config => config.AdServerHostname).NotEmpty();
-      
+
         }
 
 

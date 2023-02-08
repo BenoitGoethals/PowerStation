@@ -2,8 +2,10 @@
 using AutoMapper;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
-using PowerStationDomain.models;
+using PowerStationInfrastructure.helpers;
 using PowerStationInfrastructure.mapper;
+using PowerStationDomain.models.AD;
+using PowerStationInfrastructure.Services.AD;
 
 namespace PowerStationInfrastructure.Services.Tests
 {

@@ -7,7 +7,7 @@ using PowerStationDomain.models;
 using PowerStationInfrastructure;
 using PowerStationInfrastructure.helpers;
 using PowerStationInfrastructure.mapper;
-using PowerStationInfrastructure.Services;
+using PowerStationInfrastructure.Services.AD;
 using Xunit;
 
 

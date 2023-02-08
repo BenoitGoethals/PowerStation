@@ -1,4 +1,4 @@
-﻿namespace PowerStationDomain.models;
+﻿namespace PowerStationDomain.models.AD;
 
 public enum AdUserType
 {
