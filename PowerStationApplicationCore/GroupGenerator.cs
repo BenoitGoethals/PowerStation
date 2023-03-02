@@ -3,10 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PowerStationDomain.models.AD;
+using PowerStationDomain.models.Orginisation;
 
 namespace PowerStationApplicationCore
 {
-    internal class GroupGenerator
+    public class GroupGenerator
     {
+        public GroupGenerator() { }
+
+
+
+        public void GenerateUserGroup(List<Department> departments)
+        {
+            
+            foreach (var department in departments)
+            {
+                
+            }
+
+        }
+
+     
     }
 }
