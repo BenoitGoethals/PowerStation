@@ -2,6 +2,7 @@
 @using Syncfusion.Blazor.Grids
 
 @using PowerStationDomain.models
+@using PowerStationInfrastructure.helpers
 @using PowerStationInfrastructure.Services;
 @using PowerStationInfrastructure.Services.AD
 @inject IAdServiceUser AdService
@@ -38,8 +39,10 @@
 
     protected override void OnInitialized()
     {
-       
-       GridData.AddRange(AdService.All() ?? new List<User>());
+        if (AdHelper.DomainExist("localhost"))
+        {
+            GridData.AddRange(AdService.All() ?? new List<User>());
+        }
     }
 
 }
