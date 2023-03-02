@@ -26,13 +26,22 @@ public static class AdHelper
     }
     public static bool DomainExist(string domain)
     {
-        HashSet<string> domains = new HashSet<string>();
-        foreach (Domain d in Forest.GetCurrentForest().Domains)
+        try
         {
-            domains.Add(d.Name.ToLower());
-        }
+            HashSet<string> domains = new HashSet<string>();
+            foreach (Domain d in Forest.GetCurrentForest().Domains)
+            {
+                domains.Add(d.Name.ToLower());
+            }
 
-        return domains.Contains(domain.ToLower());
+            return domains.Contains(domain.ToLower());
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+    
+
     }
 
 
