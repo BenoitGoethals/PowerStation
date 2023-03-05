@@ -1,105 +1,284 @@
 ﻿@page "/AddUser"
-
+@using PowerStationInfrastructure.Services.AD
+@using Microsoft.AspNetCore.Components
+@using PowerStationDomain.models.AD
+@using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Inputs;
 @using Syncfusion.Blazor.Buttons;
+@using Syncfusion.Blazor.Calendars;
 @using System.ComponentModel.DataAnnotations;
+@using System.Globalization
+@using FluentValidation
+@using Syncfusion.Blazor.Inputs
 @using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Identity
+@using PowerStationApplicationCore
+@using PowerStationApplicationCore.Validators
 @using PowerStationDomain.models
 @using PowerStationInfrastructure.Services.AD
 @using PowerStationDomain.models
+@using PowerStationInfrastructure.helpers
 @using PowerStationInfrastructure.Services;
 @using PowerStationInfrastructure.Services.AD
 @inject IAdServiceUser AdService
+@inject HttpClient Http
+@inject IJSRuntime JS
+<div class="col-lg-12 control-section">
 
-<div class="control-wrapper">
-    @if (string.IsNullOrEmpty(Message))
-    {
-        <EditForm Model="@user" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">
-            <DataAnnotationsValidator />
-            <div>
-                <div class="mb-3">
-                    <label class="form-label" for="Name">Name</label>
-                    <SfTextBox @bind-Value="@user.Name" Width="200" Placeholder="Enter a name"></SfTextBox>
-                    <ValidationMessage For="@(() => user.Name)" />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" for="EmailAddress">Email Address</label>
-                    <SfTextBox @bind-Value="@user.EmailAddress" Width="200" Placeholder="Enter an email"></SfTextBox>
-                    <ValidationMessage For="@(() => user.EmailAddress)" />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" for="Company">Company</label>
-                    <SfTextBox @bind-Value="@user.Company" Width="200" Placeholder="Enter an Company"></SfTextBox>
-                    <ValidationMessage For="@(() => user.Company)" />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" for="Surname">Surname</label>
-                    <SfTextBox @bind-Value="@user.Surname" Width="200" Placeholder="Enter an Surname"></SfTextBox>
-                    <ValidationMessage For="@(() => user.Surname)" />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" for="MiddleName">MiddleName</label>
-                    <SfTextBox @bind-Value="@user.MiddleName" Width="200" Placeholder="Enter an MiddleName"></SfTextBox>
-                    <ValidationMessage For="@(() => user.MiddleName)" />
-                </div>
-                <div class="mb-3">
-                    <label for="GivenName">GivenName</label>
-                    <SfTextBox @bind-Value="@user.GivenName" Width="200" Placeholder="Enter an GivenName"></SfTextBox>
-                    <ValidationMessage For="@(() => user.GivenName)" />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" for="VoiceTelephoneNumber">VoiceTelephoneNumber</label>
-                    <SfTextBox @bind-Value="@user.VoiceTelephoneNumber" Width="200" Placeholder="Enter an VoiceTelephoneNumber"></SfTextBox>
-                    <ValidationMessage For="@(() => user.VoiceTelephoneNumber)" />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" for="Enabled">Enabled</label>
+    <div class="control-wrapper">
+        @if (string.IsNullOrEmpty(_message))
+        {
+            <EditForm Model="@_user" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">
+                <DataAnnotationsValidator />
 
-                    <SfCheckBox @bind-Checked="@user.Enabled"></SfCheckBox>
+                <div class="row material">
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                        <SfTextBox CssClass="e-outline" ID="Name" @bind-Value="@_user.Name" FloatLabelType="@FloatLabelType.Auto" Width="200" Placeholder="Enter a name"></SfTextBox>
+                        <ValidationMessage For="@(() => _user.Name)" />
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+
+                        <SfTextBox CssClass="e-outline" ID="Surname" @bind-Value="@_user.Surname" FloatLabelType="@FloatLabelType.Auto" Width="200" Placeholder="Enter an Surname"></SfTextBox>
+                        <ValidationMessage For="@(() => _user.Surname)" />
+                    </div>
 
                 </div>
-                <div class="mb-3">
-                    <label class="form-label" for="Mobile">Mobile</label>
-                    <SfTextBox @bind-Value="@user.Mobile" Width="200" Placeholder="Enter an Mobile"></SfTextBox>
-                    <ValidationMessage For="@(() => user.Mobile)" />
+                <div class="row material">
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+
+                        <SfTextBox CssClass="e-outline" ID="MiddleName" @bind-Value="@_user.MiddleName" FloatLabelType="@FloatLabelType.Auto" Width="200" Placeholder="Enter an MiddleName"></SfTextBox>
+                        <ValidationMessage For="@(() => _user.MiddleName)" />
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+
+                        <SfTextBox CssClass="e-outline" ID="GivenName" @bind-Value="@_user.GivenName" FloatLabelType="@FloatLabelType.Auto" Width="200" Placeholder="Enter an GivenName"></SfTextBox>
+                        <ValidationMessage For="@(() => _user.GivenName)" />
+                    </div>
                 </div>
-            </div>
-            <div class="submit-btn">
-                <SfButton type="submit" IsPrimary="true">Submit</SfButton>
-            </div>
-        </EditForm>
-    }
-    else
-    {
-        <div class="alert alert-success">
-            @Message
-        </div>
-    }
-</div>
+                <div class="row material">
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
 
-<style>
-    .control-wrapper {
-        max-width: 250px;
-        margin: 0 auto;
-        padding: 30px 0px 0px;
-    }
+                        <SfTextBox CssClass="e-outline" ID="Company" @bind-Value="@_user.Company" FloatLabelType="@FloatLabelType.Auto" Width="200" Placeholder="Enter an Company"></SfTextBox>
+                        <ValidationMessage For="@(() => _user.Company)" />
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
 
-    .example-label {
-        font-size: 14px;
-        margin-bottom: 6px;
-    }
+                        <SfTextBox CssClass="e-outline" ID="EmailAddress" @bind-Value="@_user.EmailAddress" FloatLabelType="@FloatLabelType.Auto" Width="200" Placeholder="Enter an email"></SfTextBox>
+                        <ValidationMessage For="@(() => _user.EmailAddress)" />
+                    </div>
+                </div>
 
-    .example-content {
-        padding: 0px 0px 15px 0px;
-    }
+                <div class="row material">
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
 
-        .example-content:last-child {
-            padding: 0px 0px 15px 0px;
+                        <SfTextBox CssClass="e-outline" ID="Department" @bind-Value="@_user.Department" FloatLabelType="@FloatLabelType.Auto" Width="200" Placeholder="Enter an Department"></SfTextBox>
+                        <ValidationMessage For="@(() => _user.Department)" />
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+
+                        <SfTextBox CssClass="e-outline" ID="Description" @bind-Value="@_user.Description" FloatLabelType="@FloatLabelType.Auto" Width="200" Placeholder="Enter an Description"></SfTextBox>
+                        <ValidationMessage For="@(() => _user.Description)" />
+                    </div>
+                </div>
+
+                <div class="row material">
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                        <SfTextBox CssClass="e-outline" ID="VoiceTelephoneNumber" @bind-Value="@_user.VoiceTelephoneNumber" FloatLabelType="@FloatLabelType.Auto" Width="150" Placeholder="Enter an VoiceTelephoneNumber"></SfTextBox>
+                        <ValidationMessage For="@(() => _user.VoiceTelephoneNumber)" />
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                        <SfTextBox CssClass="e-outline" ID="Mobile" @bind-Value="@_user.Mobile" FloatLabelType="@FloatLabelType.Auto" Width="150" Placeholder="Enter an Mobile"></SfTextBox>
+                        <ValidationMessage For="@(() => _user.Mobile)" />
+                    </div>
+                </div>
+
+                <div class="row material">
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                        <SfTextBox Placeholder="Password" @bind-Value="@_user.PasswordSet.Password" FloatLabelType="@FloatLabelType.Auto" Type="InputType.Password"></SfTextBox>
+                        <ValidationMessage For="@(() => _user.PasswordSet.Password)" />
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                        <SfTextBox Placeholder="Confirm Password" @bind-Value="@_user.PasswordSet.ConfirmPassword" FloatLabelType="@FloatLabelType.Auto" Type="InputType.Password"></SfTextBox>
+                        <ValidationMessage For="@(() => _user.PasswordSet.ConfirmPassword)" />
+                    </div>
+                </div>
+
+
+
+                <div class="row material">
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                        <SfDatePicker TValue="DateTime?" Placeholder="Choose a expering Date" Min="@minDate" Max="@maxDate">                 </SfDatePicker>
+                    </div>
+
+                </div>
+                <div class="row material">
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                        <label class="form-label" for="Enabled">Enabled</label>
+                        <SfCheckBox CssClass="e-outline" FloatLabelType="@FloatLabelType.Auto" ID="Enabled" @bind-Checked="@_user.Enabled"></SfCheckBox>
+                    </div>
+                </div>
+
+
+                <div class="row material">
+
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                        <SfDropDownList TValue="AdUserType" TItem="AdUserType" PopupHeight="230px" DataSource="@_listTypes" Placeholder="Select a Type">
+
+                        </SfDropDownList>
+
+                    </div>
+
+                </div>
+                <div class="row material">
+                    <div class="form-group col-md-10 control-section">
+                        <label class="col-form-label">Upload Image:</label>
+                        <SfUploader ID="UploadFiles" AllowedExtensions=".png,.jpeg,.jpg">
+                            <UploaderEvents ValueChange="onChange" OnRemove="onRemove"></UploaderEvents>
+                            <UploaderTemplates>
+                                <Template Context="HttpContext">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <img class="upload-image" alt="Preview Image @(HttpContext.Name)"
+                                                 src="@(files.Count >0 ? files.Where(item=>item.Name == HttpContext.Name)?.FirstOrDefault()?.Path : string.Empty)">
+                                            </td>
+                                            <td>
+                                                <div style="padding: 7px;">
+                                                    <h5 title="@(HttpContext.Name)">@(HttpContext.Name)</h5>
+                                                    <i>@(HttpContext.Size) Bytes</i>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <span class="e-icons e-file-remove-btn remove" id="removeIcon" title="Remove"></span>
+                                    <span class="e-upload-icon e-icons e-file-remove-btn" title="Upload" id="iconUpload" @onclick="@uploadFile"></span>
+                                </Template>
+                            </UploaderTemplates>
+                        </SfUploader>
+                    </div>
+                </div>
+
+                -
+
+
+                <div class="submit-btn">
+                    <SfButton type="submit" IsPrimary="true">Submit</SfButton>
+                    @_message
+                </div>
+
+            </EditForm>
+
         }
+        else
+        {
+            <div class="alert alert-success">
+                @_message
+            </div>
+        }
+    </div>
+</div>
+<style>
+
+    .content-wrapper {
+        width: 90%;
+        margin: 0 auto;
+        min-width: 85px;
+    }
 
     .submit-btn {
         display: flex;
-        justify-content: center;
+        justify-content: left;
+    }
+
+
+    b.example-label {
+        font-size: 14px;
+    }
+
+    .content-wrapper div.row {
+        padding: 15px 0px;
+    }
+
+    .small-textbox {
+        padding-top: 5px;
+    }
+
+    .tailwind .small-textbox,
+    .tailwind-dark .small-textbox {
+        padding-top: 3px;
+    }
+
+    .e-bigger .small-textbox {
+        padding-top: 10px;
+    }
+
+    .tailwind .e-bigger .small-textbox,
+    .tailwind-dark .e-bigger .small-textbox {
+        padding-top: 1px;
+    }
+
+    @@media only screen and (max-width: 480px) {
+        .content-wrapper {
+            width: 92%;
+        }
+
+        .col-xs-6,
+        .col-xs-4,
+        .col-xs-12 {
+            padding: 10px 5px;
+            width: 100%;
+        }
+
+        .content-wrapper div.row {
+            padding: 0px;
+        }
+    }
+
+    .fabric .row.material,
+    .bootstrap .row.material,
+    .bootstrap4 .row.material,
+    .bootstrap5 .row.material,
+    .highcontrast .row.material,
+    .tailwind .row.material,
+    .fluent .row.material,
+    .fabric-dark .row.material,
+    .bootstrap-dark .row.material,
+    .bootstrap5-dark .row.material,
+    .tailwind-dark .row.material,
+    .fluent-dark .row.material {
+        display: none;
+    }
+
+    @@font-face {
+        font-family: 'Uploader_Icon';
+        src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAAKAIAAAwAgT1MvMj1tSfIAAAEoAAAAVmNtYXDnEOdVAAABiAAAADZnbHlmoZcPvgAAAcgAAABAaGVhZBLQTSUAAADQAAAANmhoZWEINQQDAAAArAAAACRobXR4CAAAAAAAAYAAAAAIbG9jYQAgAAAAAAHAAAAABm1heHABDgAdAAABCAAAACBuYW1lQySinQAAAggAAAIxcG9zdLfl0usAAAQ8AAAAMgABAAAEAAAAAFwEAAAAAAAD2AABAAAAAAAAAAAAAAAAAAAAAgABAAAAAQAA2vKJUF8PPPUACwQAAAAAANftBBgAAAAA1+0EGAAAAAAD2AP4AAAACAACAAAAAAAAAAEAAAACABEAAgAAAAAAAgAAAAoACgAAAP8AAAAAAAAAAQQAAZAABQAAAokCzAAAAI8CiQLMAAAB6wAyAQgAAAIABQMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUGZFZABA5wDnAAQAAAAAXAQAAAAAAAABAAAAAAAABAAAAAQAAAAAAAACAAAAAwAAABQAAwABAAAAFAAEACIAAAAEAAQAAQAA5wD//wAA5wD//wAAAAEABAAAAAEAAAAAAAAAIAAAAAIAAAAAA9gD+AAHABAAADchESMVITUjEzM3ETMRFzMBKAOwPvzMPp1mtUC1Zv7FCAF6vb0BO7X+EAHwtQE7AAAAABIA3gABAAAAAAAAAAEAAAABAAAAAAABAAgAAQABAAAAAAACAAcACQABAAAAAAADAAgAEAABAAAAAAAEAAgAGAABAAAAAAAFAAsAIAABAAAAAAAGAAgAKwABAAAAAAAKACwAMwABAAAAAAALABIAXwADAAEECQAAAAIAcQADAAEECQABABAAcwADAAEECQACAA4AgwADAAEECQADABAAkQADAAEECQAEABAAoQADAAEECQAFABYAsQADAAEECQAGABAAxwADAAEECQAKAFgA1wADAAEECQALACQBLyBVcGxvYWRlclJlZ3VsYXJVcGxvYWRlclVwbG9hZGVyVmVyc2lvbiAxLjBVcGxvYWRlckZvbnQgZ2VuZXJhdGVkIHVzaW5nIFN5bmNmdXNpb24gTWV0cm8gU3R1ZGlvd3d3LnN5bmNmdXNpb24uY29tACAAVQBwAGwAbwBhAGQAZQByAFIAZQBnAHUAbABhAHIAVQBwAGwAbwBhAGQAZQByAFUAcABsAG8AYQBkAGUAcgBWAGUAcgBzAGkAbwBuACAAMQAuADAAVQBwAGwAbwBhAGQAZQByAEYAbwBuAHQAIABnAGUAbgBlAHIAYQB0AGUAZAAgAHUAcwBpAG4AZwAgAFMAeQBuAGMAZgB1AHMAaQBvAG4AIABNAGUAdAByAG8AIABTAHQAdQBkAGkAbwB3AHcAdwAuAHMAeQBuAGMAZgB1AHMAaQBvAG4ALgBjAG8AbQAAAAACAAAAAAAAAAoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBAgEDAAhVcGxvYWRlcgAAAAA=) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    .e-upload .e-upload-files .e-icons.e-upload-icon {
+        font-family: 'Uploader_Icon';
+        speak: none;
+        font-size: 16px;
+        right: 35px;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+        .e-upload .e-upload-files .e-icons.e-upload-icon::before {
+            content: '\e700';
+        }
+
+    .upload-image {
+        width: 150px;
+        height: 150px;
+        display: inline-flex;
+        background-size: contain;
+        margin: 7px;
+        text-align: center;
+        line-height: 10;
+        border-radius: 5px;
     }
 
     .validation-message {
@@ -122,28 +301,140 @@
     }
 </style>
 @code {
-    private string Message = string.Empty;
-    private User user = new User();
+
+    public MultipartFormDataContent content;
+    public string responseStr;
+    public HttpResponseMessage filepath { get; set; }
+    List<fileInfo> files = new List<fileInfo>();
+
+    public class fileInfo
+    {
+        public string Path { get; set; }
+        public string Name { get; set; }
+        public double Size { get; set; }
+    }
+
+    public void onChange(UploadChangeEventArgs args)
+    {
+        files = new List<fileInfo>();
+        foreach (var file in args.Files)
+        {
+            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), "Images");
+            var fullPath = Path.Combine(pathToSave, file.FileInfo.Name);
+            byte[] bytes = file.Stream.ToArray();
+            string base64 = Convert.ToBase64String(bytes);
+            files.Add(new fileInfo() { Path = @"data:image/" + file.FileInfo.Type + ";base64," + base64, Name = file.FileInfo.Name, Size = file.FileInfo.Size });
+            content = new MultipartFormDataContent {
+                { new ByteArrayContent(file.Stream.GetBuffer()), "\"upload\"", file.FileInfo.Name }
+            };
+
+        }
+    }
+    public void onRemove(RemovingEventArgs args)
+    {
+        foreach (var removeFile in args.FilesData)
+        {
+            if (File.Exists(Path.Combine(@"\Images", removeFile.Name)))
+            {
+                File.Delete(Path.Combine(@"\Images\", removeFile.Name));
+            }
+        }
+    }
+    public async Task uploadFile(MouseEventArgs args)
+    {
+        filepath = await Http.PostAsync("https://localhost:44395/api/SampleData/Save", content);
+        this.responseStr = await filepath.Content.ReadAsStringAsync();
+    }
+    public void Submit()
+    {
+
+    }
+
+    public DateTime minDate { get; set; } = DateTime.Now;
+    public DateTime maxDate { get; set; } = DateTime.Today.AddYears(1);
+    public string PhotoFname { get; set; }
+    private string _message = string.Empty;
+    private User _user = new User();
+
+    private readonly List<AdUserType> _listTypes = Enum.GetValues(typeof(AdUserType)).OfType<AdUserType>().ToList();
+    private AdUserType _typepAdValue { get; set; }
+
+    private async Task OnChange(UploadChangeEventArgs args)
+    {
+        //Stream s;
+        //foreach (var file in args.Files)
+        //{
+        //    PhotoFname = file.FileInfo.Name;
+        //    s=file.Stream;
+        //}
+        var imageStream = await GetImageStreamAsync();
+        var dotnetImageStream = new DotNetStreamReference(imageStream);
+        await JS.InvokeVoidAsync("setImage", "image", dotnetImageStream);
+    }
+    private async Task<Stream> GetImageStreamAsync()
+    {
+        return await Http.GetStreamAsync(
+            "https://avatars.githubusercontent.com/u/9141961");
+    }
+
     async void OnValidSubmit()
     {
-        Message = "Form Submitted Successfully!";
+
+        var userValidator = new UserValidator();
+        _user.UserType = _typepAdValue;
+        _user = UserBuilder.BuildFQ(_user);
+        var result = await userValidator.ValidateAsync(_user);
+        if (!result.IsValid)
+        {
+            _message = "Validation Error ";
+            result.Errors.ForEach(c => { _message += Environment.NewLine + c.ErrorMessage; });
+
+        }
+        else if (!_user.PasswordSet.AreEqual())
+        {
+            _message = "Password are not the same";
+        }
+        else
+        {
+            if (_user.SamAccountName != null && AdService.Get(_user.SamAccountName) != null)
+            {
+                _message = "User already exists";
+            }
+            else
+            {
+                var ret = AdService.Add(_user);
+                if (ret == false)
+                {
+                    _message = "error";
+                }
+                else
+                {
+                    // Incoming File Stream
+                    var fileStream = File.Open(PhotoFname, FileMode.Open);
+
+                    // Create a new instance of memorystream
+                    var memoryStream = new MemoryStream();
+
+                    // Use the .CopyTo() method and write current filestream to memory stream
+                    await fileStream.CopyToAsync(memoryStream);
+
+                    // Convert Stream To Array
+                    var byteArray = memoryStream.ToArray();
+
+                    if (_user.SamAccountName != null) AdHelper.InsertPicture(_user.SamAccountName, byteArray);
+                    _message = "Form Submitted Successfully!";
+                    _user = new User();
+                }
+            }
+
+        }
         await Task.Delay(2000);
-        Message = string.Empty;
-        user.Name = null;
 
         StateHasChanged();
     }
+
     private void OnInvalidSubmit()
     {
-        Message = string.Empty;
+        //  Message = string.Empty;
     }
-    //public class Annotation
-    //{
-    //    [Required(ErrorMessage = "The address field is required.")]
-    //    public string Address { get; set; }
-    //    [Required(ErrorMessage = "The name field is required.")]
-    //    [MaxLength(10, ErrorMessage = "The name field should not contain more than 10 characters.")]
-    //    [MinLength(3, ErrorMessage = "The name field must contain at least 3 characters.")]
-    //    public string Name { get; set; }
-    //}
 }

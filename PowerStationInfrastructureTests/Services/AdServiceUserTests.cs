@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using AutoMapper;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
-using PowerStationDomain.models;
+using PowerStationDomain.models.AD;
 using PowerStationInfrastructure;
 using PowerStationInfrastructure.helpers;
 using PowerStationInfrastructure.mapper;

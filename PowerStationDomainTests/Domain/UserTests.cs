@@ -1,6 +1,6 @@
 ﻿using System;
 using FluentAssertions;
-using PowerStationDomain.models;
+using PowerStationDomain.models.AD;
 using PowerStationInfrastructure.Services;
 using Xunit;
 

@@ -1,48 +1,51 @@
 ﻿@page "/Users"
+@using PowerStationInfrastructure.Services.AD
+@using PowerStationDomain.models.AD
+@using PowerStationInfrastructure.helpers
 @using Syncfusion.Blazor.Grids
 
 @using PowerStationDomain.models
 @using PowerStationInfrastructure.helpers
 @using PowerStationInfrastructure.Services;
-@using PowerStationInfrastructure.Services.AD
+@using PowerStationInfrastructure.Services.AD;
+@using PowerStationDomain.models.AD
 @inject IAdServiceUser AdService
 @inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
 
 
-        <div class="row">
-            <SfGrid DataSource="@GridData" EnableHeaderFocus="true" AllowSelection="true" AllowSorting="true" AllowFiltering="true" EnableVirtualization="true" EnableHover="false" Height="600" RowHeight="38">
-                <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
-                <GridPageSettings PageSize="40"></GridPageSettings>
-                <GridSelectionSettings CheckboxOnly="true" PersistSelection="true" Type="SelectionType.Single"></GridSelectionSettings>
-                <GridColumns>
-                    <GridColumn Type="ColumnType.CheckBox" AllowFiltering="false" AllowSorting="false" Width="60"></GridColumn>
-                    <GridColumn HeaderText="Employee Image" Width="200">
-                        <Template>
-                            @{
+<div class="row">
+    <SfGrid DataSource="@GridData" EnableHeaderFocus="true" AllowSelection="true" AllowSorting="true" AllowFiltering="true" EnableVirtualization="true" EnableHover="false" Height="600" RowHeight="38">
+        <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
+        <GridPageSettings PageSize="40"></GridPageSettings>
+        <GridSelectionSettings CheckboxOnly="true" PersistSelection="true" Type="SelectionType.Single"></GridSelectionSettings>
+        <GridColumns>
+            <GridColumn Type="ColumnType.CheckBox" AllowFiltering="false" AllowSorting="false" Width="60"></GridColumn>
+            <GridColumn HeaderText="Employee Image" Width="200">
+                <Template>
+                    @{
 
-                                <div class="image">
-                                </div>
-                            }
-                        </Template>
-                    </GridColumn>
-                    <GridColumn Field=@nameof(PowerStationDomain.models.User.Name) HeaderText="Name" Width="200"></GridColumn>
-                    <GridColumn Field=@nameof(PowerStationDomain.models.User.EmailAddress) HeaderText="EmailAddress" Width="200"></GridColumn>
-                    <GridColumn Field=@nameof(PowerStationDomain.models.User.DisplayName) HeaderText="DisplayName" Width="200"></GridColumn>
-                    <GridColumn Field=@nameof(PowerStationDomain.models.User.UserPrincipalName) HeaderText="UserPrincipalName" Width="200"></GridColumn>
-                </GridColumns>
-            </SfGrid>
-        </div>
+                        <div class="image">
+                        </div>
+                    }
+                </Template>
+            </GridColumn>
+            <GridColumn Field=@nameof(User.Name) HeaderText="Name" Width="200"></GridColumn>
+            <GridColumn Field=@nameof(User.EmailAddress) HeaderText="EmailAddress" Width="200"></GridColumn>
+            <GridColumn Field=@nameof(User.DisplayName) HeaderText="DisplayName" Width="200"></GridColumn>
+            <GridColumn Field=@nameof(User.UserPrincipalName) HeaderText="UserPrincipalName" Width="200"></GridColumn>
+        </GridColumns>
+    </SfGrid>
+</div>
 
-@code{
+@code {
 
     public List<User> GridData { get; set; } = new List<User>();
 
     protected override void OnInitialized()
     {
-        if (AdHelper.DomainExist("localhost"))
-        {
-            GridData.AddRange(AdService.All() ?? new List<User>());
-        }
+
+        GridData.AddRange(AdService.All() ?? new List<User>());
+
     }
 
 }
