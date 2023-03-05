@@ -11,16 +11,14 @@ public abstract class AdObject : IAdObject
     public string? ObjectClass { get; set; } = default;
     public Guid ObjectGuid { get; set; } = Guid.NewGuid();
 
-    [MaxLength(10, ErrorMessage = "The name field should not contain more than 10 characters.")]
-    [MinLength(0, ErrorMessage = "The name field must contain at least 3 characters.")]
+    [MaxLength(50, ErrorMessage = "The  Description should not contain more than 50 characters.")]
+    [MinLength(0, ErrorMessage = "The Description field must contain at least 3 characters.")]
     public string? Description { get; set; }
-    [Required(ErrorMessage = "The name field is required.")]
-    [MaxLength(10, ErrorMessage = "The name field should not contain more than 10 characters.")]
-    [MinLength(0, ErrorMessage = "The name field must contain at least 3 characters.")]
+
     public string? DisplayName { get; set; }
     public string? DistinguishedName { get; set; }
     [Required(ErrorMessage = "The name field is required.")]
-    [MaxLength(10, ErrorMessage = "The name field should not contain more than 10 characters.")]
+    [MaxLength(50, ErrorMessage = "The name field should not contain more than 50 characters.")]
     [MinLength(3, ErrorMessage = "The name field must contain at least 3 characters.")]
     public string? Name { get; set; }
     public string? SamAccountName { get; set; }

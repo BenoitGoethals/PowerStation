@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using PowerStationDomain.models;
 using System.ComponentModel;
 using System.DirectoryServices.AccountManagement;
 using System.DirectoryServices.ActiveDirectory;
@@ -12,6 +11,7 @@ using System.Configuration;
 using Microsoft.Extensions.Configuration;
 using PowerStationInfrastructure.helpers;
 using Configuration = PowerStationInfrastructure.helpers.Configuration;
+using PowerStationDomain.models.AD;
 
 namespace PowerStationInfrastructure.Services.AD;
 
@@ -140,8 +140,13 @@ public class AdServiceUser : IAdServiceUser
                 };
                 using var searcher = new PrincipalSearcher(principal);
                 PrincipalSearchResult<Principal> result = searcher.FindAll();
-                UserPrincipal? user = (UserPrincipal)result.First();
-                var newUser = _mapper.Map<User>(user);
+                if (!result.Any())
+                {
+                    context.Dispose();
+                    return null;
+                }
+                var user = (UserPrincipal)result.First();
+                var newUser =  _mapper.Map<User>(user);
                 context.Dispose();
                 return newUser;
             }

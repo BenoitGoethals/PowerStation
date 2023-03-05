@@ -6,6 +6,7 @@ using AdApiService;
 using System.Text;
 using System.Xml.Linq;
 using System.Collections;
+using System.Drawing;
 
 namespace PowerStationInfrastructure.helpers;
 
@@ -41,6 +42,37 @@ public static class AdHelper
             return false;
         }
     
+
+    }
+
+
+
+   
+
+   public static void InsertPicture(string userName, byte[] data)
+   {
+       using DirectorySearcher dsSearcher = new DirectorySearcher();
+       dsSearcher.Filter = "(&(objectClass=user) (cn=" + userName + "))";
+       SearchResult result = dsSearcher.FindOne();
+
+       using DirectoryEntry user = new DirectoryEntry(result.Path);
+       user.Properties["jpegPhoto"].Clear();
+       user.Properties["jpegPhoto"].Add(data);
+       user.CommitChanges();
+   }
+
+    public static Image GetUserPicture(string userName)
+    {
+        using DirectorySearcher dsSearcher = new DirectorySearcher();
+        dsSearcher.Filter = "(&(objectClass=user) (cn=" + userName + "))";
+        SearchResult? result = dsSearcher.FindOne();
+
+        using DirectoryEntry user = new DirectoryEntry(result.Path);
+        byte[] data = user.Properties["jpegPhoto"].Value as byte[];
+
+        if (data == null) return null;
+        using MemoryStream s = new MemoryStream(data);
+        return Bitmap.FromStream(s);
 
     }
 
