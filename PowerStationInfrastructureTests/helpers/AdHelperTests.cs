@@ -1,12 +1,18 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.DirectoryServices.AccountManagement;
+using System.Drawing;
 using System.Linq;
+using System.Resources;
 using FluentAssertions;
 using PowerStationInfrastructure.helpers;
+using PowerStationInfrastructureTests.Properties;
 using Xunit;
+using System.IO;
 
 namespace PowerStationInfrastructure.helpers.Tests
 {
+    [TestClass()]
     public class AdHelperTests
     {
         [Fact()]
@@ -162,10 +168,10 @@ namespace PowerStationInfrastructure.helpers.Tests
             AdHelper.Exists("NotExistsTest").Should().BeFalse();
         }
 
-    //    [Fact()]
+        //    [Fact()]
         public void RemoveMemberTest()
         {
-           
+
         }
 
         [Fact()]
@@ -233,5 +239,36 @@ namespace PowerStationInfrastructure.helpers.Tests
         {
             AdHelper.EnumerateOu(AdHelper.GetDistinguishedName("Administrator")).Should().NotBeNull();
         }
+
+        [Fact()]
+        public void InsertPictureTest()
+        {
+            Bitmap picture=Resources._20150725_203401;
+            var principal =
+                new UserPrincipal(new PrincipalContext(ContextType.Domain, Environment.UserDomainName))
+                {
+                    SamAccountName = "TestlockuserPicture2",
+                    Name = "TestlockuserPicture2",
+                    Enabled = true,
+                    DisplayName = "TestlockuserPicture2"
+                };
+            var pass = AdHelper.GetRandomPassword();
+            principal.Save();
+            AdHelper.SetPassword("TestlockuserPicture", pass);
+            AdHelper.ValidateCredentials("TestlockuserPicture2", pass);
+
+            AdHelper.InsertPicture("TestlockuserPicture2", ImageToByte2(picture));
+            AdHelper.GetUserPicture("TestlockuserPicture2").Should().NotBeNull();
+            principal.Delete();
+        }
+
+
+        private  byte[] ImageToByte2(Image img)
+        {
+            using var stream = new MemoryStream();
+            img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+            return stream.ToArray();
+        }
+
     }
 }
