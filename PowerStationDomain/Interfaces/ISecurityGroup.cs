@@ -1,4 +1,4 @@
-﻿using PowerStationDomain.Domain;
+﻿using PowerStationDomain.models.AD;
 
 namespace PowerStationDomain.Interfaces;
 

@@ -1,3 +1,5 @@
+using PowerStationDomain.models.AD;
+
 namespace PowerStationWeb.Data
 {
     public class WeatherForecast
@@ -9,5 +11,7 @@ namespace PowerStationWeb.Data
         public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 
         public string? Summary { get; set; }
+
+        public User Type { get; set; }
     }
 }
