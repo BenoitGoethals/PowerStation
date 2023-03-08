@@ -49,7 +49,7 @@ public static class AdHelper
 
    
 
-   public static void InsertPicture(string userName, byte[] data)
+   public static void InsertPicture(string userName, byte[]? data)
    {
        using DirectorySearcher dsSearcher = new DirectorySearcher();
        dsSearcher.Filter = "(&(objectClass=user) (cn=" + userName + "))";

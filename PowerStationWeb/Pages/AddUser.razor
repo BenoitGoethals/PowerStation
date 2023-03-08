@@ -130,18 +130,18 @@
 
                 </div>
                 <div class="row material">
-                    <div class="form-group col-md-10 control-section">
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
                         <label class="col-form-label">Upload Image:</label>
-                        <SfUploader ID="UploadFiles" AllowedExtensions=".png,.jpeg,.jpg">
-                            <UploaderEvents ValueChange="onChange" OnRemove="onRemove"></UploaderEvents>
+                        <SfUploader ID="UploadFiles" AllowedExtensions=".png,.jpeg,.jpg" AllowMultiple="false">
+                            <UploaderEvents ValueChange="onChange"></UploaderEvents>
                             <UploaderTemplates>
                                 <Template Context="HttpContext">
                                     <table>
                                         <tr>
-                                            <td>
+                                          @*  <td>
                                                 <img class="upload-image" alt="Preview Image @(HttpContext.Name)"
-                                                 src="@(files.Count >0 ? files.Where(item=>item.Name == HttpContext.Name)?.FirstOrDefault()?.Path : string.Empty)">
-                                            </td>
+                                                 src="@PhotoFname">
+                                            </td>*@
                                             <td>
                                                 <div style="padding: 7px;">
                                                     <h5 title="@(HttpContext.Name)">@(HttpContext.Name)</h5>
@@ -151,7 +151,7 @@
                                         </tr>
                                     </table>
                                     <span class="e-icons e-file-remove-btn remove" id="removeIcon" title="Remove"></span>
-                                    <span class="e-upload-icon e-icons e-file-remove-btn" title="Upload" id="iconUpload" @onclick="@uploadFile"></span>
+                                    @*<span class="e-upload-icon e-icons e-file-remove-btn" title="Upload" id="iconUpload" @onclick="@uploadFile"></span>*@
                                 </Template>
                             </UploaderTemplates>
                         </SfUploader>
@@ -302,54 +302,8 @@
 </style>
 @code {
 
-    public MultipartFormDataContent content;
-    public string responseStr;
-    public HttpResponseMessage filepath { get; set; }
-    List<fileInfo> files = new List<fileInfo>();
-
-    public class fileInfo
-    {
-        public string Path { get; set; }
-        public string Name { get; set; }
-        public double Size { get; set; }
-    }
-
-    public void onChange(UploadChangeEventArgs args)
-    {
-        files = new List<fileInfo>();
-        foreach (var file in args.Files)
-        {
-            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), "Images");
-            var fullPath = Path.Combine(pathToSave, file.FileInfo.Name);
-            byte[] bytes = file.Stream.ToArray();
-            string base64 = Convert.ToBase64String(bytes);
-            files.Add(new fileInfo() { Path = @"data:image/" + file.FileInfo.Type + ";base64," + base64, Name = file.FileInfo.Name, Size = file.FileInfo.Size });
-            content = new MultipartFormDataContent {
-                { new ByteArrayContent(file.Stream.GetBuffer()), "\"upload\"", file.FileInfo.Name }
-            };
-
-        }
-    }
-    public void onRemove(RemovingEventArgs args)
-    {
-        foreach (var removeFile in args.FilesData)
-        {
-            if (File.Exists(Path.Combine(@"\Images", removeFile.Name)))
-            {
-                File.Delete(Path.Combine(@"\Images\", removeFile.Name));
-            }
-        }
-    }
-    public async Task uploadFile(MouseEventArgs args)
-    {
-        filepath = await Http.PostAsync("https://localhost:44395/api/SampleData/Save", content);
-        this.responseStr = await filepath.Content.ReadAsStringAsync();
-    }
-    public void Submit()
-    {
-
-    }
-
+    public byte[]? content;
+  
     public DateTime minDate { get; set; } = DateTime.Now;
     public DateTime maxDate { get; set; } = DateTime.Today.AddYears(1);
     public string PhotoFname { get; set; }
@@ -358,24 +312,23 @@
 
     private readonly List<AdUserType> _listTypes = Enum.GetValues(typeof(AdUserType)).OfType<AdUserType>().ToList();
     private AdUserType _typepAdValue { get; set; }
+  
 
-    private async Task OnChange(UploadChangeEventArgs args)
+    public void onChange(UploadChangeEventArgs args)
     {
-        //Stream s;
-        //foreach (var file in args.Files)
-        //{
-        //    PhotoFname = file.FileInfo.Name;
-        //    s=file.Stream;
-        //}
-        var imageStream = await GetImageStreamAsync();
-        var dotnetImageStream = new DotNetStreamReference(imageStream);
-        await JS.InvokeVoidAsync("setImage", "image", dotnetImageStream);
+         
+        if (args.Files[0]!=null){
+
+            content = args.Files[0].Stream.ToArray();
+            
+
+        }
     }
-    private async Task<Stream> GetImageStreamAsync()
-    {
-        return await Http.GetStreamAsync(
-            "https://avatars.githubusercontent.com/u/9141961");
-    }
+   
+ 
+    
+   
+ 
 
     async void OnValidSubmit()
     {
@@ -409,19 +362,7 @@
                 }
                 else
                 {
-                    // Incoming File Stream
-                    var fileStream = File.Open(PhotoFname, FileMode.Open);
-
-                    // Create a new instance of memorystream
-                    var memoryStream = new MemoryStream();
-
-                    // Use the .CopyTo() method and write current filestream to memory stream
-                    await fileStream.CopyToAsync(memoryStream);
-
-                    // Convert Stream To Array
-                    var byteArray = memoryStream.ToArray();
-
-                    if (_user.SamAccountName != null) AdHelper.InsertPicture(_user.SamAccountName, byteArray);
+                    if (_user.SamAccountName != null && content != null) AdHelper.InsertPicture(_user.SamAccountName, content);
                     _message = "Form Submitted Successfully!";
                     _user = new User();
                 }
