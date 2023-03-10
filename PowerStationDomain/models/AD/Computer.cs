@@ -16,6 +16,11 @@ public class Computer : AdObject
     public string? HomeDrive { get; set; }
     public string? LastBadPasswordAttempt { get; set; }
     public string? Name { get; set; }
+    public override void Populate()
+    {
+        throw new NotImplementedException();
+    }
+
     public bool? PasswordNeverExpires { get; set; }
     public bool? PasswordNotRequired { get; set; }
 

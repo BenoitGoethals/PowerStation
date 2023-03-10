@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -18,12 +19,17 @@ namespace PowerStationDomain.models.AD
             Name = groupName;
         }
 
+        [Required(ErrorMessage = "The GroupName field is required.")]
+        [MaxLength(50, ErrorMessage = "The GroupName field should not contain more than 50 characters.")]
+        [MinLength(3, ErrorMessage = "The GroupName field must contain at least 3 characters.")]
         public string? GroupName { get; set; }
         public GroupScope Scope { get; set; }
 
         public SecurityGroup()
         {
         }
+
+
 
 
         public bool? IsSecurityGroup { get; set; } = true;
@@ -60,6 +66,13 @@ namespace PowerStationDomain.models.AD
         public static bool operator !=(SecurityGroup? left, SecurityGroup? right)
         {
             return !(left == right);
+        }
+
+        public override void Populate()
+        {
+            this.SamAccountName = this.GroupName;
+            this.Name = this.GroupName;
+            DisplayName = GroupName;
         }
     }
 }

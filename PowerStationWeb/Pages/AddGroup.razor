@@ -1,0 +1,251 @@
+﻿@page "/AddGroup"
+@using PowerStationInfrastructure.Services.AD
+@using Microsoft.AspNetCore.Components
+@using PowerStationDomain.models.AD
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs;
+@using Syncfusion.Blazor.Buttons;
+@using Syncfusion.Blazor.Calendars;
+@using System.ComponentModel.DataAnnotations;
+@using System.Globalization
+@using FluentValidation
+@using Syncfusion.Blazor.Inputs
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Identity
+@using PowerStationApplicationCore
+@using PowerStationApplicationCore.Validators
+@using PowerStationDomain.models
+@using PowerStationInfrastructure.Services.AD
+@using PowerStationDomain.models
+@using PowerStationInfrastructure.helpers
+@using PowerStationInfrastructure.Services;
+@using PowerStationInfrastructure.Services.AD
+@inject IAdServiceSecurity AdService
+@inject HttpClient Http
+@inject IJSRuntime JS
+<div class="col-lg-12 control-section">
+
+    <div class="control-wrapper">
+        @if (string.IsNullOrEmpty(_message))
+        {
+            <EditForm Model="@_securityGroup" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary></ValidationSummary>
+                <div class="row material">
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                        <SfTextBox CssClass="e-outline" ID="GroupName" @bind-Value="@_securityGroup.GroupName" FloatLabelType="@FloatLabelType.Auto" Width="200" Placeholder="Enter a Group Name"></SfTextBox>
+                        <ValidationMessage For="@(() => _securityGroup.GroupName)" />
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+
+                        <SfTextBox CssClass="e-outline" ID="Description" @bind-Value="@_securityGroup.Description" FloatLabelType="@FloatLabelType.Auto" Width="200" Placeholder="Enter an Description"></SfTextBox>
+                        <ValidationMessage For="@(() => _securityGroup.Description)" />
+                    </div>
+
+                </div>
+               
+
+                <div class="row material">
+
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                        <SfDropDownList TValue="GroupScope" TItem="GroupScope" PopupHeight="230px" DataSource="@_listTypes" Placeholder="Select a Scope">
+
+                        </SfDropDownList>
+
+                    </div>
+
+                </div>
+              
+
+
+                <div class="submit-btn">
+                    <SfButton type="submit" IsPrimary="true">Submit</SfButton>
+                    @_message
+                </div>
+
+            </EditForm>
+
+        }
+        else
+        {
+            <div class="alert alert-success">
+                @_message
+            </div>
+        }
+    </div>
+</div>
+<style>
+
+    .content-wrapper {
+        width: 90%;
+        margin: 0 auto;
+        min-width: 85px;
+    }
+
+    .submit-btn {
+        display: flex;
+        justify-content: left;
+    }
+
+
+    b.example-label {
+        font-size: 14px;
+    }
+
+    .content-wrapper div.row {
+        padding: 15px 0px;
+    }
+
+    .small-textbox {
+        padding-top: 5px;
+    }
+
+    .tailwind .small-textbox,
+    .tailwind-dark .small-textbox {
+        padding-top: 3px;
+    }
+
+    .e-bigger .small-textbox {
+        padding-top: 10px;
+    }
+
+    .tailwind .e-bigger .small-textbox,
+    .tailwind-dark .e-bigger .small-textbox {
+        padding-top: 1px;
+    }
+
+    @@media only screen and (max-width: 480px) {
+        .content-wrapper {
+            width: 92%;
+        }
+
+        .col-xs-6,
+        .col-xs-4,
+        .col-xs-12 {
+            padding: 10px 5px;
+            width: 100%;
+        }
+
+        .content-wrapper div.row {
+            padding: 0px;
+        }
+    }
+
+    .fabric .row.material,
+    .bootstrap .row.material,
+    .bootstrap4 .row.material,
+    .bootstrap5 .row.material,
+    .highcontrast .row.material,
+    .tailwind .row.material,
+    .fluent .row.material,
+    .fabric-dark .row.material,
+    .bootstrap-dark .row.material,
+    .bootstrap5-dark .row.material,
+    .tailwind-dark .row.material,
+    .fluent-dark .row.material {
+        display: none;
+    }
+
+    @@font-face {
+        font-family: 'Uploader_Icon';
+        src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAAKAIAAAwAgT1MvMj1tSfIAAAEoAAAAVmNtYXDnEOdVAAABiAAAADZnbHlmoZcPvgAAAcgAAABAaGVhZBLQTSUAAADQAAAANmhoZWEINQQDAAAArAAAACRobXR4CAAAAAAAAYAAAAAIbG9jYQAgAAAAAAHAAAAABm1heHABDgAdAAABCAAAACBuYW1lQySinQAAAggAAAIxcG9zdLfl0usAAAQ8AAAAMgABAAAEAAAAAFwEAAAAAAAD2AABAAAAAAAAAAAAAAAAAAAAAgABAAAAAQAA2vKJUF8PPPUACwQAAAAAANftBBgAAAAA1+0EGAAAAAAD2AP4AAAACAACAAAAAAAAAAEAAAACABEAAgAAAAAAAgAAAAoACgAAAP8AAAAAAAAAAQQAAZAABQAAAokCzAAAAI8CiQLMAAAB6wAyAQgAAAIABQMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUGZFZABA5wDnAAQAAAAAXAQAAAAAAAABAAAAAAAABAAAAAQAAAAAAAACAAAAAwAAABQAAwABAAAAFAAEACIAAAAEAAQAAQAA5wD//wAA5wD//wAAAAEABAAAAAEAAAAAAAAAIAAAAAIAAAAAA9gD+AAHABAAADchESMVITUjEzM3ETMRFzMBKAOwPvzMPp1mtUC1Zv7FCAF6vb0BO7X+EAHwtQE7AAAAABIA3gABAAAAAAAAAAEAAAABAAAAAAABAAgAAQABAAAAAAACAAcACQABAAAAAAADAAgAEAABAAAAAAAEAAgAGAABAAAAAAAFAAsAIAABAAAAAAAGAAgAKwABAAAAAAAKACwAMwABAAAAAAALABIAXwADAAEECQAAAAIAcQADAAEECQABABAAcwADAAEECQACAA4AgwADAAEECQADABAAkQADAAEECQAEABAAoQADAAEECQAFABYAsQADAAEECQAGABAAxwADAAEECQAKAFgA1wADAAEECQALACQBLyBVcGxvYWRlclJlZ3VsYXJVcGxvYWRlclVwbG9hZGVyVmVyc2lvbiAxLjBVcGxvYWRlckZvbnQgZ2VuZXJhdGVkIHVzaW5nIFN5bmNmdXNpb24gTWV0cm8gU3R1ZGlvd3d3LnN5bmNmdXNpb24uY29tACAAVQBwAGwAbwBhAGQAZQByAFIAZQBnAHUAbABhAHIAVQBwAGwAbwBhAGQAZQByAFUAcABsAG8AYQBkAGUAcgBWAGUAcgBzAGkAbwBuACAAMQAuADAAVQBwAGwAbwBhAGQAZQByAEYAbwBuAHQAIABnAGUAbgBlAHIAYQB0AGUAZAAgAHUAcwBpAG4AZwAgAFMAeQBuAGMAZgB1AHMAaQBvAG4AIABNAGUAdAByAG8AIABTAHQAdQBkAGkAbwB3AHcAdwAuAHMAeQBuAGMAZgB1AHMAaQBvAG4ALgBjAG8AbQAAAAACAAAAAAAAAAoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBAgEDAAhVcGxvYWRlcgAAAAA=) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    .e-upload .e-upload-files .e-icons.e-upload-icon {
+        font-family: 'Uploader_Icon';
+        speak: none;
+        font-size: 16px;
+        right: 35px;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+        .e-upload .e-upload-files .e-icons.e-upload-icon::before {
+            content: '\e700';
+        }
+
+    .upload-image {
+        width: 150px;
+        height: 150px;
+        display: inline-flex;
+        background-size: contain;
+        margin: 7px;
+        text-align: center;
+        line-height: 10;
+        border-radius: 5px;
+    }
+
+    .validation-message {
+        color: red;
+        padding: 5px 0px 0px;
+    }
+
+    div {
+        margin-bottom: 10px;
+    }
+
+    label {
+        display: inline-block;
+        width: 110px;
+        color: #777777;
+    }
+
+    input {
+        padding: 5px 10px;
+    }
+</style>
+@code {
+
+    public byte[]? Content;
+
+    private string _message = string.Empty;
+    private SecurityGroup _securityGroup = new SecurityGroup();
+
+    private readonly List<GroupScope> _listTypes = Enum.GetValues(typeof(GroupScope)).OfType<GroupScope>().ToList();
+  
+
+    async void OnValidSubmit()
+    {
+        _securityGroup.Populate();
+        var securityValidator = new SecurityValidator();
+        
+        var result = await securityValidator.ValidateAsync(_securityGroup);
+        if (!result.IsValid)
+        {
+            _message = "Validation Error ";
+            result.Errors.ForEach(c => { _message += Environment.NewLine + c.ErrorMessage; });
+        }
+        else
+        {
+            if (_securityGroup.SamAccountName != null && AdService.Get(_securityGroup.SamAccountName) != null)
+            {
+                _message = "Group already exists";
+            }
+            else
+            {
+                var ret = AdService.Add(_securityGroup);
+                if (ret == false)
+                {
+                    _message = "error";
+                }
+                else
+                {
+                    _message = "Form Submitted Successfully!";
+                    _securityGroup = new SecurityGroup();
+                }
+            }
+
+        }
+        await Task.Delay(2000);
+
+        StateHasChanged();
+    }
+
+    private void OnInvalidSubmit()
+    {
+//        _message = "ERROR";
+    }
+}

@@ -32,10 +32,10 @@
                 <DataAnnotationsValidator />
 
                 <div class="row material">
-                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                  @*  <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
                         <SfTextBox CssClass="e-outline" ID="Name" @bind-Value="@_user.Name" FloatLabelType="@FloatLabelType.Auto" Width="200" Placeholder="Enter a name"></SfTextBox>
                         <ValidationMessage For="@(() => _user.Name)" />
-                    </div>
+                    </div>*@
                     <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
 
                         <SfTextBox CssClass="e-outline" ID="Surname" @bind-Value="@_user.Surname" FloatLabelType="@FloatLabelType.Auto" Width="200" Placeholder="Enter an Surname"></SfTextBox>
@@ -335,7 +335,7 @@
 
         var userValidator = new UserValidator();
         _user.UserType = _typepAdValue;
-        _user = UserBuilder.BuildFQ(_user);
+        _user.Populate();
         var result = await userValidator.ValidateAsync(_user);
         if (!result.IsValid)
         {
