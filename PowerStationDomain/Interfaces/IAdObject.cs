@@ -9,4 +9,5 @@ public interface IAdObject
     List<AdObject?> AllMembers();
 
     List<AdObject?> AllMembers(Predicate<AdObject?> predicate);
+
 }

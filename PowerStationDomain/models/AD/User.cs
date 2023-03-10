@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace PowerStationDomain.models.AD
 {
@@ -68,6 +69,15 @@ namespace PowerStationDomain.models.AD
 
         public PasswordSet PasswordSet { get; } = new PasswordSet();
 
+        public override void Populate()
+        {
+            UserPrincipalName = Surname + GivenName;
+            Name = UserPrincipalName;
+            DisplayName = $"{GivenName} {MiddleName} {Surname}";
+            SamAccountName = UserPrincipalName;
+            Department = "dept";
+          
+        }
     }
 
 
