@@ -17,11 +17,11 @@ namespace PowerStationInfrastructure.Services.AD;
 public class AdServiceGroup : IAdServiceSecurity
 {
 
-    private readonly Configuration _configuration;
+    private readonly AdConfiguration _configuration;
     private readonly ILogger<AdServiceUser> _logger;
     private readonly IMapper _mapper;
 
-    public AdServiceGroup(Configuration configuration, ILogger<AdServiceUser> logger, IMapper mapper)
+    public AdServiceGroup(AdConfiguration configuration, ILogger<AdServiceUser> logger, IMapper mapper)
     {
         _configuration = configuration;
         _logger = logger;
@@ -36,7 +36,7 @@ public class AdServiceGroup : IAdServiceSecurity
     {
         try
         {
-            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.AdSetting.OuUnit?.Groups);
+            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.OuUnit?.Groups);
             {
                 if (identity.GroupName == null) return false;
                 using GroupPrincipal? newGroup = new GroupPrincipal(context, identity.GroupName);
@@ -62,7 +62,7 @@ public class AdServiceGroup : IAdServiceSecurity
     {
         try
         {
-            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.AdSetting.OuUnit?.Groups);
+            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.OuUnit?.Groups);
             {
                 GroupPrincipal? groupPrincipal = GroupPrincipal.FindByIdentity(context, identity.GroupName);
                 if (groupPrincipal != null)

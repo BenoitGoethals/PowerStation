@@ -41,25 +41,25 @@ public static class AdHelper
         {
             return false;
         }
-    
+
 
     }
 
 
 
-   
 
-   public static void InsertPicture(string userName, byte[]? data)
-   {
-       using DirectorySearcher dsSearcher = new DirectorySearcher();
-       dsSearcher.Filter = "(&(objectClass=user) (cn=" + userName + "))";
-       SearchResult result = dsSearcher.FindOne();
 
-       using DirectoryEntry user = new DirectoryEntry(result.Path);
-       user.Properties["jpegPhoto"].Clear();
-       user.Properties["jpegPhoto"].Add(data);
-       user.CommitChanges();
-   }
+    public static void InsertPicture(string userName, byte[]? data)
+    {
+        using DirectorySearcher dsSearcher = new DirectorySearcher();
+        dsSearcher.Filter = "(&(objectClass=user) (cn=" + userName + "))";
+        SearchResult result = dsSearcher.FindOne();
+
+        using DirectoryEntry user = new DirectoryEntry(result.Path);
+        user.Properties["jpegPhoto"].Clear();
+        user.Properties["jpegPhoto"].Add(data);
+        user.CommitChanges();
+    }
 
     public static Image GetUserPicture(string userName)
     {
@@ -178,7 +178,7 @@ public static class AdHelper
     /// A string that represents a random password 12 characters long that has at least
     /// 2 special characters.
     /// </returns>
-    public static string? GetRandomPassword(int size=12)
+    public static string? GetRandomPassword(int size = 12)
     {
         return RandomNumberGenerator.RandomPassword(size);
     }
@@ -214,7 +214,7 @@ public static class AdHelper
         {
             if (size < 12) return null;
             StringBuilder builder = new StringBuilder();
-            builder.Append(RandomString(size-8, true));
+            builder.Append(RandomString(size - 8, true));
             builder.Append(RandomNumber(1000, 9999));
             builder.Append(RandomString(4, false));
             return builder.ToString();
@@ -227,7 +227,7 @@ public static class AdHelper
     /// <returns>A string representing the top level LDAP container of the current domain.</returns>
     public static string GetRootContainer()
     {
-        string domain = GetCurrentDomain();
+        string? domain = GetCurrentDomain();
         string rootCn = String.Empty;
         string[] domainParts = domain.Split('.');
         foreach (string part in domainParts)
@@ -255,7 +255,7 @@ public static class AdHelper
         return String.Empty;
     }
 
-  
+
 
     /// <summary>
     /// Sets the specified property to the specified value on the Principal specified by name.
@@ -346,7 +346,7 @@ public static class AdHelper
             return false;
         }
     }
-    
+
     /// <summary>
     /// Validates the username and password of a given user
     /// </summary>
@@ -508,9 +508,12 @@ public static class AdHelper
     /// This method returns the domain of the current context, i.e., the domain of the user that is running the code.
     /// </summary>
     /// <returns>A string that is the current domain name.</returns>
-    public static string GetCurrentDomain()
+    public static string? GetCurrentDomain()
     {
+
         return Domain.GetCurrentDomain().Name;
+
+
 
     }
 
@@ -582,13 +585,13 @@ public static class AdHelper
     public static bool IsLocked(Principal principal)
     {
         bool locked = false;
-        
+
         if (principal is UserPrincipal userPrincipal)
         {
             locked = userPrincipal.IsAccountLockedOut();
         }
         else if (principal is ComputerPrincipal computerPrincipal
-                 
+
                  )
         {
             locked = computerPrincipal.IsAccountLockedOut();

@@ -15,12 +15,28 @@ public class AdConfiguration : IDisposable
 
     public AdConfiguration(string? adServerHostname)
     {
+
+        try
+        {
+            Load(adServerHostname);
+            IsLoaded=true;
+        }
+        catch (Exception e)
+        {
+            IsLoaded=false;
+        }
+
+    }
+
+    public bool IsLoaded { get; set; }
+
+    public void Load(string? adServerHostname)
+    {
         IdGuid = Guid.NewGuid();
         AdServerHostname = adServerHostname;
         DistinguishedName = AdHelper.GetRootContainer();
         DomainName = Environment.UserDomainName;
         OuUnit = new OrganizationalUnitLocation(DomainName, DistinguishedName);
-
     }
 
     public AdConfiguration()
@@ -28,7 +44,7 @@ public class AdConfiguration : IDisposable
 
     }
 
-    public OrganizationalUnitLocation? OuUnit { get; }
+    public OrganizationalUnitLocation? OuUnit { get; set; }
 
 
     public List<Department> Departments { get; set; } = new List<Department>();

@@ -4,7 +4,7 @@ using NLog.Extensions.Logging;
 using PowerStationDomain.models;
 using PowerStationInfrastructure.helpers;
 using PowerStationInfrastructure.Services.AD;
-using PowerStationWeb.Data;
+
 using Syncfusion.Blazor;
 
 namespace PowerStationWeb
@@ -19,7 +19,7 @@ namespace PowerStationWeb
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
             builder.Services.AddSingleton<AdConfiguration>(c=>new AdConfiguration("localhost"));
-            builder.Services.AddSingleton<Configuration>();
+          
             builder.Services.AddScoped<IAdServiceUser,AdServiceUser>();
             builder.Services.AddScoped<IAdComputerService, AdComputerService>();
             builder.Services.AddScoped<IAdServiceSecurity, AdServiceGroup>();

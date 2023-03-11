@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Configuration;
+using AutoMapper;
 using Microsoft.Extensions.Logging;
 using System.DirectoryServices;
 using PowerStationInfrastructure.helpers;
@@ -11,11 +12,11 @@ namespace PowerStationInfrastructure.Services.AD;
 public class AdServiceOrganizationalUnit : IAdServiceOrganizationalUnit
 {
 
-    private readonly Configuration _configuration;
+    private readonly AdConfiguration _configuration;
     private readonly ILogger<AdServiceUser> _logger;
     private readonly IMapper _mapper;
 
-    public AdServiceOrganizationalUnit(Configuration configuration, ILogger<AdServiceUser> logger, IMapper mapper)
+    public AdServiceOrganizationalUnit(AdConfiguration configuration, ILogger<AdServiceUser> logger, IMapper mapper)
     {
         _configuration = configuration;
         _logger = logger;

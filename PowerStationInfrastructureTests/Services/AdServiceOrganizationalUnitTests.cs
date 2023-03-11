@@ -14,11 +14,11 @@ namespace PowerStationInfrastructureTests.Services
     public class AdServiceOrganizationalUnitTests
     {
         private readonly AdServiceOrganizationalUnit _adService;
-        private readonly Configuration _configuration;
+        private readonly AdConfiguration _configuration;
         public AdServiceOrganizationalUnitTests()
         {
-            var adConfiguration = new AdConfiguration("localhost");
-             _configuration = new Configuration(adConfiguration);
+            var _configuration = new AdConfiguration("localhost");
+           
             var mockMapper = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new UserMapper());
@@ -56,7 +56,7 @@ namespace PowerStationInfrastructureTests.Services
         [Fact()]
         public void AllTestOU()
         {
-            _adService.All(_configuration.AdSetting.OuUnit?.Root).Should().HaveCountGreaterOrEqualTo(1);
+            _adService.All(_configuration.OuUnit?.Root).Should().HaveCountGreaterOrEqualTo(1);
         }
 
         [Fact()]

@@ -11,11 +11,11 @@ namespace PowerStationInfrastructure.Services.AD;
 
 public class AdComputerService : IAdComputerService
 {
-    private readonly Configuration _configuration;
+    private readonly AdConfiguration _configuration;
     private readonly ILogger<AdComputerService> _logger;
     private readonly IMapper _mapper;
 
-    public AdComputerService(Configuration configuration, ILogger<AdComputerService> logger, IMapper mapper)
+    public AdComputerService(AdConfiguration configuration, ILogger<AdComputerService> logger, IMapper mapper)
     {
         _configuration = configuration;
         _logger = logger;
@@ -30,7 +30,7 @@ public class AdComputerService : IAdComputerService
     {
         try
         {
-            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.AdSetting.OuUnit?.Wks);
+            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.OuUnit?.Wks);
             {
                 if (identity.Name != null)
                 {
@@ -86,7 +86,7 @@ public class AdComputerService : IAdComputerService
 
     private bool RemoveComputer(string identity)
     {
-        using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.AdSetting.OuUnit?.Wks);
+        using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.OuUnit?.Wks);
         {
             ComputerPrincipal? computerPrincipal = ComputerPrincipal.FindByIdentity(context, identity);
             if (computerPrincipal != null)
@@ -124,7 +124,7 @@ public class AdComputerService : IAdComputerService
     {
         try
         {
-            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.AdSetting.OuUnit?.Wks);
+            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.OuUnit?.Wks);
             {
                 using var principal = new ComputerPrincipal(context)
                 {

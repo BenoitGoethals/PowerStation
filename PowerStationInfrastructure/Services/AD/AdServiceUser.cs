@@ -10,18 +10,18 @@ using DirectoryEntry = System.DirectoryServices.DirectoryEntry;
 using System.Configuration;
 using Microsoft.Extensions.Configuration;
 using PowerStationInfrastructure.helpers;
-using Configuration = PowerStationInfrastructure.helpers.Configuration;
+
 using PowerStationDomain.models.AD;
 
 namespace PowerStationInfrastructure.Services.AD;
 
 public class AdServiceUser : IAdServiceUser
 {
-    private readonly Configuration _configuration;
+    private readonly AdConfiguration _configuration;
     private readonly ILogger<AdServiceUser> _logger;
     private readonly IMapper _mapper;
 
-    public AdServiceUser(Configuration configuration, ILogger<AdServiceUser> logger, IMapper mapper)
+    public AdServiceUser(AdConfiguration configuration, ILogger<AdServiceUser> logger, IMapper mapper)
     {
         _configuration = configuration;
         _logger = logger;
@@ -32,7 +32,7 @@ public class AdServiceUser : IAdServiceUser
     {
         try
         {
-            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.AdSetting.OuUnit?.Users);
+            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.OuUnit?.Users);
             {
                 var userPrincePrincipal = _mapper.Map<UserPrincipal>(user);
                 userPrincePrincipal.Save(context);
@@ -52,7 +52,7 @@ public class AdServiceUser : IAdServiceUser
     {
         try
         {
-            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.AdSetting.OuUnit?.Users);
+            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.OuUnit?.Users);
             {
                 using var principal = new UserPrincipal(context)
                 {
@@ -79,7 +79,7 @@ public class AdServiceUser : IAdServiceUser
     {
         try
         {
-            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.AdSetting.OuUnit?.Users);
+            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.OuUnit?.Users);
             {
                 using var principal = new UserPrincipal(context)
                 {

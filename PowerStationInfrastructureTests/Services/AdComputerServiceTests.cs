@@ -17,8 +17,8 @@ namespace PowerStationInfrastructureTests.Services
 
         public AdComputerServiceTests()
         {
-            var adConfiguration = new AdConfiguration("localhost");
-            var configuration = new Configuration(adConfiguration);
+            var configuration = new AdConfiguration("localhost");
+    
             var mockMapper = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new SecurityGroupMapper());
