@@ -21,6 +21,8 @@
 @using PowerStationInfrastructure.Services;
 @using PowerStationInfrastructure.Services.AD
 @inject IAdServiceUser AdService
+@inject IAdServiceSecurity AdServiceSecurityGroups
+
 @inject HttpClient Http
 @inject IJSRuntime JS
 <div class="col-lg-12 control-section">
@@ -41,7 +43,11 @@
                         <SfTextBox CssClass="e-outline" ID="Surname" @bind-Value="@_user.Surname" FloatLabelType="@FloatLabelType.Auto" Width="200" Placeholder="Enter an Surname"></SfTextBox>
                         <ValidationMessage For="@(() => _user.Surname)" />
                     </div>
+                  <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
 
+                      <SfTextBox CssClass="e-outline" ID="GivenName" @bind-Value="@_user.GivenName" FloatLabelType="@FloatLabelType.Auto" Width="200" Placeholder="Enter an GivenName"></SfTextBox>
+                      <ValidationMessage For="@(() => _user.GivenName)" />
+                  </div>
                 </div>
                 <div class="row material">
                     <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
@@ -49,11 +55,12 @@
                         <SfTextBox CssClass="e-outline" ID="MiddleName" @bind-Value="@_user.MiddleName" FloatLabelType="@FloatLabelType.Auto" Width="200" Placeholder="Enter an MiddleName"></SfTextBox>
                         <ValidationMessage For="@(() => _user.MiddleName)" />
                     </div>
-                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
-
-                        <SfTextBox CssClass="e-outline" ID="GivenName" @bind-Value="@_user.GivenName" FloatLabelType="@FloatLabelType.Auto" Width="200" Placeholder="Enter an GivenName"></SfTextBox>
-                        <ValidationMessage For="@(() => _user.GivenName)" />
-                    </div>
+                <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                        <SfDropDownList TValue="string" TItem="SecurityGroup" Placeholder="e.g. Australia" Width="300px" @bind-Value="@SecurityGroup.Name" DataSource="@_groups">
+                        <DropDownListFieldSettings Value="Name"></DropDownListFieldSettings> 
+                    </SfDropDownList> 
+                        <ValidationMessage For="()=>SecurityGroup.Name"></ValidationMessage>
+                </div>
                 </div>
                 <div class="row material">
                     <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
@@ -307,10 +314,13 @@
     public DateTime minDate { get; set; } = DateTime.Now;
     public DateTime maxDate { get; set; } = DateTime.Today.AddYears(1);
     public string PhotoFname { get; set; }
+    private SecurityGroup SecurityGroup = new SecurityGroup();
     private string _message = string.Empty;
     private User _user = new User();
 
     private readonly List<AdUserType> _listTypes = Enum.GetValues(typeof(AdUserType)).OfType<AdUserType>().ToList();
+
+    private  List<SecurityGroup> _groups;
     private AdUserType _typepAdValue { get; set; }
   
 
@@ -324,17 +334,20 @@
 
         }
     }
-   
- 
-    
-   
- 
+
+
+    protected override void OnInitialized()
+    {
+        _groups = AdServiceSecurityGroups.All();
+    }
+
 
     async void OnValidSubmit()
     {
 
         var userValidator = new UserValidator();
         _user.UserType = _typepAdValue;
+        _user.AddMember(SecurityGroup);
         _user.Populate();
         var result = await userValidator.ValidateAsync(_user);
         if (!result.IsValid)
