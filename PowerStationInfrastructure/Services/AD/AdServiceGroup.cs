@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using GroupScope = PowerStationDomain.models.AD.GroupScope;
 using AutoMapper.Execution;
 using PowerStationDomain.models.AD;
+using System.Configuration;
 
 namespace PowerStationInfrastructure.Services.AD;
 
@@ -208,7 +209,7 @@ public class AdServiceGroup : IAdServiceSecurity
     {
         try
         {
-            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.OuUnit?.Groups);
             {
                 using var searcher = new PrincipalSearcher(new GroupPrincipal(context));
                 List<GroupPrincipal> users = searcher.FindAll().Select(u => (GroupPrincipal)u).ToList();

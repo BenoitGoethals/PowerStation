@@ -128,7 +128,7 @@ public class AdServiceUser : IAdServiceUser
     {
         try
         {
-            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.OuUnit?.Users);
             {
                 using var searcher = new PrincipalSearcher(new UserPrincipal(context));
                 List<UserPrincipal> users = searcher.FindAll().Select(u => (UserPrincipal)u).ToList();
