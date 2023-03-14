@@ -5,7 +5,7 @@ namespace PowerStationDomain.models.AD;
 
 public abstract class AdObject : IAdObject
 {
-    private readonly List<AdObject?> _adObjects = new();
+    public  List<AdObject?> Members { get; set; } =new List<AdObject?>();
 
     public string? Sid { get; set; } = default;
     public string? ObjectClass { get; set; } = default;
@@ -28,30 +28,30 @@ public abstract class AdObject : IAdObject
     public abstract void Populate();
     public void AddMember(AdObject? adObject)
     {
-        if (adObject == null || _adObjects.Exists(c => c.ObjectGuid == adObject.ObjectGuid)) return;
+        if (adObject == null || Members.Exists(c => c.ObjectGuid == adObject.ObjectGuid)) return;
         if (adObject is User user)
         {
-            if (_adObjects.OfType<User>().Any(u => u.SamAccountName == user.SamAccountName))
+            if (Members.OfType<User>().Any(u => u.SamAccountName == user.SamAccountName))
             {
                 return;
             }
         }
-        _adObjects.Add(adObject);
+        Members.Add(adObject);
     }
 
     public void RemoveMember(AdObject? adObject)
     {
-        _adObjects.Remove(adObject);
+        Members.Remove(adObject);
     }
 
     public List<AdObject?> AllMembers()
     {
-        return _adObjects;
+        return Members;
     }
 
     public List<AdObject?> AllMembers(Predicate<AdObject?> predicate)
     {
-        return _adObjects.FindAll(predicate);
+        return Members.FindAll(predicate);
     }
 
    
@@ -63,13 +63,13 @@ public abstract class AdObject : IAdObject
             return this;
         }
 
-        return _adObjects.FirstOrDefault(adObject => adObject != null && adObject.ObjectGuid.Equals(guid));
+        return Members.FirstOrDefault(adObject => adObject != null && adObject.ObjectGuid.Equals(guid));
     }
 
     public void RemoveMembers()
     {
 
-        _adObjects.Clear();
+        Members.Clear();
 
     }
 }

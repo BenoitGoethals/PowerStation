@@ -16,9 +16,26 @@ namespace PowerStationInfrastructureTests.Services
     public class AdServiceUserTests : IDisposable
     {
         private IAdServiceUser? _adService;
+        private readonly IAdServiceSecurity _adServiceGroup;
 
         void IDisposable.Dispose() => _adService = null;
 
+
+        public AdServiceUserTests()
+        {
+            var configuration = new AdConfiguration("localhost");
+
+            var mockMapper = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new UserMapper());
+                cfg.AddProfile( new SecurityGroupMapper());
+                //     cfg.DisableConstructorMapping();
+            });
+            var mapper = mockMapper.CreateMapper();
+
+            _adService = new AdServiceUser(configuration, new NullLogger<AdServiceUser>(), mapper);
+            _adServiceGroup = new AdServiceGroup(configuration, new NullLogger<AdServiceUser>(), mapper);
+        }
 
         [Fact()]
         public void DisableUserTest()
@@ -94,19 +111,6 @@ namespace PowerStationInfrastructureTests.Services
                 .BeEquivalentTo(user.EmailAddress);
         }
 
-        public AdServiceUserTests()
-        {
-            var configuration = new AdConfiguration("localhost");
-          
-            var mockMapper = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new UserMapper());
-                //     cfg.DisableConstructorMapping();
-            });
-            var mapper = mockMapper.CreateMapper();
-
-            _adService = new AdServiceUser(configuration, new NullLogger<AdServiceUser>(), mapper);
-        }
         [Fact()]
         public void AllTest()
         {
@@ -167,6 +171,41 @@ namespace PowerStationInfrastructureTests.Services
             userRet.Should().NotBeNull();
             _adService?.Remove("benoituser0100").Should().BeTrue();
         }
+
+
+
+        [Fact()]
+        public void AddUserGroupTest()
+        {
+            var grp=_adServiceGroup.Get("Administrators");
+            grp.Should().NotBeNull();
+            User user = new User()
+            {
+                SamAccountName = "benoituser0100",
+                Name = "benoituser0100",
+                GivenName = "benoituser0100",
+                Company = "benoituser0100",
+                Department = "dept",
+                DistinguishedName = "ops",
+                Surname = "benoit",
+                EmailAddress = "benoit.goethals@gmail.com",
+                Description = "test",
+                Enabled = true,
+
+            };
+            user.AddMember(grp);
+            _adService?.Add(user).Should().BeTrue();
+            var userRet = _adService?.Get("benoituser0100");
+            userRet.Should().NotBeNull();
+            var sec = _adServiceGroup.Get("Administrators");
+            sec?.AllMembers().Count.Should().BeGreaterThan(0);
+            _adServiceGroup.RemoveMember(sec, userRet);
+            
+           _adService?.Remove("benoituser0100").Should().BeTrue();
+        }
+
+
+
 
         [Fact()]
         public void RemoveUserBystringTest()

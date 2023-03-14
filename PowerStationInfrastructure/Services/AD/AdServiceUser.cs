@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using PowerStationInfrastructure.helpers;
 
 using PowerStationDomain.models.AD;
+using System.Security.Principal;
 
 namespace PowerStationInfrastructure.Services.AD;
 
@@ -33,10 +34,28 @@ public class AdServiceUser : IAdServiceUser
         try
         {
             using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.OuUnit?.Users);
+            using var contextGrp = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
             {
                 var userPrincePrincipal = _mapper.Map<UserPrincipal>(user);
+
                 userPrincePrincipal.Save(context);
-                context.Dispose();
+
+                var group = user.AllMembers().FirstOrDefault();
+                if (group != null)
+                {
+                    if (group.Name != null)
+                    {
+                        GroupPrincipal? groupPrincipal = GroupPrincipal.FindByIdentity(contextGrp, group.Name);
+                        if (groupPrincipal != null)
+                        {
+                            groupPrincipal.Members.Add(userPrincePrincipal);
+                            groupPrincipal.Save();
+                        }
+                    }
+                    contextGrp.Dispose();
+                    context.Dispose();
+
+                }
             }
         }
         catch (Exception ex)
@@ -146,7 +165,7 @@ public class AdServiceUser : IAdServiceUser
                     return null;
                 }
                 var user = (UserPrincipal)result.First();
-                var newUser =  _mapper.Map<User>(user);
+                var newUser = _mapper.Map<User>(user);
                 context.Dispose();
                 return newUser;
             }

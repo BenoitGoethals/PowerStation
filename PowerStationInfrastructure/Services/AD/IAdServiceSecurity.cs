@@ -12,4 +12,5 @@ public interface IAdServiceSecurity : IAdService<SecurityGroup>
     public List<User> GetAllUsers(string groupName);
 
     public List<SecurityGroup?> GetGroupsInGroup(string group);
+    bool RemoveMember(SecurityGroup? sec, User? userRet);
 }

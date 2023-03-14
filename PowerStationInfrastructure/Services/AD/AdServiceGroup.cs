@@ -277,4 +277,31 @@ public class AdServiceGroup : IAdServiceSecurity
         return null;
 
     }
+
+    public bool RemoveMember(SecurityGroup? sec, User? userRet)
+    {
+        try
+        {
+            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+            {
+                if (sec?.GroupName != null)
+                {
+                    GroupPrincipal oGroupPrincipal = GroupPrincipal.FindByIdentity(context, sec?.GroupName);
+
+                  var u=  oGroupPrincipal
+                      .GetMembers().First(r => r.SamAccountName.Equals(value: sec.SamAccountName) && r is UserPrincipal);
+                  oGroupPrincipal.Members.Remove(u);
+                }
+
+                context.Dispose();
+
+                return true;
+            }
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e.Message);
+        }
+        return false;
+    }
 }

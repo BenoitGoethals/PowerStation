@@ -22,6 +22,7 @@ namespace PowerStationInfrastructure.mapper
                 .ForMember(dest => dest.Sid, act => act.MapFrom(src => src.Sid))
                 .ForMember(dest => dest.ObjectGuid, act => act.MapFrom(src => src.Guid))
                 .ForMember(dest => dest.SamAccountName, act => act.MapFrom(src => src.SamAccountName))
+               
                 .ForMember(dest => dest.UserPrincipalName, act => act.MapFrom(src => src.UserPrincipalName));
 
             CreateMap<SecurityGroup, GroupPrincipal>()
@@ -30,15 +31,25 @@ namespace PowerStationInfrastructure.mapper
                 .ForMember(dest => dest.DisplayName, act => act.MapFrom(src => src.DisplayName))
                 .ForMember(dest => dest.Description, act => act.MapFrom(src => src.Description))
                 .ForMember(dest => dest.Sid, act => act.MapFrom(src => src.Sid))
-                .ForMember(dest => dest.Guid, act => act.MapFrom(src => src.ObjectGuid))
+                .ForMember(dest => dest.Sid, act => act.MapFrom(src => src.Sid))
+ 
                 .ForMember(dest => dest.SamAccountName, act => act.MapFrom(src => src.SamAccountName))
                 .ForMember(dest => dest.UserPrincipalName, act => act.MapFrom(src => src.UserPrincipalName)).ConstructUsing(c => new GroupPrincipal(new PrincipalContext(ContextType.Domain, Environment.UserDomainName)));
+
+            CreateMap<GroupPrincipal, SecurityGroup>()
+                .ForMember(dest => dest.Members,
+                    act => act.MapFrom(src => src.Members));
+
+            CreateMap<SecurityGroup, GroupPrincipal>()
+                .ForMember(dest => dest.Members,
+                    act => act.MapFrom(src => src.Members));
 
         }
 
 
 
-      
+
     }
+
 }
 
