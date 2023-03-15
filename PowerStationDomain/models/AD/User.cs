@@ -23,12 +23,12 @@ namespace PowerStationDomain.models.AD
         public bool? AllowReversiblePasswordEncryption { get; set; }
         public int? BadLogonCount { get; set; }
         [Required]
-        [MaxLength(50, ErrorMessage = "The Company field should not contain more than 50 characters.")]
+        [MaxLength(25, ErrorMessage = "The Company field should not contain more than 25 characters.")]
         [MinLength(3, ErrorMessage = "The Company field must contain at least 3 characters.")]
         public string? Company { get; set; }
         public bool? DelegationPermitted { get; set; }
         [Required]
-        [MaxLength(50, ErrorMessage = "The Department field should not contain more than 50 characters.")]
+        [MaxLength(25, ErrorMessage = "The Department field should not contain more than 25 characters.")]
         [MinLength(3, ErrorMessage = "The Department field must contain at least 3 characters.")]
         public string? Department { get; set; }
         [EmailAddress(ErrorMessage = "The EmailAddress field is required.")]
@@ -36,7 +36,7 @@ namespace PowerStationDomain.models.AD
         public string? EmployeeId { get; set; }
         public bool? Enabled { get; set; } = true;
         [Required]
-        [MaxLength(50, ErrorMessage = "The Department field should not contain more than 50 characters.")]
+        [MaxLength(25, ErrorMessage = "The Department field should not contain more than 25 characters.")]
         [MinLength(3, ErrorMessage = "The GivenName field must contain at least 3 characters.")]
         public string? GivenName { get; set; }
         public string? HomeDirectory { get; set; }
@@ -47,7 +47,7 @@ namespace PowerStationDomain.models.AD
         public string? Manager { get; set; }
         public List<string>? MemberOf { get; set; }
         [Required]
-        [MaxLength(50, ErrorMessage = "The Department field should not contain more than 50 characters.")]
+        [MaxLength(25, ErrorMessage = "The Department field should not contain more than 25 characters.")]
         [MinLength(3, ErrorMessage = "The MiddleName field must contain at least 3 characters.")]
         public string? MiddleName { get; set; }
 
@@ -60,7 +60,7 @@ namespace PowerStationDomain.models.AD
         public string? ScriptPath { get; set; }
         public bool? SmartCardLogonRequired { get; set; }
         [Required]
-        [MaxLength(50, ErrorMessage = "The Department field should not contain more than 50 characters.")]
+        [MaxLength(50, ErrorMessage = "The Department field should not contain more than 25 characters.")]
         [MinLength(3, ErrorMessage = "The Surname field must contain at least 3 characters.")]
         public string? Surname { get; set; }
         public bool? UserCannotChangePassword { get; set; }
