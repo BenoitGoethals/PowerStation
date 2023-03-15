@@ -33,6 +33,13 @@ public class AdServiceGroup : IAdServiceSecurity
 
     }
 
+
+    private PrincipalContext? GetPrincipalContext(bool topLevel)
+    {
+        return topLevel ? new PrincipalContext(ContextType.Domain, Environment.UserDomainName) : new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.OuUnit?.Groups);
+    }
+
+
     public bool Add(SecurityGroup identity)
     {
         try
@@ -228,15 +235,28 @@ public class AdServiceGroup : IAdServiceSecurity
         return null;
     }
 
-    public SecurityGroup? Get(string sGroupName)
+    public SecurityGroup? Get(string sGroupName,bool topLevel)
     {
         try
         {
-            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+            using var context = GetPrincipalContext(topLevel);
             {
                 GroupPrincipal oGroupPrincipal = GroupPrincipal.FindByIdentity(context, sGroupName)!;
+                
                 var group = _mapper.Map<SecurityGroup>(oGroupPrincipal);
-                context.Dispose();
+                foreach (var principal in oGroupPrincipal.Members)
+                {
+                    if (principal is UserPrincipal)
+                    {
+                        group.AddMember(_mapper.Map<User>(principal));
+                    }
+                    else if (principal is GroupPrincipal)
+                    {
+
+                        group.AddMember(_mapper.Map<SecurityGroup>(principal));
+                    }
+                }
+                context?.Dispose();
                 return group;
             }
         }
@@ -264,7 +284,7 @@ public class AdServiceGroup : IAdServiceSecurity
                 {
                     if (member is GroupPrincipal)
                     {
-                        results.Add(Get(member.SamAccountName));
+                        results.Add(Get(member.SamAccountName,true));
                     }
                 }
                 context.Dispose();

@@ -120,7 +120,7 @@ public class AdComputerService : IAdComputerService
         }
     }
 
-    public Computer? Get(string identity)
+    public Computer? Get(string identity, bool topLevel)
     {
         try
         {

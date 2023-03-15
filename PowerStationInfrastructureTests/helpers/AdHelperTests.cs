@@ -143,6 +143,7 @@ namespace PowerStationInfrastructure.helpers.Tests
             principal.Save();
             AdHelper.Move("MoveUser", "Temp");
             AdHelper.Exists("MoveUser").Should().BeTrue();
+            principal.Delete();
         }
 
         [Fact()]

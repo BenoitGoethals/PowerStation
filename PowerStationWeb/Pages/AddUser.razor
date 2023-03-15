@@ -56,7 +56,7 @@
                         <ValidationMessage For="@(() => _user.MiddleName)" />
                     </div>
                 <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
-                        <SfDropDownList TValue="string" TItem="SecurityGroup" Placeholder="e.g. Australia" Width="300px" @bind-Value="@SecurityGroup.Name" DataSource="@_groups">
+                        <SfDropDownList TValue="string" TItem="SecurityGroup" Placeholder="Group" Width="300px" @bind-Value="@SecurityGroup.Name" DataSource="@_groups">
                         <DropDownListFieldSettings Value="Name"></DropDownListFieldSettings> 
                     </SfDropDownList> 
                         <ValidationMessage For="()=>SecurityGroup.Name"></ValidationMessage>
@@ -362,7 +362,7 @@
         }
         else
         {
-            if (_user.SamAccountName != null && AdService.Get(_user.SamAccountName) != null)
+            if (_user.SamAccountName != null && AdService.Get(_user.SamAccountName,false) != null)
             {
                 _message = "User already exists";
             }

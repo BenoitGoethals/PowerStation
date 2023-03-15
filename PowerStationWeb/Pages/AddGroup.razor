@@ -220,7 +220,7 @@
         }
         else
         {
-            if (_securityGroup.SamAccountName != null && AdService.Get(_securityGroup.SamAccountName) != null)
+            if (_securityGroup.SamAccountName != null && AdService.Get(_securityGroup.SamAccountName,false) != null)
             {
                 _message = "Group already exists";
             }

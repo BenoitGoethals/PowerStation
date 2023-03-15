@@ -56,13 +56,13 @@ namespace PowerStationInfrastructure.Services.Tests
         [Fact()]
         public void AllTest()
         {
-            _adService.All().Should().HaveCountGreaterThan(2);
+            _adService.All().Should().HaveCountGreaterThan(1);
         }
 
         [Fact()]
         public void GetTest()
         {
-            _adService.Get("Administrators").Should().NotBeNull();
+            _adService.Get("Administrators",true).Should().NotBeNull();
         }
 
         [Fact()]

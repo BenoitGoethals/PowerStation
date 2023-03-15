@@ -29,32 +29,43 @@ public class AdServiceUser : IAdServiceUser
         _mapper = mapper;
     }
 
+
+    private PrincipalContext? GetPrincipalContext(bool topLevel)
+    {
+        return topLevel ? new PrincipalContext(ContextType.Domain, Environment.UserDomainName) : new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.OuUnit?.Users);
+    }
+
+
     public bool Add(User user)
     {
         try
         {
-            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.OuUnit?.Users);
-            using var contextGrp = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName,
+                _configuration.OuUnit?.Users);
             {
-                var userPrincePrincipal = _mapper.Map<UserPrincipal>(user);
-
-                userPrincePrincipal.Save(context);
-
-                var group = user.AllMembers().FirstOrDefault();
-                if (group != null)
+                using var contextGrp = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
                 {
-                    if (group.Name != null)
-                    {
-                        GroupPrincipal? groupPrincipal = GroupPrincipal.FindByIdentity(contextGrp, group.Name);
-                        if (groupPrincipal != null)
-                        {
-                            groupPrincipal.Members.Add(userPrincePrincipal);
-                            groupPrincipal.Save();
-                        }
-                    }
-                    contextGrp.Dispose();
-                    context.Dispose();
+                    var userPrincePrincipal = _mapper.Map<UserPrincipal>(user);
 
+                    userPrincePrincipal.Save(context);
+
+                    var group = user.AllMembers().FirstOrDefault();
+                    if (group != null)
+                    {
+                        if (group.Name != null)
+                        {
+                            GroupPrincipal? groupPrincipal = GroupPrincipal.FindByIdentity(contextGrp, group.Name);
+                            if (groupPrincipal != null)
+                            {
+                                groupPrincipal.Members.Add(userPrincePrincipal);
+                                groupPrincipal.Save(contextGrp);
+                            }
+                        }
+
+                        contextGrp.Dispose();
+                        context.Dispose();
+
+                    }
                 }
             }
         }
@@ -147,11 +158,11 @@ public class AdServiceUser : IAdServiceUser
 
 
 
-    public User? Get(string username)
+    public User? Get(string username,bool topLevel)
     {
         try
         {
-            using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+            using var context = GetPrincipalContext(topLevel);
             {
                 using var principal = new UserPrincipal(context)
                 {
@@ -253,7 +264,7 @@ public class AdServiceUser : IAdServiceUser
             string dn = de.Properties["distinguishedName"].Value.ToString();
             if (dn.Contains(",OU=Users,"))
             {
-                return _mapper.Map<User>(Get(sam));
+                return _mapper.Map<User>(Get(sam,true));
             }
         }
         return result;

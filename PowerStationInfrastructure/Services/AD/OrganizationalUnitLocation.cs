@@ -11,6 +11,10 @@ public record OrganizationalUnitLocation
         Root = $"OU={domain.ToLower()},{distName}";
     }
 
+    public OrganizationalUnitLocation()
+    {
+    }
+
     private string BuildLdapPath(string ou, string distName, string domain)
     {
         return $"OU={ou},OU={domain.ToLower()},{distName}";

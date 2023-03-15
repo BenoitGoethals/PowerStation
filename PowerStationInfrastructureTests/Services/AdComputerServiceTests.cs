@@ -111,7 +111,7 @@ namespace PowerStationInfrastructureTests.Services
 
             };
             _adService?.Add(computer).Should().BeTrue();
-            _adService?.Get("testcomputer2a")?.SamAccountName.Should().BeEquivalentTo(computer.SamAccountName);
+            _adService?.Get("testcomputer2a",false)?.SamAccountName.Should().BeEquivalentTo(computer.SamAccountName);
             _adService?.Remove(computer).Should().BeTrue();
         }
 
