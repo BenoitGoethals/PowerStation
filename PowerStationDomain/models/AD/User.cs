@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -74,10 +75,20 @@ namespace PowerStationDomain.models.AD
             UserPrincipalName = Surname + GivenName;
             Name = UserPrincipalName;
             DisplayName = $"{GivenName} {MiddleName} {Surname}";
-            SamAccountName = UserPrincipalName;
+            SamAccountName = RemoveSpecialChars(UserPrincipalName,20);
             Department = "dept";
           
         }
+
+       
+            public string RemoveSpecialChars(string input,int maxLength)
+            {
+                var temp = input?.Substring(0, Math.Min(input.Length, maxLength)).ToLowerInvariant().Trim();
+                return Regex.Replace(temp?.Substring(0, Math.Min(temp.Length, maxLength)) ?? string.Empty, @"[^0-9a-zA-Z\._]", string.Empty);
+
+            }
+           
+        
     }
 
 

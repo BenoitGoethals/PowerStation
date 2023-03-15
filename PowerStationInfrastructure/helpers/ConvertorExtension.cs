@@ -7,6 +7,10 @@ namespace PowerStationInfrastructure.helpers;
 
 public static class ConvertorExtension
 {
+    public static string WithMaxLength(this string value, int maxLength)
+    {
+        return value?.Substring(0, Math.Min(value.Length, maxLength));
+    }
     public static System.DirectoryServices.AccountManagement.GroupScope ConvertToGroupPrincipal(this GroupScope group)
     {
         if (group == GroupScope.Local) return System.DirectoryServices.AccountManagement.GroupScope.Local;

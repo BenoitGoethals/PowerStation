@@ -43,7 +43,7 @@ public class AdServiceUser : IAdServiceUser
             using var context = new PrincipalContext(ContextType.Domain, Environment.UserDomainName,
                 _configuration.OuUnit?.Users);
             {
-                using var contextGrp = new PrincipalContext(ContextType.Domain, Environment.UserDomainName);
+                using var contextGrp = new PrincipalContext(ContextType.Domain, Environment.UserDomainName, _configuration.OuUnit?.Groups);
                 {
                     var userPrincePrincipal = _mapper.Map<UserPrincipal>(user);
 

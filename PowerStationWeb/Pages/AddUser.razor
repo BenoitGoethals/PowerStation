@@ -22,7 +22,7 @@
 @using PowerStationInfrastructure.Services.AD
 @inject IAdServiceUser AdService
 @inject IAdServiceSecurity AdServiceSecurityGroups
-
+@inject NavigationManager NavManager
 @inject HttpClient Http
 @inject IJSRuntime JS
 <div class="col-lg-12 control-section">
@@ -383,7 +383,7 @@
 
         }
         await Task.Delay(2000);
-
+        NavManager.NavigateTo("/");
         StateHasChanged();
     }
 

@@ -244,18 +244,22 @@ public class AdServiceGroup : IAdServiceSecurity
                 GroupPrincipal oGroupPrincipal = GroupPrincipal.FindByIdentity(context, sGroupName)!;
                 
                 var group = _mapper.Map<SecurityGroup>(oGroupPrincipal);
-                foreach (var principal in oGroupPrincipal.Members)
+                if (group != null)
                 {
-                    if (principal is UserPrincipal)
+                    foreach (var principal in oGroupPrincipal.Members)
                     {
-                        group.AddMember(_mapper.Map<User>(principal));
-                    }
-                    else if (principal is GroupPrincipal)
-                    {
-
-                        group.AddMember(_mapper.Map<SecurityGroup>(principal));
+                        switch (principal)
+                        {
+                            case UserPrincipal:
+                                group.AddMember(_mapper.Map<User>(principal));
+                                break;
+                            case GroupPrincipal:
+                                group.AddMember(_mapper.Map<SecurityGroup>(principal));
+                                break;
+                        }
                     }
                 }
+               
                 context?.Dispose();
                 return group;
             }

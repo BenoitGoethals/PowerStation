@@ -173,6 +173,32 @@ namespace PowerStationInfrastructureTests.Services
         }
 
 
+        [Fact()]
+        public void GetUserBadTest()
+        {
+            User user = new User()
+            {
+                SamAccountName = "benoituser0100",
+                Name = "benoituser0100kdsfkdksl;fkdsklfkldsfkdskl;f",
+                GivenName = "benoituser0100dsfdsflds'lfld';sflds;lfl;dsfl;dsl;'fl;d",
+                Company = "benoituser0100",
+                Department = "dept",
+                DistinguishedName = "ops",
+                Surname = "benoit",
+                EmailAddress = "benoit.goethals@gmail.com",
+                Description = "test",
+                Enabled = true
+
+
+            };
+            user.Populate();
+            user.SamAccountName.Length.Should().BeLessOrEqualTo(20);
+            _adService?.Add(user).Should().BeTrue();
+            var userRet = _adService?.Get(user.SamAccountName, false);
+            userRet.Should().NotBeNull();
+            _adService?.Remove(user.SamAccountName).Should().BeTrue();
+        }
+
 
         [Fact()]
         public void AddUserGroupTest()
