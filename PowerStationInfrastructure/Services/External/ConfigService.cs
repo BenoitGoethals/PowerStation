@@ -37,6 +37,7 @@ namespace PowerStationInfrastructure.Services.External
                     if (_fileName != null)
                     {
                         TextWriter writer = new StreamWriter(_fileName);
+                        
                         x.Serialize(writer, adConfiguration);
                         writer.Close();
                     }

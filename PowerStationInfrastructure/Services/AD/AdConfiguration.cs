@@ -1,4 +1,5 @@
-﻿using PowerStationDomain.models.Orginisation;
+﻿using System.Xml.Serialization;
+using PowerStationDomain.models.Orginisation;
 using PowerStationDomain.models.Orginization;
 using PowerStationInfrastructure.helpers;
 
@@ -31,7 +32,7 @@ public class AdConfiguration : IDisposable
 
     public bool IsLoaded { get; set; }
 
-    public void Load(string? adServerHostname)
+    private void Load(string? adServerHostname)
     {
         IdGuid = Guid.NewGuid();
         AdServerHostname = adServerHostname;
@@ -45,17 +46,28 @@ public class AdConfiguration : IDisposable
 
     }
 
+
+
     public OrganizationalUnitLocation? OuUnit { get; set; }
 
-
-    public List<Department> Departments { get; set; } = new List<Department>();
+  
+    public Department Department { get; set; }
 
     public string? AdServerHostname { get; set; }
 
     public string? DistinguishedName { get; set; }
 
     public string? DomainName { get; set; }
-    public static AdConfiguration Default => new("HostName");
+    public static AdConfiguration Default => new()
+    {
+        IsLoaded = false,
+        Department = new Department(),
+        AdServerHostname = "localhost",
+        DistinguishedName = "default",
+        DomainName = "default",
+        IdGuid = new Guid(),
+        OuUnit = new OrganizationalUnitLocation("default", "default")
+    };
 
     protected bool Equals(AdConfiguration other)
 

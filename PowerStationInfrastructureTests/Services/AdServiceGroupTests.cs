@@ -1,13 +1,12 @@
-﻿using Xunit;
-using AutoMapper;
+﻿using AutoMapper;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
-using PowerStationInfrastructure.helpers;
-using PowerStationInfrastructure.mapper;
 using PowerStationDomain.models.AD;
+using PowerStationInfrastructure.mapper;
 using PowerStationInfrastructure.Services.AD;
+using Xunit;
 
-namespace PowerStationInfrastructure.Services.Tests
+namespace PowerStationInfrastructureTests.Services
 {
     public class AdServiceGroupTests
     {

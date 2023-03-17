@@ -1,9 +1,13 @@
-﻿namespace PowerStationDomain.models.Orginization;
+﻿using System.Runtime.Serialization;
+using System.Xml.Serialization;
+
+namespace PowerStationDomain.models.Orginization;
 
 public class Department
 {
     public int Id { get; set; }
     public string? Name { get; set; }
+    [XmlIgnore]
     public Department? ParentDepartment { get; set; }
     public string? Description { get; set; }
 
@@ -18,7 +22,12 @@ public class Department
         return true;
     }
 
-   
+    [OnDeserialized()]
+    internal void OnSerializedMethod(StreamingContext context)
+    {
+        // Setting this as parent property for Child object
+        ParentDepartment = this;
+    }
 
     protected bool Equals(Department other)
     {

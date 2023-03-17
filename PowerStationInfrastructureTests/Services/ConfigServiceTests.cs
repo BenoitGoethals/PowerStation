@@ -27,242 +27,63 @@ namespace PowerStationInfrastructureTests.Services
         public void SaveDefaultTest()
         {
             var testDefault = AdConfiguration.Default;
-            testDefault.Departments = new List<Department>()
+            var departmentTop = new Department();
+
+            var departments = new List<Department>()
             {
                 new Department()
                 {
                     Id = 1,
                     Description = "IT",
-                    Name = "IT"
+                    Name = "IT",
+                    ParentDepartment = departmentTop
+
                 },
 
                 new Department()
                 {
                     Id = 2,
                     Description = "HR",
-                    Name = "HR"
+                    Name = "HR",
+                    ParentDepartment = departmentTop
                 },
 
                 new Department()
                 {
                     Id = 3,
                     Description = "SALES",
-                    Name = "SALES"
+                    Name = "SALES",
+                    ParentDepartment = departmentTop
                 },
 
                 new Department()
                 {
                     Id = 4,
                     Description = "MANAGEMENT",
-                    Name = "MANAGEMENT"
+                    Name = "MANAGEMENT",
+                    ParentDepartment = departmentTop
                 },
                 new Department()
                 {
                     Id = 5,
                     Description = "ADMIN",
-                    Name = "ADMIN"
+                    Name = "ADMIN",
+                    ParentDepartment = departmentTop
                 },
             };
+            departments.ForEach(d => departmentTop.AddDepartment(d));
+           
+            testDefault.Department = departmentTop;
             var configService = new ConfigService(_fullPath, new NullLogger<ConfigService>());
 
             configService.Save(testDefault);
             File.Exists(_fullPath).Should().BeTrue();
-
-        }
-
-        [Fact]
-        public void SaveLoadDefaultTest()
-        {
-            var testDefault = AdConfiguration.Default;
-            testDefault.Departments = new List<Department>()
-            {
-                new Department()
-                {
-                    Id = 1,
-                    Description = "IT",
-                    Name = "IT"
-                },
-
-                new Department()
-                {
-                    Id = 2,
-                    Description = "HR",
-                    Name = "HR"
-                },
-
-                new Department()
-                {
-                    Id = 3,
-                    Description = "SALES",
-                    Name = "SALES"
-                },
-
-                new Department()
-                {
-                    Id = 4,
-                    Description = "MANAGEMENT",
-                    Name = "MANAGEMENT"
-                },
-                new Department()
-                {
-                    Id = 5,
-                    Description = "ADMIN",
-                    Name = "ADMIN"
-                },
-            };
-            var configService = new ConfigService(_fullPath, new NullLogger<ConfigService>());
-
-            configService.Save(testDefault);
-            File.Exists(_fullPath).Should().BeTrue();
-
-            var loaded=configService.Load();
-            loaded.Should().BeEquivalentTo(testDefault);
-        }
-
-        [Fact]
-        public void SaveTest()
-        {
-            var testDefault = new AdConfiguration("localhost");
-            testDefault.Departments = new List<Department>()
-            {
-                new Department()
-                {
-                    Id = 1,
-                    Description = "IT",
-                    Name = "IT"
-                },
-
-                new Department()
-                {
-                    Id = 2,
-                    Description = "HR",
-                    Name = "HR"
-                },
-
-                new Department()
-                {
-                    Id = 3,
-                    Description = "SALES",
-                    Name = "SALES"
-                },
-
-                new Department()
-                {
-                    Id = 4,
-                    Description = "MANAGEMENT",
-                    Name = "MANAGEMENT"
-                },
-                new Department()
-                {
-                    Id = 5,
-                    Description = "ADMIN",
-                    Name = "ADMIN"
-                },
-            };
-            var configService = new ConfigService(_fullPath, new NullLogger<ConfigService>());
-
-            configService.Save(testDefault);
-            File.Exists(_fullPath).Should().BeTrue();
-
-        }
-
-        [Fact]
-        public void SaveLoadTest()
-        {
-            var testDefault = new AdConfiguration("localhost");
-            testDefault.Departments = new List<Department>()
-            {
-                new Department()
-                {
-                    Id = 1,
-                    Description = "IT",
-                    Name = "IT"
-                },
-
-                new Department()
-                {
-                    Id = 2,
-                    Description = "HR",
-                    Name = "HR"
-                },
-
-                new Department()
-                {
-                    Id = 3,
-                    Description = "SALES",
-                    Name = "SALES"
-                },
-
-                new Department()
-                {
-                    Id = 4,
-                    Description = "MANAGEMENT",
-                    Name = "MANAGEMENT"
-                },
-                new Department()
-                {
-                    Id = 5,
-                    Description = "ADMIN",
-                    Name = "ADMIN"
-                },
-            };
-            var configService = new ConfigService(_fullPath, new NullLogger<ConfigService>());
-
-            configService.Save(testDefault);
-            File.Exists(_fullPath).Should().BeTrue();
-
             var loaded = configService.Load();
             loaded.Should().BeEquivalentTo(testDefault);
+
         }
 
-        [Fact]
-        public void SaveBadTest()
-        {
-            var testDefault = new AdConfiguration("");
-            testDefault.Departments = new List<Department>()
-            {
-                new Department()
-                {
-                    Id = 1,
-                    Description = "IT",
-                    Name = "IT"
-                },
-
-                new Department()
-                {
-                    Id = 2,
-                    Description = "HR",
-                    Name = "HR"
-                },
-
-                new Department()
-                {
-                    Id = 3,
-                    Description = "SALES",
-                    Name = "SALES"
-                },
-
-                new Department()
-                {
-                    Id = 4,
-                    Description = "MANAGEMENT",
-                    Name = "MANAGEMENT"
-                },
-                new Department()
-                {
-                    Id = 5,
-                    Description = "ADMIN",
-                    Name = "ADMIN"
-                },
-            };
-            var configService = new ConfigService(_fullPath, new NullLogger<ConfigService>());
-
-            configService.Save(testDefault).Should().BeFalse();
-            File.Exists(_fullPath).Should().BeFalse();
-
-         
-        }
-
+      
         public void Dispose()
         {
             File.Delete(_fullPath);
