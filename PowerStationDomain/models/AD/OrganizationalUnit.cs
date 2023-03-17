@@ -11,9 +11,9 @@ namespace PowerStationDomain.models.AD
     {
         public string? Name { get; set; }
         public string? Description { get; set; }
-        public Guid objectGUID { get; set; }
+        public Guid ObjectGuid { get; set; }
 
-        public OrganizationalUnit parent { get; set; }
+        public OrganizationalUnit Parent { get; set; }
 
         public List<OrganizationalUnit> Organizations = new List<OrganizationalUnit>();
 

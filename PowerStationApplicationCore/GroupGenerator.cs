@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PowerStationDomain.models.AD;
 using PowerStationDomain.models.Orginisation;
+using PowerStationDomain.models.Orginization;
 
 namespace PowerStationApplicationCore
 {

@@ -1,4 +1,5 @@
 ﻿using PowerStationDomain.models.Orginisation;
+using PowerStationDomain.models.Orginization;
 using PowerStationInfrastructure.helpers;
 
 namespace PowerStationInfrastructure.Services.AD;

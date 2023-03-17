@@ -6,6 +6,7 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using PowerStationDomain.models.Orginisation;
+using PowerStationDomain.models.Orginization;
 using PowerStationInfrastructure.Services.AD;
 using PowerStationInfrastructure.Services.External;
 using Xunit;

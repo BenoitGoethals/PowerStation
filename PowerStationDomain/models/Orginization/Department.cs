@@ -1,12 +1,24 @@
-﻿namespace PowerStationDomain.models.Orginisation;
+﻿namespace PowerStationDomain.models.Orginization;
 
 public class Department
 {
     public int Id { get; set; }
     public string? Name { get; set; }
-  //  public Employee Manager { get; set; }
+    public Department? ParentDepartment { get; set; }
     public string? Description { get; set; }
-   // public List<Employee> Employees { get; set; }
+
+    public List<Department> Departments => _departments;
+
+    private readonly List<Department> _departments = new List<Department>();
+
+    public bool AddDepartment(Department department)
+    {
+        if(_departments.Contains(department)) return false;
+        _departments.Add(department);
+        return true;
+    }
+
+   
 
     protected bool Equals(Department other)
     {
