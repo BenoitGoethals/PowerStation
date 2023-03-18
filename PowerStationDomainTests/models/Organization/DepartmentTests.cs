@@ -1,9 +1,9 @@
-﻿using PowerStationDomain.models.Orginization;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using FluentAssertions;
+using PowerStationDomain.models.Orginization;
 using Xunit;
 
-namespace PowerStationDomainTests.models.Orginization
+namespace PowerStationDomainTests.models.Organization
 {
     public class DepartmentTests
     {

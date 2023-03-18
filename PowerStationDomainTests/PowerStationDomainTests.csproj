@@ -22,4 +22,8 @@
     <ProjectReference Include="..\PowerStationInfrastructure\PowerStationInfrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="models\Orginization\" />
+  </ItemGroup>
+
 </Project>
