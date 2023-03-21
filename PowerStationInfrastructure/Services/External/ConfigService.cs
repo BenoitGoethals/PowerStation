@@ -11,16 +11,17 @@ using System.Xml.Serialization;
 
 namespace PowerStationInfrastructure.Services.External
 {
-    public class ConfigService
+    public class ConfigService : IConfigService
     {
-        private readonly string? _fileName;
+        public string? FileName { get; set; }
         private readonly ILogger<ConfigService> _logger;
         private readonly AdConfigurationValidator _adConfigurationValidator = new();
-
-        public ConfigService(string? fileName, ILogger<ConfigService> logger)
+        private AdConfiguration? _adConfiguration;
+        public ConfigService(ILogger<ConfigService> logger,AdConfiguration? adConfiguration)
         {
-            _fileName = fileName;
+            FileName = @"c:\power\config.xml";
             _logger = logger;
+            _adConfiguration = adConfiguration;
         }
 
 
@@ -34,9 +35,9 @@ namespace PowerStationInfrastructure.Services.External
                 try
                 {
                     XmlSerializer x = new(typeof(AdConfiguration));
-                    if (_fileName != null)
+                    if (FileName != null)
                     {
-                        TextWriter writer = new StreamWriter(_fileName);
+                        TextWriter writer = new StreamWriter(FileName);
                         
                         x.Serialize(writer, adConfiguration);
                         writer.Close();
@@ -67,12 +68,20 @@ namespace PowerStationInfrastructure.Services.External
             XmlSerializer serializer = new(typeof(AdConfiguration));
             try
             {
-                if (_fileName != null)
+                if (FileName != null)
                 {
-                    using Stream reader = new FileStream(_fileName, FileMode.Open);
-                    // Call the Deserialize method to restore the object's state.
-                    AdConfiguration? adConfiguration = (AdConfiguration?)serializer.Deserialize(reader);
-                    return adConfiguration;
+                    if (File.Exists(FileName))
+                    {
+                        using Stream reader = new FileStream(FileName, FileMode.Open);
+                        // Call the Deserialize method to restore the object's state.
+                        _adConfiguration = (AdConfiguration?)serializer.Deserialize(reader);
+                        return _adConfiguration;
+                    }
+                    else
+                    {
+                        Save(AdConfiguration.Default);
+                    }
+                   
                 }
             }
             catch (Exception e)

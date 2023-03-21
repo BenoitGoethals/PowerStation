@@ -1,10 +1,12 @@
-﻿using System.Runtime.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
-namespace PowerStationDomain.models.Orginization;
+namespace PowerStationDomain.models.organisation;
 
 public class Department
 {
+    [Key]
     public int Id { get; set; }
     public string? Name { get; set; }
     [XmlIgnore]

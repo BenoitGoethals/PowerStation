@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
-using PowerStationDomain.models.Orginization;
+using PowerStationDomain.models.organisation;
 using Xunit;
 
 namespace PowerStationDomainTests.models.Organization

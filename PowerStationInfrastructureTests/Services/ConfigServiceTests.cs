@@ -5,8 +5,8 @@ using System.Reflection;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using PowerStationDomain.models.Orginisation;
-using PowerStationDomain.models.Orginization;
+using PowerStationDomain.models.organisation;
+
 using PowerStationInfrastructure.Services.AD;
 using PowerStationInfrastructure.Services.External;
 using Xunit;
@@ -27,7 +27,12 @@ namespace PowerStationInfrastructureTests.Services
         public void SaveDefaultTest()
         {
             var testDefault = AdConfiguration.Default;
-            var departmentTop = new Department();
+            var departmentTop = new Department()
+            {
+                Name = "top",
+                Description = "top",
+                Id = 0
+            };
 
             var departments = new List<Department>()
             {
@@ -74,8 +79,8 @@ namespace PowerStationInfrastructureTests.Services
             departments.ForEach(d => departmentTop.AddDepartment(d));
            
             testDefault.Department = departmentTop;
-            var configService = new ConfigService(_fullPath, new NullLogger<ConfigService>());
-
+            var configService = new ConfigService( new NullLogger<ConfigService>(),testDefault);
+            configService.FileName = _fullPath;
             configService.Save(testDefault);
             File.Exists(_fullPath).Should().BeTrue();
             var loaded = configService.Load();

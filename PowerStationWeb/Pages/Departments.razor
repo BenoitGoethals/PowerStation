@@ -1,0 +1,35 @@
+﻿@page "/Departments"
+@using Syncfusion.Blazor.TreeGrid
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor
+@using PowerStationInfrastructure.Services.AD
+@using PowerStationDomain.models.organisation
+@inject AdConfiguration  AdConfiguration;
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfTreeGrid DataSource="@TreeGridData" IdMapping="PowerStationDomain.models.organisation.Department.Id" ParentIdMapping="0" TreeColumnIndex="1" AllowPaging="true" AllowReordering="true" Height="312">
+             
+                <TreeGridColumns>
+                    <TreeGridColumn Field="Id" HeaderText="Task ID" Width="80" ></TreeGridColumn>
+                    <TreeGridColumn Field="Name" HeaderText="Task Name" Width="145"></TreeGridColumn>
+                    <TreeGridColumn Field="Description" HeaderText="Description" Width="145" ></TreeGridColumn>
+                    
+                </TreeGridColumns>
+            </SfTreeGrid>
+        </div>
+    </div>
+</div>
+
+@code {
+    public List<Department>? TreeGridData { get; set; }
+
+    protected override void OnInitialized()
+    {
+        this.TreeGridData = AdConfiguration.Department.Departments.ToList();
+    }
+
+   
+    }

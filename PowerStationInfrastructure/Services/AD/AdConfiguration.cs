@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
-using PowerStationDomain.models.Orginisation;
-using PowerStationDomain.models.Orginization;
+using PowerStationDomain.models.organisation;
+
 using PowerStationInfrastructure.helpers;
 
 namespace PowerStationInfrastructure.Services.AD;
@@ -91,5 +91,16 @@ public class AdConfiguration : IDisposable
     public override string ToString()
     {
         return $"{nameof(IdGuid)}: {IdGuid}, {nameof(AdServerHostname)}: {AdServerHostname}, {nameof(DistinguishedName)}: {DistinguishedName}, {nameof(DomainName)}: {DomainName}";
+    }
+
+    public void Init(AdConfiguration ad)
+    {
+        this.DomainName = ad.DomainName;
+        this.OuUnit = ad.OuUnit;
+        this.Department = ad.Department;
+        this.DistinguishedName = ad.DistinguishedName;
+        this.AdServerHostname = ad.AdServerHostname;
+        this.IdGuid= ad.IdGuid;
+        this.IsLoaded = true;
     }
 }

@@ -4,7 +4,7 @@ using NLog.Extensions.Logging;
 using PowerStationDomain.models;
 using PowerStationInfrastructure.helpers;
 using PowerStationInfrastructure.Services.AD;
-
+using PowerStationInfrastructure.Services.External;
 using Syncfusion.Blazor;
 
 namespace PowerStationWeb
@@ -19,17 +19,17 @@ namespace PowerStationWeb
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
             builder.Services.AddSingleton<AdConfiguration>(c=>new AdConfiguration("localhost"));
-          
+            builder.Services.AddScoped<IConfigService, ConfigService>();
             builder.Services.AddScoped<IAdServiceUser,AdServiceUser>();
             builder.Services.AddScoped<IAdComputerService, AdComputerService>();
             builder.Services.AddScoped<IAdServiceSecurity, AdServiceGroup>();
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.AddSyncfusionBlazor();
-            builder.Services.AddLogging(builder =>
+            builder.Services.AddLogging(loggingBuilder =>
             {
-                builder.SetMinimumLevel(LogLevel.Information);
-                builder.AddNLog("Nlog.config");
-                builder.AddConsole();
+                loggingBuilder.SetMinimumLevel(LogLevel.Information);
+                loggingBuilder.AddNLog("Nlog.config");
+                loggingBuilder.AddConsole();
 
             });
 
@@ -42,6 +42,22 @@ namespace PowerStationWeb
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            
+
+            using (var serviceScope = app.Services.CreateScope())
+            {
+                var services = serviceScope.ServiceProvider;
+
+                var myDependency = services.GetRequiredService<IConfigService>();
+
+                //Use the service
+                var ad = myDependency?.Load();
+
+                var myDependencyAd = services.GetRequiredService<AdConfiguration>();
+                if (ad != null) myDependencyAd?.Init(ad);
+            }
+
 
             app.UseHttpsRedirection();
 
